@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      packages: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          occasions: Database["public"]["Enums"]["occasion_enum"][]
+          price_krw: number
+          reservation_url: string
+          sample_image_urls: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          occasions?: Database["public"]["Enums"]["occasion_enum"][]
+          price_krw: number
+          reservation_url: string
+          sample_image_urls?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          occasions?: Database["public"]["Enums"]["occasion_enum"][]
+          price_krw?: number
+          reservation_url?: string
+          sample_image_urls?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +61,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      occasion_enum: "커플" | "가족" | "우정" | "프로필" | "웨딩" | "만삭"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +188,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      occasion_enum: ["커플", "가족", "우정", "프로필", "웨딩", "만삭"],
+    },
   },
 } as const
