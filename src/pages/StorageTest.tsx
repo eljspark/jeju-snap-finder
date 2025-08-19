@@ -11,6 +11,20 @@ const StorageTest = () => {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Sanitize filename to be URL-safe and ASCII
+  const sanitizeFileName = (name: string) => {
+    const dotIndex = name.lastIndexOf('.');
+    const ext = dotIndex !== -1 ? name.slice(dotIndex + 1).toLowerCase() : '';
+    const base = (dotIndex !== -1 ? name.slice(0, dotIndex) : name)
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '') // remove diacritics
+      .replace(/[^a-zA-Z0-9-_]+/g, '-') // replace non ASCII with dash
+      .replace(/-{2,}/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .toLowerCase() || 'file';
+    return ext ? `${base}.${ext}` : base;
+  };
+
   const handleUpload = async () => {
     if (!file) {
       setError('Please select a file first');
@@ -22,13 +36,14 @@ const StorageTest = () => {
     setResult(null);
 
     try {
-      const fileName = `debug/test-${Date.now()}-${file.name}`;
-      
+      const safeOriginal = sanitizeFileName(file.name);
+      const fileName = `debug/test-${Date.now()}-${safeOriginal}`;
       const { data, error: uploadError } = await supabase.storage
         .from('packages')
         .upload(fileName, file, {
           cacheControl: '3600',
-          upsert: false
+          upsert: false,
+          contentType: file.type || 'application/octet-stream'
         });
 
       if (uploadError) {
