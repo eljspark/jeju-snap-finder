@@ -6,53 +6,37 @@ import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
 import { Search, MapPin, Camera, Users, Star, ChevronRight } from "lucide-react";
 import heroImage from "@/assets/hero-jeju.jpg";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
-  // Mock data for featured packages
-  const featuredPackages = [
-    {
-      id: "1",
-      title: "Romantic Sunset Couple Session at Hyeopjae Beach",
-      photographer: "Kim Min-jun",
-      price: 180000,
-      duration: "2 hours",
-      location: "Hyeopjae Beach",
-      occasion: "Couple",
-      maxPeople: 2,
-      images: ["/placeholder.svg"],
-      rating: 4.9,
-      reviewCount: 127,
-      featured: true,
+  // Fetch featured packages from Supabase
+  const { data: featuredPackages = [], isLoading } = useQuery({
+    queryKey: ['featured-packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*')
+        .limit(3);
+      
+      if (error) throw error;
+      
+      return data.map(pkg => ({
+        id: pkg.id,
+        title: pkg.title,
+        photographer: "Professional Photographer", // Default since not in DB
+        price: pkg.price_krw,
+        duration: "2 hours", // Default since not in DB
+        location: "Jeju Island", // Default since not in DB
+        occasion: pkg.occasions[0] || "Photography",
+        maxPeople: 4, // Default since not in DB
+        images: pkg.sample_image_urls || [pkg.thumbnail_url || "/placeholder.svg"],
+        rating: 4.8, // Default since not in DB
+        reviewCount: 50, // Default since not in DB
+        featured: true,
+      }));
     },
-    {
-      id: "2", 
-      title: "Cherry Blossom Family Portrait at Jeju National University",
-      photographer: "Park So-young",
-      price: 250000,
-      duration: "1.5 hours",
-      location: "Jeju National University",
-      occasion: "Family",
-      maxPeople: 6,
-      images: ["/placeholder.svg"],
-      rating: 4.8,
-      reviewCount: 89,
-      featured: true,
-    },
-    {
-      id: "3",
-      title: "Solo Adventure Photography at Seongsan Ilchulbong",
-      photographer: "Lee Dong-hyun",
-      price: 120000,
-      duration: "2.5 hours", 
-      location: "Seongsan Ilchulbong",
-      occasion: "Solo",
-      maxPeople: 1,
-      images: ["/placeholder.svg"],
-      rating: 4.7,
-      reviewCount: 156,
-      featured: true,
-    },
-  ];
+  });
 
   return (
     <div className="min-h-screen bg-background">

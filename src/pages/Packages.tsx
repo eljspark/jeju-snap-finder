@@ -8,6 +8,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
 import { Search, Filter, MapPin, DollarSign } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const Packages = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,93 +17,32 @@ const Packages = () => {
   const [locationFilter, setLocationFilter] = useState("all");
   const [priceFilter, setPriceFilter] = useState("all");
 
-  // Mock data for packages
-  const allPackages = [
-    {
-      id: "1",
-      title: "Romantic Sunset Couple Session at Hyeopjae Beach",
-      photographer: "Kim Min-jun",
-      price: 180000,
-      duration: "2 hours",
-      location: "Hyeopjae Beach",
-      occasion: "Couple",
-      maxPeople: 2,
-      images: ["/placeholder.svg"],
-      rating: 4.9,
-      reviewCount: 127,
-      featured: true,
+  // Fetch packages from Supabase
+  const { data: allPackages = [], isLoading } = useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*');
+      
+      if (error) throw error;
+      
+      return data.map(pkg => ({
+        id: pkg.id,
+        title: pkg.title,
+        photographer: "Professional Photographer", // Default since not in DB
+        price: pkg.price_krw,
+        duration: "2 hours", // Default since not in DB
+        location: "Jeju Island", // Default since not in DB
+        occasion: pkg.occasions[0] || "Photography",
+        maxPeople: 4, // Default since not in DB
+        images: pkg.sample_image_urls || [pkg.thumbnail_url || "/placeholder.svg"],
+        rating: 4.8, // Default since not in DB
+        reviewCount: 50, // Default since not in DB
+        featured: false,
+      }));
     },
-    {
-      id: "2", 
-      title: "Cherry Blossom Family Portrait at Jeju National University",
-      photographer: "Park So-young",
-      price: 250000,
-      duration: "1.5 hours",
-      location: "Jeju National University",
-      occasion: "Family",
-      maxPeople: 6,
-      images: ["/placeholder.svg"],
-      rating: 4.8,
-      reviewCount: 89,
-      featured: true,
-    },
-    {
-      id: "3",
-      title: "Solo Adventure Photography at Seongsan Ilchulbong",
-      photographer: "Lee Dong-hyun",
-      price: 120000,
-      duration: "2.5 hours", 
-      location: "Seongsan Ilchulbong",
-      occasion: "Solo",
-      maxPeople: 1,
-      images: ["/placeholder.svg"],
-      rating: 4.7,
-      reviewCount: 156,
-      featured: true,
-    },
-    {
-      id: "4",
-      title: "Wedding Photography at Spirited Garden",
-      photographer: "Choi Jae-min",
-      price: 850000,
-      duration: "4 hours",
-      location: "Spirited Garden",
-      occasion: "Wedding",
-      maxPeople: 20,
-      images: ["/placeholder.svg"],
-      rating: 4.9,
-      reviewCount: 45,
-      featured: false,
-    },
-    {
-      id: "5",
-      title: "Maternity Shoot at Woljeongri Beach",
-      photographer: "Jung Min-seo",
-      price: 200000,
-      duration: "1.5 hours",
-      location: "Woljeongri Beach",
-      occasion: "Maternity",
-      maxPeople: 3,
-      images: ["/placeholder.svg"],
-      rating: 4.8,
-      reviewCount: 67,
-      featured: false,
-    },
-    {
-      id: "6",
-      title: "Professional Headshots in Jeju City",
-      photographer: "Kang Soo-jin",
-      price: 80000,
-      duration: "1 hour",
-      location: "Jeju City",
-      occasion: "Professional",
-      maxPeople: 1,
-      images: ["/placeholder.svg"],
-      rating: 4.6,
-      reviewCount: 234,
-      featured: false,
-    },
-  ];
+  });
 
   // Filter packages based on search and filters
   const filteredPackages = allPackages.filter((pkg) => {
