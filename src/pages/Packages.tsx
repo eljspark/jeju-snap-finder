@@ -30,15 +30,10 @@ const Packages = () => {
       return data.map(pkg => ({
         id: pkg.id,
         title: pkg.title,
-        photographer: "Professional Photographer", // Default since not in DB
         price: pkg.price_krw,
         duration: "2 hours", // Default since not in DB
-        location: "Jeju Island", // Default since not in DB
         occasion: pkg.occasions[0] || "Photography",
-        maxPeople: 4, // Default since not in DB
         images: pkg.sample_image_urls || [pkg.thumbnail_url || "/placeholder.svg"],
-        rating: 4.8, // Default since not in DB
-        reviewCount: 50, // Default since not in DB
         featured: false,
       }));
     },
@@ -46,12 +41,10 @@ const Packages = () => {
 
   // Filter packages based on search and filters
   const filteredPackages = allPackages.filter((pkg) => {
-    const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         pkg.photographer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         pkg.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesOccasion = occasionFilter === "all" || pkg.occasion.toLowerCase() === occasionFilter;
-    const matchesLocation = locationFilter === "all" || pkg.location.toLowerCase().includes(locationFilter.toLowerCase());
+    const matchesLocation = locationFilter === "all"; // Location filter disabled since not in DB
     
     let matchesPrice = true;
     if (priceFilter === "under-150") matchesPrice = pkg.price < 150000;

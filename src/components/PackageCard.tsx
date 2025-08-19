@@ -7,30 +7,20 @@ import { MapPin, Clock, Camera, Users } from "lucide-react";
 interface PackageCardProps {
   id: string;
   title: string;
-  photographer: string;
   price: number;
   duration: string;
-  location: string;
   occasion: string;
-  maxPeople: number;
   images: string[];
-  rating: number;
-  reviewCount: number;
   featured?: boolean;
 }
 
 const PackageCard = ({
   id,
   title,
-  photographer,
   price,
   duration,
-  location,
   occasion,
-  maxPeople,
   images,
-  rating,
-  reviewCount,
   featured = false,
 }: PackageCardProps) => {
   return (
@@ -62,28 +52,12 @@ const PackageCard = ({
           <h3 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
             {title}
           </h3>
-          <p className="text-sm text-muted-foreground">by {photographer}</p>
         </div>
 
         <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-          <div className="flex items-center space-x-1">
-            <MapPin className="h-4 w-4" />
-            <span>{location}</span>
-          </div>
           <div className="flex items-center space-x-1">
             <Clock className="h-4 w-4" />
             <span>{duration}</span>
-          </div>
-        </div>
-
-        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-          <div className="flex items-center space-x-1">
-            <Users className="h-4 w-4" />
-            <span>Up to {maxPeople} people</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <Camera className="h-4 w-4" />
-            <span>{rating} ⭐ ({reviewCount})</span>
           </div>
         </div>
 
