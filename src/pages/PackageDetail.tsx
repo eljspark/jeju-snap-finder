@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   MapPin, 
   Clock, 
@@ -22,55 +24,98 @@ import {
 const PackageDetail = () => {
   const { id } = useParams();
 
-  // Mock data - in real app this would come from API
-  const packageData = {
-    id: "1",
-    title: "Romantic Sunset Couple Session at Hyeopjae Beach",
-    photographer: {
-      name: "Kim Min-jun",
-      avatar: "/placeholder.svg",
-      rating: 4.9,
-      reviewCount: 127,
-      experience: "5 years",
-      specialties: ["Couple Photography", "Beach Sessions", "Golden Hour"]
+  // Fetch package data from Supabase
+  const { data: packageData, isLoading } = useQuery({
+    queryKey: ['package', id],
+    queryFn: async () => {
+      if (!id) throw new Error('Package ID is required');
+      
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      
+      return {
+        id: data.id,
+        title: data.title,
+        price: data.price_krw,
+        duration: data.duration_minutes ? `${data.duration_minutes} minutes` : "Duration TBD",
+        occasions: data.occasions || [],
+        images: data.sample_image_urls || [data.thumbnail_url || "/placeholder.svg"],
+        description: data.details || "No description available",
+        // Mock data for fields not in database yet
+        photographer: {
+          name: "Kim Min-jun",
+          avatar: "/placeholder.svg",
+          rating: 4.9,
+          reviewCount: 127,
+          experience: "5 years",
+          specialties: ["Couple Photography", "Beach Sessions", "Golden Hour"]
+        },
+        location: "Hyeopjae Beach, Jeju",
+        maxPeople: 2,
+        rating: 4.9,
+        reviewCount: 127,
+        included: [
+          "Professional photography session",
+          "50+ high-resolution edited photos",
+          "Online gallery with download links",
+          "Print release for personal use",
+          "Complimentary location scouting",
+          "Backup photographer available"
+        ],
+        notIncluded: [
+          "Transportation to location",
+          "Hair and makeup services",
+          "Additional outfit changes",
+          "Physical prints (available for purchase)"
+        ],
+        meetingPoint: "Hyeopjae Beach Parking Area",
+        cancellationPolicy: "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
+        tips: [
+          "Best time is 1-2 hours before sunset",
+          "Bring multiple outfit options",
+          "Comfortable shoes for beach walking",
+          "Props and accessories welcome"
+        ]
+      };
     },
-    price: 180000,
-    duration: "2 hours",
-    location: "Hyeopjae Beach, Jeju",
-    occasion: "Couple",
-    maxPeople: 2,
-    images: [
-      "/placeholder.svg",
-      "/placeholder.svg", 
-      "/placeholder.svg",
-      "/placeholder.svg"
-    ],
-    rating: 4.9,
-    reviewCount: 127,
-    description: "Experience the magic of Jeju's most beautiful beach during golden hour. This romantic couple session captures intimate moments against the stunning backdrop of Hyeopjae Beach's crystal-clear waters and dramatic coastline. Perfect for anniversaries, proposals, or celebrating your love story.",
-    included: [
-      "2-hour professional photography session",
-      "50+ high-resolution edited photos",
-      "Online gallery with download links",
-      "Print release for personal use",
-      "Complimentary location scouting",
-      "Backup photographer available"
-    ],
-    notIncluded: [
-      "Transportation to location",
-      "Hair and makeup services",
-      "Additional outfit changes",
-      "Physical prints (available for purchase)"
-    ],
-    meetingPoint: "Hyeopjae Beach Parking Area",
-    cancellationPolicy: "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
-    tips: [
-      "Best time is 1-2 hours before sunset",
-      "Bring multiple outfit options",
-      "Comfortable shoes for beach walking",
-      "Props and accessories welcome"
-    ]
-  };
+    enabled: !!id
+  });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-20 flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Loading package details...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!packageData) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-20 flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-2">Package not found</h2>
+            <p className="text-muted-foreground mb-4">The package you're looking for doesn't exist.</p>
+            <Link to="/packages">
+              <Button>Back to Packages</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const reviews = [
     {
@@ -126,9 +171,13 @@ const PackageDetail = () => {
                     className="w-full h-96 object-cover"
                   />
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-accent text-accent-foreground">
-                      {packageData.occasion}
-                    </Badge>
+                    <div className="flex flex-wrap gap-2">
+                      {packageData.occasions.map((occasion, index) => (
+                        <Badge key={index} className="bg-accent text-accent-foreground">
+                          {occasion}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                   <div className="absolute top-4 right-4 flex space-x-2">
                     <Button size="icon" variant="secondary" className="bg-white/90 hover:bg-white">
