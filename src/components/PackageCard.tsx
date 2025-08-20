@@ -9,7 +9,7 @@ interface PackageCardProps {
   title: string;
   price: number;
   duration: string;
-  occasion: string;
+  occasions: string[];
   images: string[];
   featured?: boolean;
 }
@@ -19,7 +19,7 @@ const PackageCard = ({
   title,
   price,
   duration,
-  occasion,
+  occasions,
   images,
   featured = false,
 }: PackageCardProps) => {
@@ -39,10 +39,12 @@ const PackageCard = ({
               Featured
             </Badge>
           )}
-          <div className="absolute top-3 right-3">
-            <Badge variant="secondary" className="bg-background/90 text-foreground">
-              {occasion}
-            </Badge>
+          <div className="absolute top-3 right-3 flex gap-1 flex-wrap">
+            {occasions.map((occasion, index) => (
+              <Badge key={index} variant="secondary" className="bg-background/90 text-foreground">
+                {occasion}
+              </Badge>
+            ))}
           </div>
         </div>
       </CardHeader>

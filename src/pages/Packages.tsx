@@ -32,7 +32,7 @@ const Packages = () => {
         title: pkg.title,
         price: pkg.price_krw,
         duration: "2 hours", // Default since not in DB
-        occasion: pkg.occasions[0] || "Photography",
+        occasions: pkg.occasions || ["Photography"],
         images: [pkg.thumbnail_url || "/placeholder.svg"],
         featured: false,
       }));
@@ -43,7 +43,7 @@ const Packages = () => {
   const filteredPackages = allPackages.filter((pkg) => {
     const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesOccasion = occasionFilter === "all" || pkg.occasion.toLowerCase() === occasionFilter;
+    const matchesOccasion = occasionFilter === "all" || pkg.occasions.some(occ => occ.toLowerCase() === occasionFilter);
     const matchesLocation = locationFilter === "all"; // Location filter disabled since not in DB
     
     let matchesPrice = true;

@@ -26,7 +26,7 @@ const Index = () => {
         title: pkg.title,
         price: pkg.price_krw,
         duration: "2 hours", // Default since not in DB
-        occasion: pkg.occasions[0] || "Photography",
+        occasions: pkg.occasions || ["Photography"],
         images: [pkg.thumbnail_url || "/placeholder.svg"],
         featured: true,
       }));
