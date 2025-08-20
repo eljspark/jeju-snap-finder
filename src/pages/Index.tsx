@@ -27,7 +27,7 @@ const Index = () => {
         price: pkg.price_krw,
         duration: "2 hours", // Default since not in DB
         occasion: pkg.occasions[0] || "Photography",
-        images: pkg.sample_image_urls || [pkg.thumbnail_url || "/placeholder.svg"],
+        images: [pkg.thumbnail_url || "/placeholder.svg"],
         featured: true,
       }));
     },
