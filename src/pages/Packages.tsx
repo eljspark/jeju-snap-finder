@@ -31,7 +31,7 @@ const Packages = () => {
         id: pkg.id,
         title: pkg.title,
         price: pkg.price_krw,
-        duration: "2 hours", // Default since not in DB
+        duration: pkg.duration_minutes ? `${pkg.duration_minutes} minutes` : "Duration TBD",
         occasions: pkg.occasions || ["Photography"],
         images: [pkg.thumbnail_url || "/placeholder.svg"],
         featured: false,

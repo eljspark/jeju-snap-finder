@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           created_at: string
           details: string | null
+          duration_minutes: number | null
           id: string
           occasions: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
@@ -30,6 +31,7 @@ export type Database = {
         Insert: {
           created_at?: string
           details?: string | null
+          duration_minutes?: number | null
           id?: string
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
@@ -42,6 +44,7 @@ export type Database = {
         Update: {
           created_at?: string
           details?: string | null
+          duration_minutes?: number | null
           id?: string
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw?: number
