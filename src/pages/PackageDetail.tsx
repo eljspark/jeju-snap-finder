@@ -208,20 +208,8 @@ const PackageDetail = () => {
                   <h1 className="text-3xl font-bold mb-2">{packageData.title}</h1>
                   <div className="flex items-center space-x-4 text-muted-foreground">
                     <div className="flex items-center space-x-1">
-                      <MapPin className="h-4 w-4" />
-                      <span>{packageData.location}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
                       <Clock className="h-4 w-4" />
                       <span>{packageData.duration}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Users className="h-4 w-4" />
-                      <span>Up to {packageData.maxPeople} people</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span>{packageData.rating} ({packageData.reviewCount} reviews)</span>
                     </div>
                   </div>
                 </div>
