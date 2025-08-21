@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { PackageImageGallery } from "@/components/PackageImageGallery";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { 
@@ -32,7 +33,7 @@ const PackageDetail = () => {
       
       const { data, error } = await supabase
         .from('packages')
-        .select('*')
+        .select('id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, folder_path')
         .eq('id', id)
         .single();
       
@@ -44,7 +45,8 @@ const PackageDetail = () => {
         price: data.price_krw,
         duration: data.duration_minutes ? `${data.duration_minutes} minutes` : "Duration TBD",
         occasions: data.occasions || [],
-        images: data.sample_image_urls || [data.thumbnail_url || "/placeholder.svg"],
+        folderPath: data.folder_path || `packages/${data.id}/`,
+        thumbnailUrl: data.thumbnail_url || "/placeholder.svg",
         description: data.details || "No description available",
         // Mock data for fields not in database yet
         photographer: {
@@ -162,11 +164,11 @@ const PackageDetail = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Photos & Details */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Photo Gallery */}
+              {/* Hero Image with Badges */}
               <div className="space-y-4">
                 <div className="relative rounded-lg overflow-hidden">
                   <img 
-                    src={packageData.images[0]} 
+                    src={packageData.thumbnailUrl} 
                     alt={packageData.title}
                     className="w-full h-96 object-cover"
                   />
@@ -187,18 +189,6 @@ const PackageDetail = () => {
                       <Share2 className="h-4 w-4" />
                     </Button>
                   </div>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-2">
-                  {packageData.images.slice(1).map((image, index) => (
-                    <div key={index} className="rounded-lg overflow-hidden">
-                      <img 
-                        src={image} 
-                        alt={`Gallery ${index + 2}`}
-                        className="w-full h-24 object-cover hover:opacity-80 transition-opacity cursor-pointer"
-                      />
-                    </div>
-                  ))}
                 </div>
               </div>
 
@@ -222,6 +212,12 @@ const PackageDetail = () => {
                   {packageData.description}
                 </p>
               </div>
+
+              {/* Sample Photos Gallery */}
+              <PackageImageGallery 
+                folderPath={packageData.folderPath} 
+                packageTitle={packageData.title} 
+              />
 
             </div>
 

@@ -19,6 +19,7 @@ export type Database = {
           created_at: string
           details: string | null
           duration_minutes: number | null
+          folder_path: string | null
           id: string
           occasions: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
@@ -32,6 +33,7 @@ export type Database = {
           created_at?: string
           details?: string | null
           duration_minutes?: number | null
+          folder_path?: string | null
           id?: string
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
@@ -45,6 +47,7 @@ export type Database = {
           created_at?: string
           details?: string | null
           duration_minutes?: number | null
+          folder_path?: string | null
           id?: string
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw?: number
