@@ -235,16 +235,18 @@ const PackageDetail = () => {
 
       {/* Floating Reservation Button */}
       <div className="fixed bottom-4 left-4 right-4 z-50 lg:hidden">
-        <a 
-          href={packageData.reservationUrl} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block"
+        <Button 
+          className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover-scale"
+          onClick={() => {
+            const url = packageData.reservationUrl;
+            // Ensure URL has proper protocol
+            const properUrl = url.startsWith('http') ? url : `https://${url}`;
+            // Force open in new window to bypass iframe restrictions
+            window.open(properUrl, '_blank', 'noopener,noreferrer');
+          }}
         >
-          <Button className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover-scale">
-            예약하기
-          </Button>
-        </a>
+          예약하기
+        </Button>
       </div>
 
       <Footer />
