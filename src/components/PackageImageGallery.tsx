@@ -52,9 +52,11 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
 
         // Get public URLs for each image
         const imagePromises = imageFiles.map(async (file) => {
+          // Ensure proper path construction with trailing slash
+          const fullPath = folderPath.endsWith('/') ? `${folderPath}${file.name}` : `${folderPath}/${file.name}`;
           const { data } = supabase.storage
             .from('packages')
-            .getPublicUrl(`${folderPath}${file.name}`);
+            .getPublicUrl(fullPath);
           
           return {
             name: file.name,
