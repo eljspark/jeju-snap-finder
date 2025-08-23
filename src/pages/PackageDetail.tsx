@@ -217,18 +217,6 @@ const PackageDetail = () => {
                 </p>
               </div>
 
-              {/* Reservation Card */}
-              <Card className="shadow-medium">
-                <CardHeader>
-                  <CardTitle>예약하는 방법</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-sm text-muted-foreground break-all">
-                    {packageData.reservationUrl}
-                  </div>
-                </CardContent>
-              </Card>
-
               {/* Sample Photos Gallery */}
               <PackageImageGallery 
                 folderPath={packageData.folderPath} 
@@ -243,6 +231,20 @@ const PackageDetail = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Floating Reservation Button */}
+      <div className="fixed bottom-4 left-4 right-4 z-50 lg:hidden">
+        <a 
+          href={packageData.reservationUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block"
+        >
+          <Button className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover-scale">
+            예약하기
+          </Button>
+        </a>
       </div>
 
       <Footer />
