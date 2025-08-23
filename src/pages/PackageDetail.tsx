@@ -255,63 +255,6 @@ const PackageDetail = () => {
                 </CardContent>
               </Card>
 
-              {/* Photographer Card */}
-              <Card className="shadow-soft">
-                <CardHeader>
-                  <CardTitle>Your Photographer</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <img 
-                      src={packageData.photographer.avatar} 
-                      alt={packageData.photographer.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <h4 className="font-medium">{packageData.photographer.name}</h4>
-                      <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                        <span>{packageData.photographer.rating} ({packageData.photographer.reviewCount} reviews)</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Experience:</span>
-                      <span>{packageData.photographer.experience}</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <span className="text-sm font-medium">Specialties:</span>
-                    <div className="flex flex-wrap gap-1">
-                      {packageData.photographer.specialties.map((specialty, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {specialty}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Button variant="outline" className="w-full" size="sm">
-                    <Phone className="h-4 w-4 mr-2" />
-                    Contact Photographer
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Policy Card */}
-              <Card className="shadow-soft">
-                <CardHeader>
-                  <CardTitle>Cancellation Policy</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    {packageData.cancellationPolicy}
-                  </p>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
