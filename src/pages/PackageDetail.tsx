@@ -228,14 +228,11 @@ const PackageDetail = () => {
             <div className="space-y-6">
               {/* Booking Card */}
               <Card className="sticky top-24 shadow-medium">
-                <CardContent className="space-y-4 pt-6">
-                  <Button className="w-full" size="lg">
-                    Book This Session
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Contact Photographer
-                  </Button>
+                <CardHeader>
+                  <CardTitle>예약하는 방법</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {/* Content will be added here */}
                 </CardContent>
               </Card>
 
