@@ -237,12 +237,47 @@ const PackageDetail = () => {
       <div className="fixed bottom-4 left-4 right-4 z-50 lg:hidden">
         <Button 
           className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover-scale"
-          onClick={() => {
-            const url = packageData.reservationUrl;
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            let url = packageData.reservationUrl;
+            
+            // Handle different URL formats
+            if (url.startsWith('카카오톡:')) {
+              // For KakaoTalk links, show alert with instructions
+              alert(`카카오톡 ID: ${url.replace('카카오톡:', '')}`);
+              return;
+            }
+            
             // Ensure URL has proper protocol
-            const properUrl = url.startsWith('http') ? url : `https://${url}`;
-            // Force open in new window to bypass iframe restrictions
-            window.open(properUrl, '_blank', 'noopener,noreferrer');
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+              url = `https://${url}`;
+            }
+            
+            // Try multiple methods to open the link
+            try {
+              // Method 1: Direct window.open with specific parameters
+              const newWindow = window.open(url, '_blank', 'noopener=yes,noreferrer=yes,width=800,height=600');
+              
+              // If window.open fails, try alternative method
+              if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                // Method 2: Create a temporary link and click it
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }
+            } catch (error) {
+              console.error('Failed to open reservation link:', error);
+              // Fallback: Copy URL to clipboard
+              navigator.clipboard.writeText(url).then(() => {
+                alert(`링크가 복사되었습니다: ${url}`);
+              });
+            }
           }}
         >
           예약하기
