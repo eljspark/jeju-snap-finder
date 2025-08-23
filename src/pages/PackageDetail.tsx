@@ -33,7 +33,7 @@ const PackageDetail = () => {
       
       const { data, error } = await supabase
         .from('packages')
-        .select('id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, folder_path')
+        .select('id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, folder_path, reservation_url')
         .eq('id', id)
         .single();
       
@@ -48,6 +48,7 @@ const PackageDetail = () => {
         folderPath: data.folder_path || `packages/${data.id}/`,
         thumbnailUrl: data.thumbnail_url || "/placeholder.svg",
         description: data.details || "No description available",
+        reservationUrl: data.reservation_url,
         // Mock data for fields not in database yet
         photographer: {
           name: "Kim Min-jun",
@@ -232,7 +233,9 @@ const PackageDetail = () => {
                   <CardTitle>예약하는 방법</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {/* Content will be added here */}
+                  <div className="text-sm text-muted-foreground break-all">
+                    {packageData.reservationUrl}
+                  </div>
                 </CardContent>
               </Card>
 
