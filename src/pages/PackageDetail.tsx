@@ -217,18 +217,8 @@ const PackageDetail = () => {
                 </p>
               </div>
 
-              {/* Sample Photos Gallery */}
-              <PackageImageGallery 
-                folderPath={packageData.folderPath} 
-                packageTitle={packageData.title} 
-              />
-
-            </div>
-
-            {/* Right Column - Booking & Photographer Info */}
-            <div className="space-y-6">
-              {/* Booking Card */}
-              <Card className="sticky top-24 shadow-medium">
+              {/* Reservation Card */}
+              <Card className="shadow-medium">
                 <CardHeader>
                   <CardTitle>예약하는 방법</CardTitle>
                 </CardHeader>
@@ -239,6 +229,17 @@ const PackageDetail = () => {
                 </CardContent>
               </Card>
 
+              {/* Sample Photos Gallery */}
+              <PackageImageGallery 
+                folderPath={packageData.folderPath} 
+                packageTitle={packageData.title} 
+              />
+
+            </div>
+
+            {/* Right Column - Empty for now */}
+            <div className="space-y-6">
+              {/* Additional content can be added here later */}
             </div>
           </div>
         </div>
