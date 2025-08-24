@@ -182,14 +182,6 @@ const PackageDetail = () => {
                       ))}
                     </div>
                   </div>
-                  <div className="absolute top-4 right-4 flex space-x-2">
-                    <Button size="icon" variant="secondary" className="bg-white/90 hover:bg-white">
-                      <Heart className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="secondary" className="bg-white/90 hover:bg-white">
-                      <Share2 className="h-4 w-4" />
-                    </Button>
-                  </div>
                 </div>
               </div>
 

@@ -34,11 +34,6 @@ const PackageCard = ({
             alt={title}
             className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          {featured && (
-            <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground">
-              Featured
-            </Badge>
-          )}
           <div className="absolute top-3 right-3 flex gap-1 flex-wrap">
             {occasions.map((occasion, index) => (
               <Badge key={index} variant="secondary" className="bg-background/90 text-foreground">
