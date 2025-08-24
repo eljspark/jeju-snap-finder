@@ -1,12 +1,11 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { supabase } from "@/integrations/supabase/client"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatThumbnailUrl(thumbnailUrl: string | null): string {
+export function formatThumbnailUrl(thumbnailUrl: string | null, supabaseClient?: any): string {
   if (!thumbnailUrl) return "/placeholder.svg"
   
   // If it's already a full URL, return as is
@@ -15,9 +14,7 @@ export function formatThumbnailUrl(thumbnailUrl: string | null): string {
   }
   
   // If it's just a storage path, convert to full URL
-  const { data } = supabase.storage
-    .from('packages')
-    .getPublicUrl(thumbnailUrl)
-    
-  return data.publicUrl
+  // Using the direct public URL format instead of client call
+  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
+  return `${baseUrl}/${thumbnailUrl}`
 }

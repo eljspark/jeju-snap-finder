@@ -339,13 +339,15 @@ export default function AdminImages() {
       const folderPath = selectedPackage.folder_path || selectedPackage.id;
       const fullPath = `${folderPath}/${file.name}`;
       
-      // Get the full public URL for the thumbnail
-      const { data } = supabase.storage
-        .from('packages')
-        .getPublicUrl(fullPath);
+      console.log('Setting thumbnail:', {
+        packageId: selectedPackage.id,
+        folderPath,
+        fileName: file.name,
+        fullPath
+      });
 
       const updates: any = {
-        thumbnail_url: data.publicUrl
+        thumbnail_url: fullPath // Store as path, not full URL
       };
 
       // Also set folder_path if it's missing
@@ -353,12 +355,20 @@ export default function AdminImages() {
         updates.folder_path = folderPath;
       }
 
-      const { error } = await supabase
+      console.log('Updating package with:', updates);
+
+      const { data, error } = await supabase
         .from('packages')
         .update(updates)
-        .eq('id', selectedPackage.id);
+        .eq('id', selectedPackage.id)
+        .select(); // Add select to get back the updated data
 
-      if (error) throw error;
+      if (error) {
+        console.error('Database update error:', error);
+        throw error;
+      }
+
+      console.log('Update successful:', data);
 
       // Update local state immediately
       setSelectedPackage(prev => prev ? { ...prev, ...updates } : null);
@@ -577,14 +587,13 @@ export default function AdminImages() {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {existingFiles.map((file) => {
+                      // Check if this file is the current thumbnail
+                      // Since we store path but compare against full URLs, we need to check both
                       const folderPath = selectedPackage.folder_path || selectedPackage.id;
                       const fullPath = `${folderPath}/${file.name}`;
-                      const { data: publicUrlData } = supabase.storage.from('packages').getPublicUrl(fullPath);
                       
-                      // More flexible thumbnail comparison - check both URL formats
-                      const isThumbnail = selectedPackage.thumbnail_url === publicUrlData.publicUrl || 
-                                         selectedPackage.thumbnail_url === fullPath ||
-                                         selectedPackage.thumbnail_url === file.url;
+                      const isThumbnail = selectedPackage.thumbnail_url === fullPath ||
+                                         selectedPackage.thumbnail_url === file.name;
                       
                       return (
                         <div key={file.name} className="group relative">
