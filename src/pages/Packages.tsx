@@ -10,6 +10,7 @@ import PackageCard from "@/components/PackageCard";
 import { Search, Filter, MapPin, DollarSign } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { formatThumbnailUrl } from "@/lib/utils";
 
 const Packages = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,7 +34,7 @@ const Packages = () => {
         price: pkg.price_krw,
         duration: pkg.duration_minutes ? `${pkg.duration_minutes} minutes` : "Duration TBD",
         occasions: pkg.occasions || ["Photography"],
-        images: [pkg.thumbnail_url || "/placeholder.svg"],
+        images: [formatThumbnailUrl(pkg.thumbnail_url)],
         featured: false,
       }));
     },

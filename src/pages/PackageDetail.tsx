@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { PackageImageGallery } from "@/components/PackageImageGallery";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { formatThumbnailUrl } from "@/lib/utils";
 import { 
   MapPin, 
   Clock, 
@@ -45,8 +46,8 @@ const PackageDetail = () => {
         price: data.price_krw,
         duration: data.duration_minutes ? `${data.duration_minutes} minutes` : "Duration TBD",
         occasions: data.occasions || [],
-        folderPath: data.folder_path || `packages/${data.id}/`,
-        thumbnailUrl: data.thumbnail_url || "/placeholder.svg",
+        folderPath: data.folder_path || data.id,
+        thumbnailUrl: formatThumbnailUrl(data.thumbnail_url),
         description: data.details || "No description available",
         reservationUrl: data.reservation_url,
         // Mock data for fields not in database yet

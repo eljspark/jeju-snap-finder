@@ -192,12 +192,12 @@ export default function AdminImages() {
       
       // Set folder_path if empty
       if (!selectedPackage.folder_path) {
-        updates.folder_path = `${selectedPackage.id}/`;
+        updates.folder_path = selectedPackage.id;
       }
       
       // Set thumbnail_url if NULL and this is the first successful upload
       if (!selectedPackage.thumbnail_url && uploadFiles.filter(f => f.status === 'success').length === 0) {
-        updates.thumbnail_url = fullPath;
+        updates.thumbnail_url = urlData.publicUrl;
       }
 
       if (Object.keys(updates).length > 0) {
@@ -330,18 +330,32 @@ export default function AdminImages() {
     try {
       const folderPath = selectedPackage.folder_path || selectedPackage.id;
       const fullPath = `${folderPath}/${file.name}`;
+      
+      // Get the full public URL for the thumbnail
+      const { data } = supabase.storage
+        .from('packages')
+        .getPublicUrl(fullPath);
+
+      const updates: any = {
+        thumbnail_url: data.publicUrl
+      };
+
+      // Also set folder_path if it's missing
+      if (!selectedPackage.folder_path) {
+        updates.folder_path = folderPath;
+      }
 
       const { error } = await supabase
         .from('packages')
-        .update({ thumbnail_url: fullPath })
+        .update(updates)
         .eq('id', selectedPackage.id);
 
       if (error) throw error;
 
       // Update local state
-      setSelectedPackage(prev => prev ? { ...prev, thumbnail_url: fullPath } : null);
+      setSelectedPackage(prev => prev ? { ...prev, ...updates } : null);
       setPackages(prev => prev.map(pkg => 
-        pkg.id === selectedPackage.id ? { ...pkg, thumbnail_url: fullPath } : pkg
+        pkg.id === selectedPackage.id ? { ...pkg, ...updates } : pkg
       ));
 
       toast({
@@ -552,7 +566,8 @@ export default function AdminImages() {
                     {existingFiles.map((file) => {
                       const folderPath = selectedPackage.folder_path || selectedPackage.id;
                       const fullPath = `${folderPath}/${file.name}`;
-                      const isThumbnail = selectedPackage.thumbnail_url === fullPath;
+                      const { data: publicUrlData } = supabase.storage.from('packages').getPublicUrl(fullPath);
+                      const isThumbnail = selectedPackage.thumbnail_url === publicUrlData.publicUrl;
                       
                       return (
                         <div key={file.name} className="group relative">
