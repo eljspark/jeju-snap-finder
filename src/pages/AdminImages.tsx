@@ -361,7 +361,7 @@ export default function AdminImages() {
         .from('packages')
         .update(updates)
         .eq('id', selectedPackage.id)
-        .select(); // Add select to get back the updated data
+        .select('*'); // Select all fields to get back the updated data
 
       if (error) {
         console.error('Database update error:', error);
@@ -370,21 +370,19 @@ export default function AdminImages() {
 
       console.log('Update successful:', data);
 
-      // Update local state immediately
-      setSelectedPackage(prev => prev ? { ...prev, ...updates } : null);
+      // If we got data back, use it; otherwise use our updates object
+      const updatedData = data && data.length > 0 ? data[0] : { ...selectedPackage, ...updates };
+
+      // Update local state with the actual database response
+      setSelectedPackage(updatedData);
       setPackages(prev => prev.map(pkg => 
-        pkg.id === selectedPackage.id ? { ...pkg, ...updates } : pkg
+        pkg.id === selectedPackage.id ? updatedData : pkg
       ));
 
       toast({
         title: 'Success',
         description: `${file.name} set as thumbnail`
       });
-
-      // Force a small state update to trigger re-render
-      setTimeout(() => {
-        setSelectedPackage(prev => prev ? { ...prev, ...updates } : null);
-      }, 50);
 
     } catch (error: any) {
       console.error('Error setting thumbnail:', error);
