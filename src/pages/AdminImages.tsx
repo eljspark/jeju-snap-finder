@@ -73,6 +73,14 @@ export default function AdminImages() {
         
         if (error) throw error;
         setPackages(data || []);
+        
+        // Update selected package if it exists
+        if (selectedPackage) {
+          const updatedSelectedPackage = data?.find(pkg => pkg.id === selectedPackage.id);
+          if (updatedSelectedPackage) {
+            setSelectedPackage(updatedSelectedPackage);
+          }
+        }
       } catch (error) {
         console.error('Error fetching packages:', error);
         toast({
@@ -86,7 +94,7 @@ export default function AdminImages() {
     };
     
     fetchPackages();
-  }, [toast]);
+  }, [toast]); // Removed selectedPackage dependency to prevent loops
 
   // Filter packages based on search
   const filteredPackages = packages.filter(pkg =>
@@ -352,7 +360,7 @@ export default function AdminImages() {
 
       if (error) throw error;
 
-      // Update local state
+      // Update local state immediately
       setSelectedPackage(prev => prev ? { ...prev, ...updates } : null);
       setPackages(prev => prev.map(pkg => 
         pkg.id === selectedPackage.id ? { ...pkg, ...updates } : pkg
@@ -362,6 +370,11 @@ export default function AdminImages() {
         title: 'Success',
         description: `${file.name} set as thumbnail`
       });
+
+      // Force a small state update to trigger re-render
+      setTimeout(() => {
+        setSelectedPackage(prev => prev ? { ...prev, ...updates } : null);
+      }, 50);
 
     } catch (error: any) {
       console.error('Error setting thumbnail:', error);
@@ -567,7 +580,11 @@ export default function AdminImages() {
                       const folderPath = selectedPackage.folder_path || selectedPackage.id;
                       const fullPath = `${folderPath}/${file.name}`;
                       const { data: publicUrlData } = supabase.storage.from('packages').getPublicUrl(fullPath);
-                      const isThumbnail = selectedPackage.thumbnail_url === publicUrlData.publicUrl;
+                      
+                      // More flexible thumbnail comparison - check both URL formats
+                      const isThumbnail = selectedPackage.thumbnail_url === publicUrlData.publicUrl || 
+                                         selectedPackage.thumbnail_url === fullPath ||
+                                         selectedPackage.thumbnail_url === file.url;
                       
                       return (
                         <div key={file.name} className="group relative">
