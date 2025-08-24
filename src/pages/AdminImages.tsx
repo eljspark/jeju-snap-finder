@@ -23,7 +23,9 @@ import {
   CheckCircle,
   X,
   FolderOpen,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Star,
+  StarOff
 } from 'lucide-react';
 
 interface Package {
@@ -321,6 +323,42 @@ export default function AdminImages() {
     setUploadFiles(prev => prev.filter(f => f.id !== id));
   };
 
+  // Set thumbnail
+  const setThumbnail = async (file: StorageFile) => {
+    if (!selectedPackage) return;
+
+    try {
+      const folderPath = selectedPackage.folder_path || selectedPackage.id;
+      const fullPath = `${folderPath}/${file.name}`;
+
+      const { error } = await supabase
+        .from('packages')
+        .update({ thumbnail_url: fullPath })
+        .eq('id', selectedPackage.id);
+
+      if (error) throw error;
+
+      // Update local state
+      setSelectedPackage(prev => prev ? { ...prev, thumbnail_url: fullPath } : null);
+      setPackages(prev => prev.map(pkg => 
+        pkg.id === selectedPackage.id ? { ...pkg, thumbnail_url: fullPath } : pkg
+      ));
+
+      toast({
+        title: 'Success',
+        description: `${file.name} set as thumbnail`
+      });
+
+    } catch (error: any) {
+      console.error('Error setting thumbnail:', error);
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to set thumbnail',
+        variant: 'destructive'
+      });
+    }
+  };
+
   // Format file size
   const formatFileSize = (bytes?: number) => {
     if (!bytes) return 'Unknown';
@@ -511,26 +549,58 @@ export default function AdminImages() {
                   </Alert>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {existingFiles.map((file) => (
-                      <div key={file.name} className="group relative">
-                        <div className="aspect-square rounded-lg overflow-hidden bg-muted">
-                          <img
-                            src={file.url}
-                            alt={file.name}
-                            className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                            loading="lazy"
-                          />
+                    {existingFiles.map((file) => {
+                      const folderPath = selectedPackage.folder_path || selectedPackage.id;
+                      const fullPath = `${folderPath}/${file.name}`;
+                      const isThumbnail = selectedPackage.thumbnail_url === fullPath;
+                      
+                      return (
+                        <div key={file.name} className="group relative">
+                          <div className={`aspect-square rounded-lg overflow-hidden bg-muted relative ${isThumbnail ? 'ring-2 ring-primary' : ''}`}>
+                            <img
+                              src={file.url}
+                              alt={file.name}
+                              className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                              loading="lazy"
+                            />
+                            {isThumbnail && (
+                              <div className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+                                <Star className="h-4 w-4 fill-current" />
+                              </div>
+                            )}
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <Button
+                                size="sm"
+                                variant={isThumbnail ? "secondary" : "default"}
+                                onClick={() => setThumbnail(file)}
+                                className="gap-2"
+                              >
+                                {isThumbnail ? (
+                                  <>
+                                    <StarOff className="h-4 w-4" />
+                                    Current Thumbnail
+                                  </>
+                                ) : (
+                                  <>
+                                    <Star className="h-4 w-4" />
+                                    Set as Thumbnail
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                          <div className="mt-2">
+                            <p className="text-sm font-medium truncate" title={file.name}>
+                              {file.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {formatFileSize(file.size)} 
+                              {isThumbnail && <span className="text-primary font-medium"> • Thumbnail</span>}
+                            </p>
+                          </div>
                         </div>
-                        <div className="mt-2">
-                          <p className="text-sm font-medium truncate" title={file.name}>
-                            {file.name}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatFileSize(file.size)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </CardContent>
