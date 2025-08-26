@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { PackageImageGallery } from "@/components/PackageImageGallery";
 import { useQuery } from "@tanstack/react-query";
@@ -93,8 +92,7 @@ const PackageDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="pt-20 flex items-center justify-center min-h-screen">
+        <div className="pt-8 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
             <p className="mt-4 text-muted-foreground">Loading package details...</p>
@@ -107,8 +105,7 @@ const PackageDetail = () => {
   if (!packageData) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="pt-20 flex items-center justify-center min-h-screen">
+        <div className="pt-8 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-2">Package not found</h2>
             <p className="text-muted-foreground mb-4">The package you're looking for doesn't exist.</p>
@@ -147,15 +144,11 @@ const PackageDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      
-      <div className="pt-20">
+      <div className="pt-8">
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-primary">Home</Link>
-            <span>/</span>
-            <Link to="/packages" className="hover:text-primary">Packages</Link>
+            <Link to="/" className="hover:text-primary">Packages</Link>
             <span>/</span>
             <span className="text-foreground">{packageData.title}</span>
           </div>
