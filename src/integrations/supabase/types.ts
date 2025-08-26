@@ -67,7 +67,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      occasion_enum: "커플" | "가족" | "우정" | "프로필" | "웨딩" | "만삭"
+      occasion_enum:
+        | "커플"
+        | "가족"
+        | "우정"
+        | "프로필"
+        | "웨딩"
+        | "만삭"
+        | "개인"
+        | "아기"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -195,7 +203,16 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      occasion_enum: ["커플", "가족", "우정", "프로필", "웨딩", "만삭"],
+      occasion_enum: [
+        "커플",
+        "가족",
+        "우정",
+        "프로필",
+        "웨딩",
+        "만삭",
+        "개인",
+        "아기",
+      ],
     },
   },
 } as const
