@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Search, Filter, MapPin, DollarSign } from "lucide-react";
+import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl } from "@/lib/utils";
 
 const Packages = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [occasionFilter, setOccasionFilter] = useState("all");
-  const [locationFilter, setLocationFilter] = useState("all");
   const [priceFilter, setPriceFilter] = useState("all");
 
   // Fetch packages from Supabase
@@ -39,12 +36,9 @@ const Packages = () => {
     },
   });
 
-  // Filter packages based on search and filters
+  // Filter packages based on filters
   const filteredPackages = allPackages.filter((pkg) => {
-    const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase());
-    
     const matchesOccasion = occasionFilter === "all" || pkg.occasions.some(occ => occ.toLowerCase() === occasionFilter);
-    const matchesLocation = locationFilter === "all"; // Location filter disabled since not in DB
     
     let matchesPrice = true;
     if (priceFilter === "under-150") matchesPrice = pkg.price < 150000;
@@ -52,13 +46,11 @@ const Packages = () => {
     else if (priceFilter === "300-500") matchesPrice = pkg.price >= 300000 && pkg.price <= 500000;
     else if (priceFilter === "over-500") matchesPrice = pkg.price > 500000;
 
-    return matchesSearch && matchesOccasion && matchesLocation && matchesPrice;
+    return matchesOccasion && matchesPrice;
   });
 
   const clearFilters = () => {
-    setSearchTerm("");
     setOccasionFilter("all");
-    setLocationFilter("all");
     setPriceFilter("all");
   };
 
@@ -77,21 +69,7 @@ const Packages = () => {
       {/* Filters Section */}
       <section className="py-8 bg-muted/50 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
-            {/* Search */}
-            <div className="md:col-span-2">
-              <label className="text-sm font-medium mb-2 block">Search</label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search packages, photographers, or locations..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end max-w-2xl">
             {/* Occasion Filter */}
             <div>
               <label className="text-sm font-medium mb-2 block">Occasion</label>
@@ -107,24 +85,6 @@ const Packages = () => {
                   <SelectItem value="solo">Solo</SelectItem>
                   <SelectItem value="maternity">Maternity</SelectItem>
                   <SelectItem value="professional">Professional</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Location Filter */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Location</label>
-              <Select value={locationFilter} onValueChange={setLocationFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All locations" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All locations</SelectItem>
-                  <SelectItem value="hyeopjae">Hyeopjae Beach</SelectItem>
-                  <SelectItem value="seongsan">Seongsan Ilchulbong</SelectItem>
-                  <SelectItem value="woljeongri">Woljeongri Beach</SelectItem>
-                  <SelectItem value="jeju city">Jeju City</SelectItem>
-                  <SelectItem value="spirited">Spirited Garden</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -150,22 +110,12 @@ const Packages = () => {
           {/* Active Filters & Clear */}
           <div className="flex items-center justify-between mt-6">
             <div className="flex items-center gap-2 flex-wrap">
-              {(occasionFilter !== "all" || locationFilter !== "all" || priceFilter !== "all" || searchTerm) && (
+              {(occasionFilter !== "all" || priceFilter !== "all") && (
                 <>
                   <span className="text-sm text-muted-foreground">Active filters:</span>
-                  {searchTerm && (
-                    <Badge variant="secondary">
-                      Search: {searchTerm}
-                    </Badge>
-                  )}
                   {occasionFilter !== "all" && (
                     <Badge variant="secondary">
                       {occasionFilter.charAt(0).toUpperCase() + occasionFilter.slice(1)}
-                    </Badge>
-                  )}
-                  {locationFilter !== "all" && (
-                    <Badge variant="secondary">
-                      {locationFilter}
                     </Badge>
                   )}
                   {priceFilter !== "all" && (
@@ -202,7 +152,7 @@ const Packages = () => {
               </div>
               <h3 className="text-lg font-medium mb-2">No packages found</h3>
               <p className="text-muted-foreground mb-4">
-                Try adjusting your search terms or filters to find more packages.
+                Try adjusting your filters to find more packages.
               </p>
               <Button variant="outline" onClick={clearFilters}>
                 Clear all filters
