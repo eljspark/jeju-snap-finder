@@ -123,9 +123,14 @@ export default function AdminImages() {
         if (error) throw error;
 
         if (files) {
+          // Log raw files for debugging
+          console.log('Raw files from storage:', files);
+          
           const imageFiles = files.filter(file => 
             file.name && /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
           );
+
+          console.log('Filtered image files:', imageFiles);
 
           const filesWithUrls = imageFiles.map(file => {
             const fullPath = `${folderPath}/${file.name}`;
@@ -140,6 +145,7 @@ export default function AdminImages() {
             };
           });
 
+          console.log('Files with URLs:', filesWithUrls);
           setExistingFiles(filesWithUrls);
         }
       } catch (error) {
