@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Search, Heart, Users, Camera, User, Baby } from "lucide-react";
+import { Search, Heart, Users, HeartHandshake, User, Baby } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl } from "@/lib/utils";
@@ -18,7 +18,7 @@ const Packages = () => {
   const occasionCategories = [
     { key: "커플", label: "커플", icon: Heart },
     { key: "가족", label: "가족", icon: Users },
-    { key: "우정", label: "우정", icon: Camera },
+    { key: "우정", label: "우정", icon: HeartHandshake },
     { key: "만삭", label: "만삭", icon: Baby },
     { key: "개인", label: "개인", icon: User },
     { key: "아기", label: "아기", icon: Baby },
