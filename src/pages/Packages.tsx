@@ -5,14 +5,32 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Search } from "lucide-react";
+import { Search, Heart, Users, Camera, User, Baby, Briefcase } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl } from "@/lib/utils";
 
 const Packages = () => {
-  const [occasionFilter, setOccasionFilter] = useState("all");
+  const [selectedOccasions, setSelectedOccasions] = useState<string[]>([]);
   const [priceFilter, setPriceFilter] = useState("all");
+
+  // Define occasion categories with icons
+  const occasionCategories = [
+    { key: "커플", label: "Couple", icon: Heart },
+    { key: "가족", label: "Family", icon: Users },
+    { key: "웨딩", label: "Wedding", icon: Camera },
+    { key: "솔로", label: "Solo", icon: User },
+    { key: "임신", label: "Maternity", icon: Baby },
+    { key: "프로필", label: "Professional", icon: Briefcase },
+  ];
+
+  const toggleOccasion = (occasionKey: string) => {
+    setSelectedOccasions(prev => 
+      prev.includes(occasionKey)
+        ? prev.filter(occ => occ !== occasionKey)
+        : [...prev, occasionKey]
+    );
+  };
 
   // Fetch packages from Supabase
   const { data: allPackages = [], isLoading } = useQuery({
@@ -38,7 +56,7 @@ const Packages = () => {
 
   // Filter packages based on filters
   const filteredPackages = allPackages.filter((pkg) => {
-    const matchesOccasion = occasionFilter === "all" || pkg.occasions.some(occ => occ.toLowerCase() === occasionFilter);
+    const matchesOccasion = selectedOccasions.length === 0 || pkg.occasions.some(occ => selectedOccasions.includes(occ));
     
     let matchesPrice = true;
     if (priceFilter === "under-150") matchesPrice = pkg.price < 150000;
@@ -50,7 +68,7 @@ const Packages = () => {
   });
 
   const clearFilters = () => {
-    setOccasionFilter("all");
+    setSelectedOccasions([]);
     setPriceFilter("all");
   };
 
@@ -69,55 +87,66 @@ const Packages = () => {
       {/* Filters Section */}
       <section className="py-8 bg-muted/50 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end max-w-2xl">
-            {/* Occasion Filter */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Occasion</label>
-              <Select value={occasionFilter} onValueChange={setOccasionFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All occasions" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All occasions</SelectItem>
-                  <SelectItem value="couple">Couple</SelectItem>
-                  <SelectItem value="family">Family</SelectItem>
-                  <SelectItem value="wedding">Wedding</SelectItem>
-                  <SelectItem value="solo">Solo</SelectItem>
-                  <SelectItem value="maternity">Maternity</SelectItem>
-                  <SelectItem value="professional">Professional</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+      {/* Category Buttons */}
+      <div className="mb-8">
+        <h2 className="text-lg font-medium mb-4">Choose Your Occasion</h2>
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+          {occasionCategories.map((category) => {
+            const Icon = category.icon;
+            const isSelected = selectedOccasions.includes(category.key);
+            return (
+              <button
+                key={category.key}
+                onClick={() => toggleOccasion(category.key)}
+                className={`flex flex-col items-center p-4 rounded-2xl border-2 transition-all ${
+                  isSelected
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border bg-background hover:border-primary/50"
+                }`}
+              >
+                <div className={`p-3 rounded-full mb-2 ${
+                  isSelected ? "bg-primary/20" : "bg-muted"
+                }`}>
+                  <Icon className={`h-6 w-6 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                </div>
+                <span className="text-sm font-medium">{category.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-            {/* Price Filter */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Price Range</label>
-              <Select value={priceFilter} onValueChange={setPriceFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All prices" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All prices</SelectItem>
-                  <SelectItem value="under-150">Under ₩150,000</SelectItem>
-                  <SelectItem value="150-300">₩150,000 - ₩300,000</SelectItem>
-                  <SelectItem value="300-500">₩300,000 - ₩500,000</SelectItem>
-                  <SelectItem value="over-500">Over ₩500,000</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+      {/* Price Filter */}
+      <div className="max-w-md">
+        <label className="text-sm font-medium mb-2 block">Price Range</label>
+        <Select value={priceFilter} onValueChange={setPriceFilter}>
+          <SelectTrigger>
+            <SelectValue placeholder="All prices" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All prices</SelectItem>
+            <SelectItem value="under-150">Under ₩150,000</SelectItem>
+            <SelectItem value="150-300">₩150,000 - ₩300,000</SelectItem>
+            <SelectItem value="300-500">₩300,000 - ₩500,000</SelectItem>
+            <SelectItem value="over-500">Over ₩500,000</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
           {/* Active Filters & Clear */}
           <div className="flex items-center justify-between mt-6">
             <div className="flex items-center gap-2 flex-wrap">
-              {(occasionFilter !== "all" || priceFilter !== "all") && (
+              {(selectedOccasions.length > 0 || priceFilter !== "all") && (
                 <>
                   <span className="text-sm text-muted-foreground">Active filters:</span>
-                  {occasionFilter !== "all" && (
-                    <Badge variant="secondary">
-                      {occasionFilter.charAt(0).toUpperCase() + occasionFilter.slice(1)}
-                    </Badge>
-                  )}
+                  {selectedOccasions.map(occasion => {
+                    const category = occasionCategories.find(cat => cat.key === occasion);
+                    return (
+                      <Badge key={occasion} variant="secondary">
+                        {category?.label || occasion}
+                      </Badge>
+                    );
+                  })}
                   {priceFilter !== "all" && (
                     <Badge variant="secondary">
                       {priceFilter}
