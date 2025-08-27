@@ -8,7 +8,7 @@ import PackageCard from "@/components/PackageCard";
 import { Search, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { formatThumbnailUrl } from "@/lib/utils";
+import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 
 const Packages = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
@@ -41,7 +41,7 @@ const Packages = () => {
         id: pkg.id,
         title: pkg.title,
         price: pkg.price_krw,
-        duration: pkg.duration_minutes ? `${pkg.duration_minutes} minutes` : "Duration TBD",
+        duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "Duration TBD",
         occasions: pkg.occasions || ["Photography"],
         images: [formatThumbnailUrl(pkg.thumbnail_url)],
         featured: false,
