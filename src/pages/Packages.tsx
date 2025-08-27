@@ -50,18 +50,30 @@ const Packages = () => {
     },
   });
 
-  // Filter packages based on filters
-  const filteredPackages = allPackages.filter((pkg) => {
-    const matchesOccasion = selectedOccasion === "" || (pkg.occasions as string[]).includes(selectedOccasion);
-    
-    let matchesPrice = true;
-    if (priceFilter === "under-150") matchesPrice = pkg.price < 150000;
-    else if (priceFilter === "150-300") matchesPrice = pkg.price >= 150000 && pkg.price <= 300000;
-    else if (priceFilter === "300-500") matchesPrice = pkg.price >= 300000 && pkg.price <= 500000;
-    else if (priceFilter === "over-500") matchesPrice = pkg.price > 500000;
+  // Filter and sort packages based on filters
+  const filteredPackages = allPackages
+    .filter((pkg) => {
+      const matchesOccasion = selectedOccasion === "" || (pkg.occasions as string[]).includes(selectedOccasion);
+      
+      let matchesPrice = true;
+      if (priceFilter === "under-150") matchesPrice = pkg.price < 150000;
+      else if (priceFilter === "150-300") matchesPrice = pkg.price >= 150000 && pkg.price <= 300000;
+      else if (priceFilter === "300-500") matchesPrice = pkg.price >= 300000 && pkg.price <= 500000;
+      else if (priceFilter === "over-500") matchesPrice = pkg.price > 500000;
 
-    return matchesOccasion && matchesPrice;
-  });
+      return matchesOccasion && matchesPrice;
+    })
+    .sort((a, b) => {
+      // If no occasion is selected, maintain original order
+      if (selectedOccasion === "") return 0;
+      
+      // Get the index of selected occasion in each package's occasions array
+      const aIndex = (a.occasions as string[]).indexOf(selectedOccasion);
+      const bIndex = (b.occasions as string[]).indexOf(selectedOccasion);
+      
+      // Packages with the occasion as first element (index 0) should come first
+      return aIndex - bIndex;
+    });
 
   const clearFilters = () => {
     setSelectedOccasion("");
