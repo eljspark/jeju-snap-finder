@@ -11,7 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl } from "@/lib/utils";
 
 const Packages = () => {
-  const [selectedOccasions, setSelectedOccasions] = useState<string[]>([]);
+  const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState("all");
 
   // Define occasion categories with icons based on actual database values
@@ -24,12 +24,8 @@ const Packages = () => {
     { key: "아기", label: "아기", icon: Baby },
   ];
 
-  const toggleOccasion = (occasionKey: string) => {
-    setSelectedOccasions(prev => 
-      prev.includes(occasionKey)
-        ? prev.filter(occ => occ !== occasionKey)
-        : [...prev, occasionKey]
-    );
+  const selectOccasion = (occasionKey: string) => {
+    setSelectedOccasion(prev => prev === occasionKey ? "" : occasionKey);
   };
 
   // Fetch packages from Supabase
@@ -56,7 +52,7 @@ const Packages = () => {
 
   // Filter packages based on filters
   const filteredPackages = allPackages.filter((pkg) => {
-    const matchesOccasion = selectedOccasions.length === 0 || pkg.occasions.some(occ => selectedOccasions.includes(occ));
+    const matchesOccasion = selectedOccasion === "" || (pkg.occasions as string[]).includes(selectedOccasion);
     
     let matchesPrice = true;
     if (priceFilter === "under-150") matchesPrice = pkg.price < 150000;
@@ -68,7 +64,7 @@ const Packages = () => {
   });
 
   const clearFilters = () => {
-    setSelectedOccasions([]);
+    setSelectedOccasion("");
     setPriceFilter("all");
   };
 
@@ -93,11 +89,11 @@ const Packages = () => {
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {occasionCategories.map((category) => {
             const Icon = category.icon;
-            const isSelected = selectedOccasions.includes(category.key);
+            const isSelected = selectedOccasion === category.key;
             return (
               <button
                 key={category.key}
-                onClick={() => toggleOccasion(category.key)}
+                onClick={() => selectOccasion(category.key)}
                 className={`flex flex-col items-center p-4 rounded-2xl border-2 transition-all ${
                   isSelected
                     ? "border-primary bg-primary/10 text-primary"
@@ -136,17 +132,14 @@ const Packages = () => {
           {/* Active Filters & Clear */}
           <div className="flex items-center justify-between mt-6">
             <div className="flex items-center gap-2 flex-wrap">
-              {(selectedOccasions.length > 0 || priceFilter !== "all") && (
+              {(selectedOccasion !== "" || priceFilter !== "all") && (
                 <>
                   <span className="text-sm text-muted-foreground">Active filters:</span>
-                  {selectedOccasions.map(occasion => {
-                    const category = occasionCategories.find(cat => cat.key === occasion);
-                    return (
-                      <Badge key={occasion} variant="secondary">
-                        {category?.label || occasion}
-                      </Badge>
-                    );
-                  })}
+                  {selectedOccasion && (
+                    <Badge variant="secondary">
+                      {selectedOccasion}
+                    </Badge>
+                  )}
                   {priceFilter !== "all" && (
                     <Badge variant="secondary">
                       {priceFilter}
