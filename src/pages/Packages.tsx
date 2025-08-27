@@ -97,7 +97,7 @@ const Packages = () => {
       {/* Category Buttons */}
       <div className="mb-8">
         <h2 className="text-lg font-medium mb-4">Choose Your Occasion</h2>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           {occasionCategories.map((category) => {
             const Icon = category.icon;
             const isSelected = selectedOccasion === category.key;
@@ -105,7 +105,7 @@ const Packages = () => {
               <button
                 key={category.key}
                 onClick={() => selectOccasion(category.key)}
-                className={`flex flex-col items-center p-4 rounded-2xl border-2 transition-all ${
+                className={`flex-shrink-0 flex flex-col items-center p-4 rounded-2xl border-2 transition-all min-w-[100px] ${
                   isSelected
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border bg-background hover:border-primary/50"
