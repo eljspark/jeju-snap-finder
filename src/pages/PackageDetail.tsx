@@ -95,7 +95,7 @@ const PackageDetail = () => {
         <div className="pt-8 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-muted-foreground">Loading package details...</p>
+            <p className="mt-4 text-muted-foreground">패키지 정보 로딩 중...</p>
           </div>
         </div>
       </div>
@@ -107,10 +107,10 @@ const PackageDetail = () => {
       <div className="min-h-screen bg-background">
         <div className="pt-8 flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-2">Package not found</h2>
-            <p className="text-muted-foreground mb-4">The package you're looking for doesn't exist.</p>
+            <h2 className="text-2xl font-bold mb-2">패키지를 찾을 수 없습니다</h2>
+            <p className="text-muted-foreground mb-4">찾고 있는 패키지가 존재하지 않습니다.</p>
             <Link to="/packages">
-              <Button>Back to Packages</Button>
+              <Button>패키지 목록으로</Button>
             </Link>
           </div>
         </div>
@@ -148,7 +148,7 @@ const PackageDetail = () => {
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-primary">Packages</Link>
+            <Link to="/" className="hover:text-primary">패키지</Link>
             <span>/</span>
             <span className="text-foreground">{packageData.title}</span>
           </div>
@@ -197,7 +197,7 @@ const PackageDetail = () => {
 
               {/* Description */}
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold">About This Session</h2>
+                <h2 className="text-xl font-semibold">촬영 세션 소개</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {packageData.description}
                 </p>

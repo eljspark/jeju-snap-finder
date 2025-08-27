@@ -21,15 +21,15 @@ export function formatThumbnailUrl(thumbnailUrl: string | null, supabaseClient?:
 
 export function formatDuration(minutes: number): string {
   if (minutes < 60) {
-    return `${minutes} minute${minutes !== 1 ? 's' : ''}`
+    return `${minutes}분`
   }
   
   const hours = Math.floor(minutes / 60)
   const remainingMinutes = minutes % 60
   
   if (remainingMinutes === 0) {
-    return `${hours} hour${hours !== 1 ? 's' : ''}`
+    return `${hours}시간`
   }
   
-  return `${hours} hour${hours !== 1 ? 's' : ''} ${remainingMinutes} minute${remainingMinutes !== 1 ? 's' : ''}`
+  return `${hours}시간 ${remainingMinutes}분`
 }

@@ -61,11 +61,11 @@ const PackageCard = ({
         <div className="flex items-center justify-between pt-3 border-t border-border">
           <div className="text-right">
             <span className="text-2xl font-bold text-primary">₩{price.toLocaleString()}</span>
-            <p className="text-xs text-muted-foreground">per session</p>
+            <p className="text-xs text-muted-foreground">회당</p>
           </div>
           <Button asChild size="sm">
             <Link to={`/packages/${id}`}>
-              View Details
+              자세히 보기
             </Link>
           </Button>
         </div>

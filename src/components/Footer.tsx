@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex justify-center">
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-foreground">Contact</h3>
+            <h3 className="text-sm font-semibold text-foreground">연락처</h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-center space-x-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
@@ -27,7 +27,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 SnapFinder. All rights reserved. | Built with ❤️ for Jeju Island</p>
+          <p>&copy; 2024 SnapFinder. 모든 권리 보유. | 제주도를 위해 ❤️로 제작</p>
         </div>
       </div>
     </footer>

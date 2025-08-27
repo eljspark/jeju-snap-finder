@@ -41,7 +41,7 @@ const Packages = () => {
         id: pkg.id,
         title: pkg.title,
         price: pkg.price_krw,
-        duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "Duration TBD",
+        duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "촬영 시간 미정",
         occasions: pkg.occasions || ["Photography"],
         images: [formatThumbnailUrl(pkg.thumbnail_url)],
         featured: false,
@@ -84,9 +84,9 @@ const Packages = () => {
       {/* Hero Section */}
       <section className="pt-12 pb-12 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-bold mb-4">Photography Packages</h1>
+          <h1 className="text-4xl font-bold mb-4">포토 패키지</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover the perfect photography experience for your special moments in Jeju Island
+            제주도에서의 특별한 순간을 위한 완벽한 사진 촬영 경험을 찾아보세요
           </p>
         </div>
       </section>
@@ -96,7 +96,7 @@ const Packages = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Category Buttons */}
       <div className="mb-8">
-        <h2 className="text-lg font-medium mb-4">Choose Your Occasion</h2>
+        <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           {occasionCategories.map((category) => {
             const Icon = category.icon;
@@ -125,17 +125,17 @@ const Packages = () => {
 
       {/* Price Filter */}
       <div className="max-w-md">
-        <label className="text-sm font-medium mb-2 block">Price Range</label>
+        <label className="text-sm font-medium mb-2 block">가격대</label>
         <Select value={priceFilter} onValueChange={setPriceFilter}>
           <SelectTrigger>
-            <SelectValue placeholder="All prices" />
+            <SelectValue placeholder="모든 가격" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All prices</SelectItem>
-            <SelectItem value="under-150">Under ₩150,000</SelectItem>
+            <SelectItem value="all">모든 가격</SelectItem>
+            <SelectItem value="under-150">₩150,000 미만</SelectItem>
             <SelectItem value="150-300">₩150,000 - ₩300,000</SelectItem>
             <SelectItem value="300-500">₩300,000 - ₩500,000</SelectItem>
-            <SelectItem value="over-500">Over ₩500,000</SelectItem>
+            <SelectItem value="over-500">₩500,000 이상</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -145,7 +145,7 @@ const Packages = () => {
             <div className="flex items-center gap-2 flex-wrap">
               {(selectedOccasion !== "" || priceFilter !== "all") && (
                 <>
-                  <span className="text-sm text-muted-foreground">Active filters:</span>
+                  <span className="text-sm text-muted-foreground">적용된 필터:</span>
                   {selectedOccasion && (
                     <Badge variant="secondary">
                       {selectedOccasion}
@@ -157,13 +157,13 @@ const Packages = () => {
                     </Badge>
                   )}
                   <Button variant="ghost" size="sm" onClick={clearFilters}>
-                    Clear all
+                    모두 지우기
                   </Button>
                 </>
               )}
             </div>
             <div className="text-sm text-muted-foreground">
-              {filteredPackages.length} package{filteredPackages.length !== 1 ? 's' : ''} found
+              {filteredPackages.length}개 패키지 발견
             </div>
           </div>
         </div>
@@ -183,12 +183,12 @@ const Packages = () => {
               <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
                 <Search className="h-8 w-8 text-muted-foreground" />
               </div>
-              <h3 className="text-lg font-medium mb-2">No packages found</h3>
+              <h3 className="text-lg font-medium mb-2">패키지가 없습니다</h3>
               <p className="text-muted-foreground mb-4">
-                Try adjusting your filters to find more packages.
+                필터를 조정해서 더 많은 패키지를 찾아보세요.
               </p>
               <Button variant="outline" onClick={clearFilters}>
-                Clear all filters
+                모든 필터 지우기
               </Button>
             </div>
           )}

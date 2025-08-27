@@ -27,7 +27,7 @@ const Navbar = () => {
                 isActive('/') ? 'text-primary' : 'text-muted-foreground'
               }`}
             >
-              Home
+              홈
             </Link>
             <Link 
               to="/packages" 
@@ -35,7 +35,7 @@ const Navbar = () => {
                 isActive('/packages') ? 'text-primary' : 'text-muted-foreground'
               }`}
             >
-              Packages
+              패키지
             </Link>
             <Link 
               to="/photographers" 
@@ -43,7 +43,7 @@ const Navbar = () => {
                 isActive('/photographers') ? 'text-primary' : 'text-muted-foreground'
               }`}
             >
-              Photographers
+              사진사
             </Link>
             <Link 
               to="/about" 
@@ -51,14 +51,14 @@ const Navbar = () => {
                 isActive('/about') ? 'text-primary' : 'text-muted-foreground'
               }`}
             >
-              About
+              소개
             </Link>
             
             {/* Admin Login Button */}
             <Button variant="outline" size="sm" asChild>
               <Link to="/admin">
                 <User className="h-4 w-4 mr-2" />
-                Admin
+                관리자
               </Link>
             </Button>
           </div>
@@ -86,7 +86,7 @@ const Navbar = () => {
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                Home
+                홈
               </Link>
               <Link 
                 to="/packages" 
@@ -95,7 +95,7 @@ const Navbar = () => {
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                Packages
+                패키지
               </Link>
               <Link 
                 to="/photographers" 
@@ -104,7 +104,7 @@ const Navbar = () => {
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                Photographers
+                사진사
               </Link>
               <Link 
                 to="/about" 
@@ -113,12 +113,12 @@ const Navbar = () => {
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                About
+                소개
               </Link>
               <Button variant="outline" size="sm" asChild className="w-fit">
                 <Link to="/admin" onClick={() => setIsOpen(false)}>
                   <User className="h-4 w-4 mr-2" />
-                  Admin
+                  관리자
                 </Link>
               </Button>
             </div>
