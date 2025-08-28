@@ -27,7 +27,7 @@ export const AdSquare = ({ adSlot, className = '' }: AdSquareProps) => {
       <ins
         className="adsbygoogle"
         style={{ display: 'inline-block', width: '300px', height: '250px' }}
-        data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+        data-ad-client="ca-pub-3433360229161618"
         data-ad-slot={adSlot}
       />
     </div>
