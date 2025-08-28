@@ -132,10 +132,10 @@ const Packages = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">모든 가격</SelectItem>
-            <SelectItem value="under-100">₩100,000 미만</SelectItem>
-            <SelectItem value="100-150">₩100,000 - ₩150,000</SelectItem>
-            <SelectItem value="160-200">₩160,000 - ₩200,000</SelectItem>
-            <SelectItem value="over-200">₩200,000 이상</SelectItem>
+            <SelectItem value="under-100">10만원 미만</SelectItem>
+            <SelectItem value="100-150">10만원 ~ 15만원</SelectItem>
+            <SelectItem value="160-200">16만원 ~ 20만원</SelectItem>
+            <SelectItem value="over-200">20만원 이상</SelectItem>
           </SelectContent>
         </Select>
       </div>
