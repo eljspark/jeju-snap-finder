@@ -55,10 +55,10 @@ const Packages = () => {
       const matchesOccasion = selectedOccasion === "" || (pkg.occasions as string[]).includes(selectedOccasion);
       
       let matchesPrice = true;
-      if (priceFilter === "under-150") matchesPrice = pkg.price < 150000;
-      else if (priceFilter === "150-300") matchesPrice = pkg.price >= 150000 && pkg.price <= 300000;
-      else if (priceFilter === "300-500") matchesPrice = pkg.price >= 300000 && pkg.price <= 500000;
-      else if (priceFilter === "over-500") matchesPrice = pkg.price > 500000;
+      if (priceFilter === "under-100") matchesPrice = pkg.price < 100000;
+      else if (priceFilter === "100-150") matchesPrice = pkg.price >= 100000 && pkg.price <= 150000;
+      else if (priceFilter === "160-200") matchesPrice = pkg.price >= 160000 && pkg.price <= 200000;
+      else if (priceFilter === "over-200") matchesPrice = pkg.price > 200000;
 
       return matchesOccasion && matchesPrice;
     })
@@ -132,10 +132,10 @@ const Packages = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">모든 가격</SelectItem>
-            <SelectItem value="under-150">₩150,000 미만</SelectItem>
-            <SelectItem value="150-300">₩150,000 - ₩300,000</SelectItem>
-            <SelectItem value="300-500">₩300,000 - ₩500,000</SelectItem>
-            <SelectItem value="over-500">₩500,000 이상</SelectItem>
+            <SelectItem value="under-100">₩100,000 미만</SelectItem>
+            <SelectItem value="100-150">₩100,000 - ₩150,000</SelectItem>
+            <SelectItem value="160-200">₩160,000 - ₩200,000</SelectItem>
+            <SelectItem value="over-200">₩200,000 이상</SelectItem>
           </SelectContent>
         </Select>
       </div>
