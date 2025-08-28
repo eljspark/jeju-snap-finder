@@ -86,7 +86,7 @@ const Packages = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl font-bold mb-4">제주 인기스냅들을 한눈에!</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            이제 인스타, 네이버에서 하나씩 힘들게 찾지 마세요. 제가 대신 한눈에 모아드렸어요 💙
+            인스타, 네이버에는 웨딩스냅만 많아서 커플스냅, 가족스냅을 찾기 힘들었다면? 제가 대신 한곳에 모아드렸어요! 💙
           </p>
         </div>
       </section>
