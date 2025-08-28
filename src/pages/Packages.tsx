@@ -88,6 +88,7 @@ const Packages = () => {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             인스타, 네이버에는 웨딩스냅만 많아서<br />
             커플스냅, 가족스냅을 찾기 힘들었다면?<br />
+            <br />
             제가 대신 한곳에 모아드렸어요! 💙
           </p>
         </div>
