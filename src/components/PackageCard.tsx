@@ -25,15 +25,16 @@ const PackageCard = ({
 }: PackageCardProps) => {
   return (
     <Link to={`/packages/${id}`} className="block">
-      <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium h-[300px] flex flex-col ${
+      <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
         featured ? 'ring-2 ring-primary/20 shadow-medium' : 'shadow-soft hover:shadow-medium'
       }`}>
-      <CardHeader className="p-0 flex-shrink-0">
+      <CardHeader className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
             src={images[0] || "/placeholder.svg"}
             alt={title}
-            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            style={{ height: "var(--package-thumbnail-height)" }}
           />
           <div className="absolute top-3 right-3 flex gap-1 flex-wrap">
             {occasions.map((occasion, index) => (
@@ -45,8 +46,8 @@ const PackageCard = ({
         </div>
       </CardHeader>
       
-      <CardContent className="p-4 flex-1 flex flex-col justify-between">
-        <div className="flex items-center justify-between mb-2">
+      <CardContent className="p-4 space-y-3">
+        <div className="flex items-center justify-between">
           <h3 className="font-semibold text-lg truncate group-hover:text-primary transition-colors flex-1 mr-2">
             {title}
           </h3>
@@ -56,9 +57,9 @@ const PackageCard = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-2 border-t border-border">
+        <div className="flex items-center justify-between pt-3 border-t border-border">
           <div className="text-right">
-            <span className="text-xl font-bold text-primary">₩{price.toLocaleString()}</span>
+            <span className="text-2xl font-bold text-primary">₩{price.toLocaleString()}</span>
             <p className="text-xs text-muted-foreground">회당</p>
           </div>
           <Button size="sm">
