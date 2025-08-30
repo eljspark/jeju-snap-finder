@@ -125,28 +125,6 @@ const Packages = () => {
         </div>
       </div>
 
-          {/* Active Filters & Clear */}
-          {(selectedOccasion !== "" || priceFilter !== "all") && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-sm text-muted-foreground">적용된 필터:</span>
-              {selectedOccasion && (
-                <Badge variant="secondary">
-                  {selectedOccasion}
-                </Badge>
-              )}
-              {priceFilter !== "all" && (
-                <Badge variant="secondary">
-                  {priceFilter === "under-100" && "10만원 미만"}
-                  {priceFilter === "100-150" && "10만원 ~ 15만원"}
-                  {priceFilter === "160-200" && "16만원 ~ 20만원"}
-                  {priceFilter === "over-200" && "20만원 이상"}
-                </Badge>
-              )}
-              <Button variant="ghost" size="sm" onClick={clearFilters}>
-                모두 지우기
-              </Button>
-            </div>
-          )}
         </div>
       </section>
 
