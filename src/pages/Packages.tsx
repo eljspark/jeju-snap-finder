@@ -94,10 +94,10 @@ const Packages = () => {
       </section>
 
       {/* Filters Section */}
-      <section className="py-8">
+      <section className="pt-8 pb-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Category Buttons */}
-      <div className="mb-8">
+      <div className="mb-6">
         <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           {occasionCategories.map((category) => {
@@ -127,7 +127,7 @@ const Packages = () => {
 
           {/* Active Filters & Clear */}
           {(selectedOccasion !== "" || priceFilter !== "all") && (
-            <div className="flex items-center gap-2 flex-wrap mb-6">
+            <div className="flex items-center gap-2 flex-wrap mb-4">
               <span className="text-sm text-muted-foreground">적용된 필터:</span>
               {selectedOccasion && (
                 <Badge variant="secondary">
