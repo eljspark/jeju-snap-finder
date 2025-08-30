@@ -199,9 +199,6 @@ const Packages = () => {
                 </>
               )}
             </div>
-            <div className="text-sm text-muted-foreground">
-              {filteredPackages.length}개 패키지 발견
-            </div>
           </div>
         </div>
       </section>
