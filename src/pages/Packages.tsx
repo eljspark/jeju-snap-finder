@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Search, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
+import { Search, Heart, Users, HeartHandshake, Baby, Smile, ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
@@ -13,6 +13,7 @@ import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 const Packages = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState("all");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Define occasion categories with icons based on actual database values
   const occasionCategories = [
@@ -25,6 +26,19 @@ const Packages = () => {
 
   const selectOccasion = (occasionKey: string) => {
     setSelectedOccasion(prev => prev === occasionKey ? "" : occasionKey);
+  };
+
+  const scrollCategories = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 200;
+      const newScrollLeft = scrollContainerRef.current.scrollLeft + 
+        (direction === 'right' ? scrollAmount : -scrollAmount);
+      
+      scrollContainerRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth'
+      });
+    }
   };
 
   // Fetch packages from Supabase
@@ -99,29 +113,55 @@ const Packages = () => {
       {/* Category Buttons */}
       <div className="mb-8">
         <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-          {occasionCategories.map((category) => {
-            const Icon = category.icon;
-            const isSelected = selectedOccasion === category.key;
-            return (
-              <button
-                key={category.key}
-                onClick={() => selectOccasion(category.key)}
-                className={`flex-shrink-0 flex flex-col items-center p-4 rounded-2xl border-2 transition-all min-w-[100px] ${
-                  isSelected
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-border bg-background hover:border-primary/50"
-                }`}
-              >
-                <div className={`p-3 rounded-full mb-2 ${
-                  isSelected ? "bg-primary/20" : "bg-muted"
-                }`}>
-                  <Icon className={`h-6 w-6 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
-                </div>
-                <span className="text-sm font-medium">{category.label}</span>
-              </button>
-            );
-          })}
+        <div className="relative">
+          {/* Left Arrow */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-background shadow-md"
+            onClick={() => scrollCategories('left')}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          
+          {/* Categories Container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-3 overflow-x-auto scrollbar-hide mx-12 pb-2"
+          >
+            {occasionCategories.map((category) => {
+              const Icon = category.icon;
+              const isSelected = selectedOccasion === category.key;
+              return (
+                <button
+                  key={category.key}
+                  onClick={() => selectOccasion(category.key)}
+                  className={`flex-shrink-0 flex flex-col items-center p-4 rounded-2xl border-2 transition-all min-w-[100px] ${
+                    isSelected
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border bg-background hover:border-primary/50"
+                  }`}
+                >
+                  <div className={`p-3 rounded-full mb-2 ${
+                    isSelected ? "bg-primary/20" : "bg-muted"
+                  }`}>
+                    <Icon className={`h-6 w-6 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                  </div>
+                  <span className="text-sm font-medium">{category.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Arrow */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-background shadow-md"
+            onClick={() => scrollCategories('right')}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
