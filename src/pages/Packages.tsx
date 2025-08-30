@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
 import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter } from "lucide-react";
@@ -14,7 +13,6 @@ import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 const Packages = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState("all");
-  const [isPriceFilterOpen, setIsPriceFilterOpen] = useState(false);
 
   // Define occasion categories with icons based on actual database values
   const occasionCategories = [
@@ -128,14 +126,14 @@ const Packages = () => {
       </div>
 
       {/* Price Filter */}
-      <Collapsible open={isPriceFilterOpen} onOpenChange={setIsPriceFilterOpen}>
+      <DropdownMenu>
         <div className="flex items-center gap-2">
-          <CollapsibleTrigger asChild>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" className="flex items-center gap-2 p-2">
               <Filter className="h-4 w-4 text-foreground" />
               <span className="text-sm font-medium">가격대</span>
             </Button>
-          </CollapsibleTrigger>
+          </DropdownMenuTrigger>
           {priceFilter !== "all" && (
             <Badge variant="secondary" className="text-xs">
               {priceFilter === "under-100" && "10만원 미만"}
@@ -145,23 +143,39 @@ const Packages = () => {
             </Badge>
           )}
         </div>
-        <CollapsibleContent className="mt-2">
-          <div className="max-w-md">
-            <Select value={priceFilter} onValueChange={setPriceFilter}>
-              <SelectTrigger>
-                <SelectValue placeholder="모든 가격" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">모든 가격</SelectItem>
-                <SelectItem value="under-100">10만원 미만</SelectItem>
-                <SelectItem value="100-150">10만원 ~ 15만원</SelectItem>
-                <SelectItem value="160-200">16만원 ~ 20만원</SelectItem>
-                <SelectItem value="over-200">20만원 이상</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+        <DropdownMenuContent align="start" className="w-48">
+          <DropdownMenuItem 
+            onClick={() => setPriceFilter("all")}
+            className={priceFilter === "all" ? "bg-primary/10 text-primary" : ""}
+          >
+            모든 가격
+          </DropdownMenuItem>
+          <DropdownMenuItem 
+            onClick={() => setPriceFilter("under-100")}
+            className={priceFilter === "under-100" ? "bg-primary/10 text-primary" : ""}
+          >
+            10만원 미만
+          </DropdownMenuItem>
+          <DropdownMenuItem 
+            onClick={() => setPriceFilter("100-150")}
+            className={priceFilter === "100-150" ? "bg-primary/10 text-primary" : ""}
+          >
+            10만원 ~ 15만원
+          </DropdownMenuItem>
+          <DropdownMenuItem 
+            onClick={() => setPriceFilter("160-200")}
+            className={priceFilter === "160-200" ? "bg-primary/10 text-primary" : ""}
+          >
+            16만원 ~ 20만원
+          </DropdownMenuItem>
+          <DropdownMenuItem 
+            onClick={() => setPriceFilter("over-200")}
+            className={priceFilter === "over-200" ? "bg-primary/10 text-primary" : ""}
+          >
+            20만원 이상
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
           {/* Active Filters & Clear */}
           <div className="flex items-center justify-between mt-6">
