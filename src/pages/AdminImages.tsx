@@ -425,16 +425,14 @@ export default function AdminImages() {
         .from('packages')
         .getPublicUrl(fullPath);
 
-      // Add to existing files
+      // Create file object for thumbnail setting only
       const newFile: StorageFile = {
         name: fileName,
         size: croppedImageBlob.size,
         url: urlData.publicUrl
       };
 
-      setExistingFiles(prev => [...prev, newFile]);
-
-      // Automatically set as thumbnail
+      // Set as thumbnail (but don't add to existing files gallery)
       await setThumbnail(newFile);
 
       toast({
