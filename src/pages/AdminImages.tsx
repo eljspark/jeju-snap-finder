@@ -8,6 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
@@ -26,7 +27,8 @@ import {
   Image as ImageIcon,
   Star,
   StarOff,
-  Crop
+  Crop,
+  Trash2
 } from 'lucide-react';
 import { ImageCropper } from '@/components/ImageCropper';
 
@@ -62,6 +64,8 @@ export default function AdminImages() {
   const [filesLoading, setFilesLoading] = useState(false);
   const [cropperOpen, setCropperOpen] = useState(false);
   const [selectedImageForCrop, setSelectedImageForCrop] = useState<StorageFile | null>(null);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [selectedImageForDelete, setSelectedImageForDelete] = useState<StorageFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -457,6 +461,67 @@ export default function AdminImages() {
     setCropperOpen(true);
   };
 
+  // Open delete confirmation for image
+  const openDeleteConfirm = (file: StorageFile) => {
+    setSelectedImageForDelete(file);
+    setDeleteConfirmOpen(true);
+  };
+
+  // Handle image deletion
+  const handleDeleteImage = async () => {
+    if (!selectedImageForDelete || !selectedPackage) return;
+
+    try {
+      const folderPath = selectedPackage.folder_path || selectedPackage.id;
+      const fullPath = `${folderPath}/${selectedImageForDelete.name}`;
+
+      // Delete from storage
+      const { error } = await supabase.storage
+        .from('packages')
+        .remove([fullPath]);
+
+      if (error) throw error;
+
+      // Remove from local state
+      setExistingFiles(prev => prev.filter(file => file.name !== selectedImageForDelete.name));
+
+      // If this was the thumbnail, clear it from the package
+      const isThumbnail = selectedPackage.thumbnail_url === fullPath ||
+                         selectedPackage.thumbnail_url === selectedImageForDelete.name;
+
+      if (isThumbnail) {
+        const { error: updateError } = await supabase
+          .from('packages')
+          .update({ thumbnail_url: null })
+          .eq('id', selectedPackage.id);
+
+        if (!updateError) {
+          // Update local state
+          setSelectedPackage(prev => prev ? { ...prev, thumbnail_url: null } : null);
+          setPackages(prev => prev.map(pkg => 
+            pkg.id === selectedPackage.id ? { ...pkg, thumbnail_url: null } : pkg
+          ));
+        }
+      }
+
+      toast({
+        title: 'Success',
+        description: `${selectedImageForDelete.name} deleted successfully`
+      });
+
+      setDeleteConfirmOpen(false);
+      setSelectedImageForDelete(null);
+
+    } catch (error: any) {
+      console.error('Error deleting image:', error);
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to delete image',
+        variant: 'destructive'
+      });
+    }
+  };
+
   // Format file size
   const formatFileSize = (bytes?: number) => {
     if (!bytes) return 'Unknown';
@@ -690,15 +755,26 @@ export default function AdminImages() {
                                     </>
                                   )}
                                 </Button>
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => openCropper(file)}
-                                  className="gap-2 bg-background/90 hover:bg-background"
-                                >
-                                  <Crop className="h-4 w-4" />
-                                  Crop Image
-                                </Button>
+                                <div className="flex gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => openCropper(file)}
+                                    className="gap-2 bg-background/90 hover:bg-background flex-1"
+                                  >
+                                    <Crop className="h-4 w-4" />
+                                    Crop
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={() => openDeleteConfirm(file)}
+                                    className="gap-2 bg-destructive/90 hover:bg-destructive"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                    Delete
+                                  </Button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -734,6 +810,52 @@ export default function AdminImages() {
             onCropComplete={handleCropComplete}
           />
         )}
+
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Image</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="text-sm text-muted-foreground mb-4">
+                Are you sure you want to delete this image? This action cannot be undone.
+              </p>
+              {selectedImageForDelete && (
+                <div className="flex items-center gap-3 p-3 border rounded-lg bg-muted/50">
+                  <img
+                    src={selectedImageForDelete.url}
+                    alt={selectedImageForDelete.name}
+                    className="w-12 h-12 object-cover rounded"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{selectedImageForDelete.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatFileSize(selectedImageForDelete.size)}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setDeleteConfirmOpen(false);
+                  setSelectedImageForDelete(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleDeleteImage}
+              >
+                Delete Image
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
