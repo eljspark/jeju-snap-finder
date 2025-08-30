@@ -17,10 +17,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 SnapFinder. 모든 권리 보유. | 제주도를 위해 ❤️로 제작</p>
-        </div>
       </div>
     </footer>
   );
