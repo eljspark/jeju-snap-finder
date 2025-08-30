@@ -107,18 +107,18 @@ const Packages = () => {
               <button
                 key={category.key}
                 onClick={() => selectOccasion(category.key)}
-                className={`flex-shrink-0 flex flex-col items-center p-4 rounded-2xl border-2 transition-all min-w-[100px] ${
+                className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
                   isSelected
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border bg-background hover:border-primary/50"
                 }`}
               >
-                <div className={`p-3 rounded-full mb-2 ${
+                <div className={`p-2 rounded-full mb-1 ${
                   isSelected ? "bg-primary/20" : "bg-muted"
                 }`}>
-                  <Icon className={`h-6 w-6 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                  <Icon className={`h-4 w-4 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
                 </div>
-                <span className="text-sm font-medium">{category.label}</span>
+                <span className="text-xs font-medium">{category.label}</span>
               </button>
             );
           })}
