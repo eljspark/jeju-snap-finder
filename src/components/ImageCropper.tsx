@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import ReactCrop, { Crop, PixelCrop, centerCrop, makeAspectCrop } from 'react-image-crop';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -40,10 +40,55 @@ export function ImageCropper({ isOpen, onClose, imageUrl, imageName, onCropCompl
   const [rotate, setRotate] = useState(0);
   const [aspect, setAspect] = useState<number | undefined>(16 / 9);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [localImageUrl, setLocalImageUrl] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
   
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { toast } = useToast();
+
+  // Load image as blob to avoid CORS issues
+  useEffect(() => {
+    if (!isOpen || !imageUrl) return;
+
+    const loadImageAsBlob = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const localUrl = URL.createObjectURL(blob);
+        setLocalImageUrl(localUrl);
+      } catch (error) {
+        console.error('Error loading image:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load image for cropping',
+          variant: 'destructive'
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadImageAsBlob();
+  }, [isOpen, imageUrl, toast]);
+
+  // Cleanup object URL when dialog closes
+  useEffect(() => {
+    if (!isOpen && localImageUrl) {
+      URL.revokeObjectURL(localImageUrl);
+      setLocalImageUrl('');
+    }
+  }, [isOpen, localImageUrl]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (localImageUrl) {
+        URL.revokeObjectURL(localImageUrl);
+      }
+    };
+  }, [localImageUrl]);
 
   const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     if (aspect) {
@@ -180,24 +225,38 @@ export function ImageCropper({ isOpen, onClose, imageUrl, imageName, onCropCompl
 
           {/* Crop Area */}
           <div className="flex justify-center">
-            <ReactCrop
-              crop={crop}
-              onChange={(_, percentCrop) => setCrop(percentCrop)}
-              onComplete={(c) => setCompletedCrop(c)}
-              aspect={aspect}
-              minWidth={50}
-              minHeight={50}
-              className="max-w-full"
-            >
-              <img
-                ref={imgRef}
-                alt="Crop me"
-                src={imageUrl}
-                style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
-                onLoad={onImageLoad}
-                className="max-w-full max-h-96 object-contain"
-              />
-            </ReactCrop>
+            {isLoading ? (
+              <div className="flex items-center justify-center w-full h-96 bg-muted rounded-lg">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                  <p className="mt-4 text-muted-foreground">Loading image...</p>
+                </div>
+              </div>
+            ) : localImageUrl ? (
+              <ReactCrop
+                crop={crop}
+                onChange={(_, percentCrop) => setCrop(percentCrop)}
+                onComplete={(c) => setCompletedCrop(c)}
+                aspect={aspect}
+                minWidth={50}
+                minHeight={50}
+                className="max-w-full"
+              >
+                <img
+                  ref={imgRef}
+                  alt="Crop me"
+                  src={localImageUrl}
+                  style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                  onLoad={onImageLoad}
+                  className="max-w-full max-h-96 object-contain"
+                  crossOrigin="anonymous"
+                />
+              </ReactCrop>
+            ) : (
+              <div className="flex items-center justify-center w-full h-96 bg-muted rounded-lg">
+                <p className="text-muted-foreground">Failed to load image</p>
+              </div>
+            )}
           </div>
 
           {/* Preview Canvas (hidden) */}
@@ -208,10 +267,10 @@ export function ImageCropper({ isOpen, onClose, imageUrl, imageName, onCropCompl
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={onClose} disabled={isProcessing}>
+          <Button variant="outline" onClick={onClose} disabled={isProcessing || isLoading}>
             Cancel
           </Button>
-          <Button onClick={handleCropSave} disabled={!completedCrop || isProcessing}>
+          <Button onClick={handleCropSave} disabled={!completedCrop || isProcessing || isLoading || !localImageUrl}>
             {isProcessing ? 'Processing...' : 'Crop & Save'}
           </Button>
         </DialogFooter>
