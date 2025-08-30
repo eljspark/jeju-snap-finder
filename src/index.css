@@ -58,7 +58,8 @@
     /* Border radius */
     --radius: 0.75rem;
 
-    /* Package thumbnail height - easily adjustable */
+    /* Package card dimensions - easily adjustable */
+    --package-card-height: 300px; /* Overall card height */
     --package-thumbnail-height: 16rem; /* Current: extra large size */
     /* Available presets:
      * Small: 10rem

@@ -25,9 +25,9 @@ const PackageCard = ({
 }: PackageCardProps) => {
   return (
     <Link to={`/packages/${id}`} className="block">
-      <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
+      <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium flex flex-col ${
         featured ? 'ring-2 ring-primary/20 shadow-medium' : 'shadow-soft hover:shadow-medium'
-      }`}>
+      }`} style={{ height: "var(--package-card-height)" }}>
       <CardHeader className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
@@ -46,8 +46,8 @@ const PackageCard = ({
         </div>
       </CardHeader>
       
-      <CardContent className="p-4 space-y-3">
-        <div className="flex items-center justify-between">
+      <CardContent className="p-4 flex-grow flex flex-col">
+        <div className="flex items-center justify-between mb-auto">
           <h3 className="font-semibold text-lg truncate group-hover:text-primary transition-colors flex-1 mr-2">
             {title}
           </h3>
@@ -57,7 +57,7 @@ const PackageCard = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-3 border-t border-border">
+        <div className="flex items-center justify-between pt-3 border-t border-border mt-auto">
           <div className="text-right">
             <span className="text-2xl font-bold text-primary">₩{price.toLocaleString()}</span>
             <p className="text-xs text-muted-foreground">회당</p>
