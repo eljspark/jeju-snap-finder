@@ -94,7 +94,7 @@ const Packages = () => {
       </section>
 
       {/* Filters Section */}
-      <section className="py-8 bg-muted/50 border-b border-border">
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Category Buttons */}
       <div className="mb-8">
@@ -125,87 +125,88 @@ const Packages = () => {
         </div>
       </div>
 
-      {/* Price Filter */}
-      <DropdownMenu>
-        <div className="flex items-center gap-2">
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="flex items-center gap-2 p-2">
-              <Filter className="h-4 w-4 text-foreground" />
-              <span className="text-sm font-medium">가격대</span>
-            </Button>
-          </DropdownMenuTrigger>
-          {priceFilter !== "all" && (
-            <Badge variant="secondary" className="text-xs">
-              {priceFilter === "under-100" && "10만원 미만"}
-              {priceFilter === "100-150" && "10만원 ~ 15만원"}
-              {priceFilter === "160-200" && "16만원 ~ 20만원"}
-              {priceFilter === "over-200" && "20만원 이상"}
-            </Badge>
-          )}
-        </div>
-        <DropdownMenuContent align="start" className="w-48">
-          <DropdownMenuItem 
-            onClick={() => setPriceFilter("all")}
-            className={priceFilter === "all" ? "bg-primary/10 text-primary" : ""}
-          >
-            모든 가격
-          </DropdownMenuItem>
-          <DropdownMenuItem 
-            onClick={() => setPriceFilter("under-100")}
-            className={priceFilter === "under-100" ? "bg-primary/10 text-primary" : ""}
-          >
-            10만원 미만
-          </DropdownMenuItem>
-          <DropdownMenuItem 
-            onClick={() => setPriceFilter("100-150")}
-            className={priceFilter === "100-150" ? "bg-primary/10 text-primary" : ""}
-          >
-            10만원 ~ 15만원
-          </DropdownMenuItem>
-          <DropdownMenuItem 
-            onClick={() => setPriceFilter("160-200")}
-            className={priceFilter === "160-200" ? "bg-primary/10 text-primary" : ""}
-          >
-            16만원 ~ 20만원
-          </DropdownMenuItem>
-          <DropdownMenuItem 
-            onClick={() => setPriceFilter("over-200")}
-            className={priceFilter === "over-200" ? "bg-primary/10 text-primary" : ""}
-          >
-            20만원 이상
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
           {/* Active Filters & Clear */}
-          <div className="flex items-center justify-between mt-6">
-            <div className="flex items-center gap-2 flex-wrap">
-              {(selectedOccasion !== "" || priceFilter !== "all") && (
-                <>
-                  <span className="text-sm text-muted-foreground">적용된 필터:</span>
-                  {selectedOccasion && (
-                    <Badge variant="secondary">
-                      {selectedOccasion}
-                    </Badge>
-                  )}
-                  {priceFilter !== "all" && (
-                    <Badge variant="secondary">
-                      {priceFilter}
-                    </Badge>
-                  )}
-                  <Button variant="ghost" size="sm" onClick={clearFilters}>
-                    모두 지우기
-                  </Button>
-                </>
+          {(selectedOccasion !== "" || priceFilter !== "all") && (
+            <div className="flex items-center gap-2 flex-wrap mb-6">
+              <span className="text-sm text-muted-foreground">적용된 필터:</span>
+              {selectedOccasion && (
+                <Badge variant="secondary">
+                  {selectedOccasion}
+                </Badge>
               )}
+              {priceFilter !== "all" && (
+                <Badge variant="secondary">
+                  {priceFilter === "under-100" && "10만원 미만"}
+                  {priceFilter === "100-150" && "10만원 ~ 15만원"}
+                  {priceFilter === "160-200" && "16만원 ~ 20만원"}
+                  {priceFilter === "over-200" && "20만원 이상"}
+                </Badge>
+              )}
+              <Button variant="ghost" size="sm" onClick={clearFilters}>
+                모두 지우기
+              </Button>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
       {/* Packages Grid */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Price Filter */}
+          <div className="mb-8">
+            <DropdownMenu>
+              <div className="flex items-center gap-2">
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2 p-2">
+                    <Filter className="h-4 w-4 text-foreground" />
+                    <span className="text-sm font-medium">가격대</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                {priceFilter !== "all" && (
+                  <Badge variant="secondary" className="text-xs">
+                    {priceFilter === "under-100" && "10만원 미만"}
+                    {priceFilter === "100-150" && "10만원 ~ 15만원"}
+                    {priceFilter === "160-200" && "16만원 ~ 20만원"}
+                    {priceFilter === "over-200" && "20만원 이상"}
+                  </Badge>
+                )}
+              </div>
+              <DropdownMenuContent align="start" className="w-48">
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("all")}
+                  className={priceFilter === "all" ? "bg-primary/10 text-primary" : ""}
+                >
+                  모든 가격
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("under-100")}
+                  className={priceFilter === "under-100" ? "bg-primary/10 text-primary" : ""}
+                >
+                  10만원 미만
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("100-150")}
+                  className={priceFilter === "100-150" ? "bg-primary/10 text-primary" : ""}
+                >
+                  10만원 ~ 15만원
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("160-200")}
+                  className={priceFilter === "160-200" ? "bg-primary/10 text-primary" : ""}
+                >
+                  16만원 ~ 20만원
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("over-200")}
+                  className={priceFilter === "over-200" ? "bg-primary/10 text-primary" : ""}
+                >
+                  20만원 이상
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
           {filteredPackages.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPackages.map((pkg) => (
