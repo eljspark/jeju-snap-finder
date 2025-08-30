@@ -154,7 +154,7 @@ const Packages = () => {
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Price Filter */}
-          <div className="mb-8">
+          <div className="mb-8 flex justify-end">
             <DropdownMenu>
               <div className="flex items-center gap-2">
                 <DropdownMenuTrigger asChild>
@@ -172,7 +172,7 @@ const Packages = () => {
                   </Badge>
                 )}
               </div>
-              <DropdownMenuContent align="start" className="w-48">
+              <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem 
                   onClick={() => setPriceFilter("all")}
                   className={priceFilter === "all" ? "bg-primary/10 text-primary" : ""}
