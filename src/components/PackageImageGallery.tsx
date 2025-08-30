@@ -80,7 +80,7 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
   if (loading) {
     return (
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Sample Photos</h3>
+        <h3 className="text-lg font-semibold">대표사진</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <Skeleton key={index} className="aspect-square rounded-lg" />
@@ -112,7 +112,7 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Sample Photos ({images.length})</h3>
+      <h3 className="text-lg font-semibold">대표사진 ({images.length})</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {images.map((image, index) => (
           <Card key={image.name} className="overflow-hidden group cursor-pointer hover:shadow-lg transition-shadow">
