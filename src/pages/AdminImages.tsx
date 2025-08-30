@@ -25,8 +25,10 @@ import {
   FolderOpen,
   Image as ImageIcon,
   Star,
-  StarOff
+  StarOff,
+  Crop
 } from 'lucide-react';
+import { ImageCropper } from '@/components/ImageCropper';
 
 interface Package {
   id: string;
@@ -58,6 +60,8 @@ export default function AdminImages() {
   const [uploadFiles, setUploadFiles] = useState<UploadFile[]>([]);
   const [loading, setLoading] = useState(false);
   const [filesLoading, setFilesLoading] = useState(false);
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [selectedImageForCrop, setSelectedImageForCrop] = useState<StorageFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -400,6 +404,60 @@ export default function AdminImages() {
     }
   };
 
+  // Handle crop completion
+  const handleCropComplete = async (croppedImageBlob: Blob, fileName: string) => {
+    if (!selectedPackage) return;
+
+    try {
+      const folderPath = selectedPackage.folder_path || selectedPackage.id;
+      const fullPath = `${folderPath}/${fileName}`;
+
+      // Upload cropped image
+      const { data, error } = await supabase.storage
+        .from('packages')
+        .upload(fullPath, croppedImageBlob, {
+          upsert: false
+        });
+
+      if (error) throw error;
+
+      const { data: urlData } = supabase.storage
+        .from('packages')
+        .getPublicUrl(fullPath);
+
+      // Add to existing files
+      const newFile: StorageFile = {
+        name: fileName,
+        size: croppedImageBlob.size,
+        url: urlData.publicUrl
+      };
+
+      setExistingFiles(prev => [...prev, newFile]);
+
+      // Automatically set as thumbnail
+      await setThumbnail(newFile);
+
+      toast({
+        title: 'Success',
+        description: 'Cropped image uploaded and set as thumbnail'
+      });
+
+    } catch (error: any) {
+      console.error('Error uploading cropped image:', error);
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to upload cropped image',
+        variant: 'destructive'
+      });
+    }
+  };
+
+  // Open cropper for image
+  const openCropper = (file: StorageFile) => {
+    setSelectedImageForCrop(file);
+    setCropperOpen(true);
+  };
+
   // Format file size
   const formatFileSize = (bytes?: number) => {
     if (!bytes) return 'Unknown';
@@ -614,24 +672,35 @@ export default function AdminImages() {
                               </div>
                             )}
                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                              <Button
-                                size="sm"
-                                variant={isThumbnail ? "secondary" : "default"}
-                                onClick={() => setThumbnail(file)}
-                                className="gap-2"
-                              >
-                                {isThumbnail ? (
-                                  <>
-                                    <StarOff className="h-4 w-4" />
-                                    Current Thumbnail
-                                  </>
-                                ) : (
-                                  <>
-                                    <Star className="h-4 w-4" />
-                                    Set as Thumbnail
-                                  </>
-                                )}
-                              </Button>
+                              <div className="flex flex-col gap-2">
+                                <Button
+                                  size="sm"
+                                  variant={isThumbnail ? "secondary" : "default"}
+                                  onClick={() => setThumbnail(file)}
+                                  className="gap-2"
+                                >
+                                  {isThumbnail ? (
+                                    <>
+                                      <StarOff className="h-4 w-4" />
+                                      Current Thumbnail
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Star className="h-4 w-4" />
+                                      Set as Thumbnail
+                                    </>
+                                  )}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => openCropper(file)}
+                                  className="gap-2 bg-background/90 hover:bg-background"
+                                >
+                                  <Crop className="h-4 w-4" />
+                                  Crop Image
+                                </Button>
+                              </div>
                             </div>
                           </div>
                           <div className="mt-2">
@@ -651,6 +720,20 @@ export default function AdminImages() {
               </CardContent>
             </Card>
           </>
+        )}
+
+        {/* Image Cropper Modal */}
+        {selectedImageForCrop && (
+          <ImageCropper
+            isOpen={cropperOpen}
+            onClose={() => {
+              setCropperOpen(false);
+              setSelectedImageForCrop(null);
+            }}
+            imageUrl={selectedImageForCrop.url}
+            imageName={selectedImageForCrop.name}
+            onCropComplete={handleCropComplete}
+          />
         )}
       </div>
     </div>
