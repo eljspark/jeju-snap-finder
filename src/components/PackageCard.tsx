@@ -24,9 +24,10 @@ const PackageCard = ({
   featured = false,
 }: PackageCardProps) => {
   return (
-    <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
-      featured ? 'ring-2 ring-primary/20 shadow-medium' : 'shadow-soft hover:shadow-medium'
-    }`}>
+    <Link to={`/packages/${id}`} className="block">
+      <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
+        featured ? 'ring-2 ring-primary/20 shadow-medium' : 'shadow-soft hover:shadow-medium'
+      }`}>
       <CardHeader className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
@@ -64,14 +65,13 @@ const PackageCard = ({
             <span className="text-2xl font-bold text-primary">₩{price.toLocaleString()}</span>
             <p className="text-xs text-muted-foreground">회당</p>
           </div>
-          <Button asChild size="sm">
-            <Link to={`/packages/${id}`}>
-              자세히 보기
-            </Link>
+          <Button size="sm">
+            자세히 보기
           </Button>
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 };
 
