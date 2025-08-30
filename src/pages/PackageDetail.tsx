@@ -270,6 +270,15 @@ const PackageDetail = () => {
         </Button>
       </div>
 
+      {/* Copyright Message */}
+      <div className="bg-muted py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-sm text-muted-foreground">
+            모든 사진과 상품의 저작권은 {packageData.title}에 있습니다.
+          </p>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
