@@ -58,6 +58,15 @@
     /* Border radius */
     --radius: 0.75rem;
 
+    /* Package thumbnail height - easily adjustable */
+    --package-thumbnail-height: 12rem; /* Current: medium size */
+    /* Available presets:
+     * Small: 10rem
+     * Medium: 12rem (current)  
+     * Large: 14rem
+     * Extra Large: 16rem
+     */
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;

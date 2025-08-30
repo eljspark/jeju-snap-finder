@@ -32,7 +32,8 @@ const PackageCard = ({
           <img
             src={images[0] || "/placeholder.svg"}
             alt={title}
-            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            style={{ height: "var(--package-thumbnail-height)" }}
           />
           <div className="absolute top-3 right-3 flex gap-1 flex-wrap">
             {occasions.map((occasion, index) => (
