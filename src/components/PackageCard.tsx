@@ -47,14 +47,11 @@ const PackageCard = ({
       </CardHeader>
       
       <CardContent className="p-4 space-y-3">
-        <div className="space-y-2">
-          <h3 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-lg truncate group-hover:text-primary transition-colors flex-1 mr-2">
             {title}
           </h3>
-        </div>
-
-        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1 text-sm text-muted-foreground shrink-0">
             <Clock className="h-4 w-4" />
             <span>{duration}</span>
           </div>

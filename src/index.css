@@ -59,7 +59,7 @@
     --radius: 0.75rem;
 
     /* Package thumbnail height - easily adjustable */
-    --package-thumbnail-height: 14rem; /* Current: large size */
+    --package-thumbnail-height: 16rem; /* Current: extra large size */
     /* Available presets:
      * Small: 10rem
      * Medium: 12rem (current)  
