@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Search, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
+import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
@@ -13,6 +14,7 @@ import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 const Packages = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState("all");
+  const [isPriceFilterOpen, setIsPriceFilterOpen] = useState(false);
 
   // Define occasion categories with icons based on actual database values
   const occasionCategories = [
@@ -126,21 +128,40 @@ const Packages = () => {
       </div>
 
       {/* Price Filter */}
-      <div className="max-w-md">
-        <label className="text-sm font-medium mb-2 block">가격대</label>
-        <Select value={priceFilter} onValueChange={setPriceFilter}>
-          <SelectTrigger>
-            <SelectValue placeholder="모든 가격" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">모든 가격</SelectItem>
-            <SelectItem value="under-100">10만원 미만</SelectItem>
-            <SelectItem value="100-150">10만원 ~ 15만원</SelectItem>
-            <SelectItem value="160-200">16만원 ~ 20만원</SelectItem>
-            <SelectItem value="over-200">20만원 이상</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <Collapsible open={isPriceFilterOpen} onOpenChange={setIsPriceFilterOpen}>
+        <div className="flex items-center gap-2">
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="flex items-center gap-2 p-2">
+              <Filter className="h-4 w-4 text-foreground" />
+              <span className="text-sm font-medium">가격대</span>
+            </Button>
+          </CollapsibleTrigger>
+          {priceFilter !== "all" && (
+            <Badge variant="secondary" className="text-xs">
+              {priceFilter === "under-100" && "10만원 미만"}
+              {priceFilter === "100-150" && "10만원 ~ 15만원"}
+              {priceFilter === "160-200" && "16만원 ~ 20만원"}
+              {priceFilter === "over-200" && "20만원 이상"}
+            </Badge>
+          )}
+        </div>
+        <CollapsibleContent className="mt-2">
+          <div className="max-w-md">
+            <Select value={priceFilter} onValueChange={setPriceFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="모든 가격" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">모든 가격</SelectItem>
+                <SelectItem value="under-100">10만원 미만</SelectItem>
+                <SelectItem value="100-150">10만원 ~ 15만원</SelectItem>
+                <SelectItem value="160-200">16만원 ~ 20만원</SelectItem>
+                <SelectItem value="over-200">20만원 이상</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
 
           {/* Active Filters & Clear */}
           <div className="flex items-center justify-between mt-6">
