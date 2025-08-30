@@ -197,7 +197,7 @@ const PackageDetail = () => {
 
               {/* Description */}
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold">촬영 세션 소개</h2>
+                <h2 className="text-xl font-semibold">상품구성</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {packageData.description}
                 </p>
