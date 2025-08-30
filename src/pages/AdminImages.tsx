@@ -410,7 +410,8 @@ export default function AdminImages() {
 
     try {
       const folderPath = selectedPackage.folder_path || selectedPackage.id;
-      const fullPath = `${folderPath}/${fileName}`;
+      // Upload cropped images to a separate thumbnails subfolder
+      const fullPath = `${folderPath}/thumbnails/${fileName}`;
 
       // Upload cropped image
       const { data, error } = await supabase.storage
@@ -425,14 +426,14 @@ export default function AdminImages() {
         .from('packages')
         .getPublicUrl(fullPath);
 
-      // Create file object for thumbnail setting only
+      // Create file object for thumbnail setting with correct path
       const newFile: StorageFile = {
-        name: fileName,
+        name: `thumbnails/${fileName}`, // Include the thumbnails subfolder in the name
         size: croppedImageBlob.size,
         url: urlData.publicUrl
       };
 
-      // Set as thumbnail (but don't add to existing files gallery)
+      // Set as thumbnail (stored in thumbnails subfolder, won't appear in sample gallery)
       await setThumbnail(newFile);
 
       toast({
