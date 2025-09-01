@@ -1,5 +1,5 @@
 import React from 'react'
-import PackageDetail from 'src/pages/PackageDetail'
+import PackageDetail from '@/pages/PackageDetail'
 
 export { Page }
 
