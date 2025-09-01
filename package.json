@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:dev": "vite build --mode development",
+    "build:dev": "astro build --mode development",
     "lint": "eslint .",
     "preview": "astro preview"
   },
