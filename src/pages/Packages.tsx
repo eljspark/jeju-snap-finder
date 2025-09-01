@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { SEOHead } from "@/components/SEOHead";
+
 import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -108,12 +108,6 @@ const Packages = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
-        title="제주 스냅 사진 전문 업체 찾기 - JejuSnapFinder"
-        description="제주도 여행 스냅 사진 전문 업체를 쉽게 찾아보세요. 커플, 가족, 우정, 만삭, 아기 촬영 전문 스튜디오 정보와 예약까지 한번에!"
-        keywords="제주도 스냅사진, 제주 여행사진, 커플스냅, 가족사진, 제주 사진작가, 제주 포토스튜디오, 제주도 사진촬영"
-        structuredData={structuredData}
-      />
       {/* Hero Section */}
       <section className="pt-12 pb-12 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
