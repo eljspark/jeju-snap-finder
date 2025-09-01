@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
 
 export default defineConfig({
-  site: 'https://snapfinder-jeju.com', // Update with your actual domain
+  site: 'https://snapfinder-jeju.com',
   integrations: [
     react(),
     tailwind({
@@ -14,9 +14,6 @@ export default defineConfig({
     sitemap()
   ],
   output: 'static',
-  adapter: node({
-    mode: 'standalone'
-  }),
   vite: {
     resolve: {
       alias: {

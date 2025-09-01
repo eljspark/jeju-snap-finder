@@ -72,6 +72,5 @@ const description = pkg.details
     "availability": "https://schema.org/InStock"
   },
   "image": pkg.thumbnailUrl,
-  "url": `https://your-site-url.com/packages/${pkg.id}`
+  "url": new URL(`/packages/${pkg.id}`, Astro.site).toString()
 })} />
-</Layout>
