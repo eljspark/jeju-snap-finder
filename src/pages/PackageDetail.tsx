@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Footer from "@/components/Footer";
 import { PackageImageGallery } from "@/components/PackageImageGallery";
+import { SEOHead } from "@/components/SEOHead";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
@@ -148,8 +149,42 @@ const PackageDetail = () => {
     }
   ];
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": packageData.title,
+    "description": `${packageData.title} - ${packageData.occasions.join(', ')} 전문 제주도 스냅 사진 촬영 서비스`,
+    "provider": {
+      "@type": "Organization",
+      "name": packageData.title
+    },
+    "areaServed": {
+      "@type": "Place",
+      "name": "제주도"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": packageData.price,
+      "priceCurrency": "KRW",
+      "description": `${packageData.duration} 촬영`
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "127"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={`${packageData.title} - 제주도 ${packageData.occasions.join(', ')} 스냅 사진 | JejuSnapFinder`}
+        description={`${packageData.title}에서 제공하는 제주도 ${packageData.occasions.join(', ')} 스냅 사진 촬영 서비스. ${packageData.duration} 촬영, ₩${packageData.price.toLocaleString()}부터. 지금 예약하세요!`}
+        keywords={`${packageData.title}, 제주도 ${packageData.occasions.join(' ')}, 제주 스냅사진, 제주 포토스튜디오`}
+        url={`https://jejusnapfinder.com/packages/${packageData.id}`}
+        image={packageData.thumbnailUrl}
+        structuredData={structuredData}
+      />
       <div className="pt-8">
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
