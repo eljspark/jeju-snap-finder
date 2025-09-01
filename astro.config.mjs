@@ -8,7 +8,7 @@ export default defineConfig({
   integrations: [
     react(),
     tailwind({
-      applyBaseStyles: false, // We have our own base styles in index.css
+      applyBaseStyles: false,
     }),
     sitemap()
   ],
@@ -19,5 +19,12 @@ export default defineConfig({
         "@": "/src",
       },
     },
+    css: {
+      preprocessorOptions: {
+        css: {
+          charset: false
+        }
+      }
+    }
   }
 });

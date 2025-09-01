@@ -1,6 +1,4 @@
 ---
-import '../index.css';
-
 export interface Props {
   title: string;
   description?: string;
@@ -11,6 +9,10 @@ export interface Props {
 const { title, description = "제주도 전문 스냅 촬영 서비스", image = "/hero-jeju.jpg", noIndex = false } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
+
+<style>
+  @import '../index.css';
+</style>
 
 <!DOCTYPE html>
 <html lang="ko" class="scroll-smooth">
