@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Footer from "@/components/Footer";
 import { PackageImageGallery } from "@/components/PackageImageGallery";
-
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
@@ -148,32 +147,6 @@ const PackageDetail = () => {
       comment: "Great photographer with excellent knowledge of the best spots at Hyeopjae Beach. Photos turned out beautiful, though weather wasn't perfect that day."
     }
   ];
-
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": packageData.title,
-    "description": `${packageData.title} - ${packageData.occasions.join(', ')} 전문 제주도 스냅 사진 촬영 서비스`,
-    "provider": {
-      "@type": "Organization",
-      "name": packageData.title
-    },
-    "areaServed": {
-      "@type": "Place",
-      "name": "제주도"
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": packageData.price,
-      "priceCurrency": "KRW",
-      "description": `${packageData.duration} 촬영`
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "127"
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">

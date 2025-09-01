@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-
 import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -78,32 +77,6 @@ const Packages = () => {
   const clearFilters = () => {
     setSelectedOccasion("");
     setPriceFilter("all");
-  };
-
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "제주 스냅 사진 전문 업체 목록",
-    "description": "제주도 여행 스냅 사진 전문 업체를 쉽게 찾아보세요. 커플, 가족, 우정, 만삭, 아기 촬영 전문 스튜디오 정보와 예약까지 한번에!",
-    "url": "https://jejusnapfinder.com",
-    "mainEntity": {
-      "@type": "ItemList",
-      "numberOfItems": filteredPackages.length,
-      "itemListElement": filteredPackages.map((pkg, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "item": {
-          "@type": "Service",
-          "name": pkg.title,
-          "description": `제주도 ${pkg.occasions.join(', ')} 스냅 촬영 서비스`,
-          "offers": {
-            "@type": "Offer",
-            "price": pkg.price,
-            "priceCurrency": "KRW"
-          }
-        }
-      }))
-    }
   };
 
   return (
