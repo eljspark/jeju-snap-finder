@@ -9,6 +9,7 @@ import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter } from "lucid
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Packages = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
@@ -185,7 +186,26 @@ const Packages = () => {
             </DropdownMenu>
           </div>
 
-          {filteredPackages.length > 0 ? (
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <Card key={index} className="overflow-hidden">
+                  <div className="aspect-video">
+                    <Skeleton className="w-full h-full" />
+                  </div>
+                  <CardContent className="p-4">
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-2" />
+                    <Skeleton className="h-4 w-1/3 mb-3" />
+                    <div className="flex gap-2">
+                      <Skeleton className="h-5 w-16" />
+                      <Skeleton className="h-5 w-12" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : filteredPackages.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPackages.map((pkg) => (
                 <PackageCard key={pkg.id} {...pkg} />
