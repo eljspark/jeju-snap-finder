@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 
-const Packages = () => {
+const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
   const [priceFilter, setPriceFilter] = useState("all");
 
@@ -27,8 +27,8 @@ const Packages = () => {
     setSelectedOccasion(prev => prev === occasionKey ? "" : occasionKey);
   };
 
-  // Fetch packages from Supabase
-  const { data: allPackages = [], isLoading } = useQuery({
+  // Fetch packages from Supabase with static data fallback
+  const { data: queryPackages = [], isLoading } = useQuery({
     queryKey: ['packages'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -47,7 +47,12 @@ const Packages = () => {
         featured: false,
       }));
     },
+    initialData: staticPackages, // Use static data as initial data
+    staleTime: staticPackages ? 5 * 60 * 1000 : 0, // 5 minutes if we have static data
   });
+
+  // Use static data if available, otherwise use query data
+  const allPackages = staticPackages || queryPackages;
 
   // Filter and sort packages based on filters
   const filteredPackages = allPackages

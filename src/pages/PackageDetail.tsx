@@ -22,11 +22,11 @@ import {
   Phone
 } from "lucide-react";
 
-const PackageDetail = () => {
+const PackageDetail = ({ packageData: staticPackageData }: { packageData?: any }) => {
   const { id } = useParams();
 
-  // Fetch package data from Supabase
-  const { data: packageData, isLoading } = useQuery({
+  // Fetch package data from Supabase with static data fallback
+  const { data: queryPackageData, isLoading } = useQuery({
     queryKey: ['package', id],
     queryFn: async () => {
       if (!id) throw new Error('Package ID is required');
@@ -86,10 +86,58 @@ const PackageDetail = () => {
         ]
       };
     },
-    enabled: !!id
+    enabled: !!id,
+    initialData: staticPackageData ? {
+      ...staticPackageData,
+      folderPath: staticPackageData.folder_path || staticPackageData.id,
+      thumbnailUrl: staticPackageData.thumbnail_url,
+      description: staticPackageData.details || "No description available",
+      reservationUrl: staticPackageData.reservation_url,
+      // Mock data for fields not in database yet
+      photographer: {
+        name: "Kim Min-jun",
+        avatar: "/placeholder.svg",
+        rating: 4.9,
+        reviewCount: 127,
+        experience: "5 years",
+        specialties: ["Couple Photography", "Beach Sessions", "Golden Hour"]
+      },
+      location: "Hyeopjae Beach, Jeju",
+      maxPeople: 2,
+      rating: 4.9,
+      reviewCount: 127,
+      included: [
+        "Professional photography session",
+        "50+ high-resolution edited photos",
+        "Online gallery with download links",
+        "Print release for personal use",
+        "Complimentary location scouting",
+        "Backup photographer available"
+      ],
+      notIncluded: [
+        "Transportation to location",
+        "Hair and makeup services",
+        "Additional outfit changes",
+        "Physical prints (available for purchase)"
+      ],
+      meetingPoint: "Hyeopjae Beach Parking Area",
+      cancellationPolicy: "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
+      tips: [
+        "Best time is 1-2 hours before sunset",
+        "Bring multiple outfit options",
+        "Comfortable shoes for beach walking",
+        "Props and accessories welcome"
+      ]
+    } : undefined,
+    staleTime: staticPackageData ? 5 * 60 * 1000 : 0, // 5 minutes if we have static data
   });
 
-  if (isLoading) {
+  // Use static data if available, otherwise use query data
+  const packageData = staticPackageData ? 
+    queryPackageData || staticPackageData : 
+    queryPackageData;
+
+  if (isLoading && !staticPackageData) {
     return (
       <div className="min-h-screen bg-background">
         <div className="pt-8 flex items-center justify-center min-h-screen">
