@@ -1,8 +1,8 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Home } from "lucide-react";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="max-w-md mx-auto text-center px-4">
@@ -15,7 +15,7 @@ export default function NotFound() {
         </div>
         
         <div className="space-y-3">
-          <Link href="/">
+          <Link to="/">
             <Button className="w-full">
               <Home className="h-4 w-4 mr-2" />
               홈으로 돌아가기
@@ -30,4 +30,6 @@ export default function NotFound() {
       </div>
     </div>
   );
-}
+};
+
+export default NotFound;
