@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { PackageImageGallery } from "@/components/PackageImageGallery";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { formatThumbnailUrl } from "@/lib/utils";
+import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 import { 
   MapPin, 
   Clock, 
@@ -43,7 +43,7 @@ const PackageDetail = () => {
         id: data.id,
         title: data.title,
         price: data.price_krw,
-        duration: data.duration_minutes ? `${data.duration_minutes} minutes` : "Duration TBD",
+        duration: data.duration_minutes ? formatDuration(data.duration_minutes) : "촬영 시간 미정",
         occasions: data.occasions || [],
         folderPath: data.folder_path || data.id,
         thumbnailUrl: formatThumbnailUrl(data.thumbnail_url),
@@ -197,8 +197,8 @@ const PackageDetail = () => {
 
               {/* Description */}
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold">촬영 세션 소개</h2>
-                <p className="text-muted-foreground leading-relaxed">
+                <h2 className="text-xl font-semibold">상품구성</h2>
+                <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                   {packageData.description}
                 </p>
               </div>
