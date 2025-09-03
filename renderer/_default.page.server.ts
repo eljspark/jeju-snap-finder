@@ -67,6 +67,10 @@ async function render(pageContext: PageContextServer) {
 
 function getStaticData(urlPathname: string) {
   try {
+    // Import server-only modules inside function to avoid client bundle inclusion
+    const { readFileSync } = require('fs');
+    const { join } = require('path');
+    
     const dataPath = join(process.cwd(), 'public', 'data');
     
     if (urlPathname === '/') {
