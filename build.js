@@ -13,7 +13,7 @@ try {
 
   // Step 2: Build the site with Vite
   console.log('🔨 Step 2: Building static site...');
-  execSync('vite build', { stdio: 'inherit' });
+  execSync('vite build --mode development', { stdio: 'inherit' });
   console.log('✅ Build complete!\n');
 
   console.log('🎉 SSG build finished successfully!');

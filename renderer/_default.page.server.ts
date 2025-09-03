@@ -59,11 +59,7 @@ async function render(pageContext: PageContextServer) {
     </html>`;
 
   return {
-    documentHtml,
-    pageContext: {
-      ...pageContext,
-      ...staticData
-    }
+    documentHtml
   };
 }
 
@@ -72,15 +68,25 @@ function getStaticData(urlPathname: string) {
     const dataPath = join(process.cwd(), 'public', 'data');
     
     if (urlPathname === '/') {
-      const packagesData = readFileSync(join(dataPath, 'packages.json'), 'utf-8');
-      return { packages: JSON.parse(packagesData) };
+      try {
+        const packagesData = readFileSync(join(dataPath, 'packages.json'), 'utf-8');
+        return { packages: JSON.parse(packagesData) };
+      } catch (error) {
+        console.warn('Packages data not found, using empty array');
+        return { packages: [] };
+      }
     }
     
     const packageMatch = urlPathname.match(/^\/packages\/(.+)$/);
     if (packageMatch) {
       const packageId = packageMatch[1];
-      const packageData = readFileSync(join(dataPath, `package-${packageId}.json`), 'utf-8');
-      return { packageData: JSON.parse(packageData) };
+      try {
+        const packageData = readFileSync(join(dataPath, `package-${packageId}.json`), 'utf-8');
+        return { packageData: JSON.parse(packageData) };
+      } catch (error) {
+        console.warn(`Package data not found for ${packageId}`);
+        return { packageData: null };
+      }
     }
     
     return {};
