@@ -20,7 +20,7 @@ async function render(pageContext: PageContextServer) {
   
   const pageHtml = ReactDOMServer.renderToString(
     React.createElement(StaticRouter, { location: pageContext.urlOriginal }, 
-      React.createElement(Page, { ...pageProps, ...staticData })
+      React.createElement(Page, { pageProps, ...staticData })
     )
   );
 

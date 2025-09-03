@@ -15,7 +15,7 @@ async function render(pageContext: PageContextClient) {
   const staticData = (window as any).__STATIC_DATA__ || {};
   
   const page = React.createElement(BrowserRouter, {}, 
-    React.createElement(Page, { ...pageProps, ...staticData })
+    React.createElement(Page, { pageProps, ...staticData })
   );
   
   const container = document.getElementById('root')!;

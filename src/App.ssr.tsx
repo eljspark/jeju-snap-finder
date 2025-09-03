@@ -7,17 +7,15 @@ import PackageDetail from "./pages/PackageDetail";
 
 const queryClient = new QueryClient();
 
-const App = ({ pageProps }: { pageProps?: any }) => (
+const App = ({ pageProps, packages, packageData }: { pageProps?: any, packages?: any[], packageData?: any }) => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      {pageProps?.packages ? (
-        <Packages packages={pageProps.packages} />
-      ) : pageProps?.packageData ? (
-        <PackageDetail packageData={pageProps.packageData} />
+      {packageData ? (
+        <PackageDetail packageData={packageData} />
       ) : (
-        <Packages />
+        <Packages packages={packages} />
       )}
     </TooltipProvider>
   </QueryClientProvider>
