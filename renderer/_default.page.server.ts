@@ -17,7 +17,9 @@ async function render(pageContext: PageContextServer) {
   const staticData = getStaticData(pageContext.urlPathname);
   
   const pageHtml = ReactDOMServer.renderToString(
-    React.createElement(Page, { ...pageProps, ...staticData })
+    React.createElement(StaticRouter, { location: pageContext.urlOriginal }, 
+      React.createElement(Page, { ...pageProps, ...staticData })
+    )
   );
 
   // Generate meta tags based on page and data
