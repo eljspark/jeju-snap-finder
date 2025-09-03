@@ -1,11 +1,9 @@
 import ReactDOMServer from 'react-dom/server';
 import React from 'react';
-import pkg from 'react-router-dom';
-const { StaticRouter } = pkg;
+import { StaticRouter } from 'react-router-dom/server';
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr/server';
 import type { PageContextServer } from 'vite-plugin-ssr/types';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import '../src/index.css';
 
 export { render };
 export { passToClient };
