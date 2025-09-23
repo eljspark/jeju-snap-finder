@@ -13,8 +13,11 @@ export function formatThumbnailUrl(thumbnailUrl: string | null, supabaseClient?:
     return thumbnailUrl
   }
   
-  // Clean up path by removing leading slashes and fixing double slashes
-  let cleanPath = thumbnailUrl.replace(/^\/+/, '').replace(/\/+/g, '/')
+  // Clean up path by removing leading slashes, fixing double slashes, and encoding spaces
+  let cleanPath = thumbnailUrl
+    .replace(/^\/+/, '')
+    .replace(/\/+/g, '/')
+    .replace(/ /g, '%20')  // URL encode spaces
   
   // Remove 'packages/' prefix if it exists (since it's already in the base URL)
   if (cleanPath.startsWith('packages/')) {

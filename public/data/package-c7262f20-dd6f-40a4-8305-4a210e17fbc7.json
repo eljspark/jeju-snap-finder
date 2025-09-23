@@ -4,11 +4,11 @@
   "price": 120000,
   "duration": "1시간",
   "occasions": ["우정", "커플"],
-  "images": ["https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/c7262f20-dd6f-40a4-8305-4a210e17fbc7/Screenshot 2025-08-23 at 7.04.00 PM.png"],
-  "thumbnail_url": "packages/c7262f20-dd6f-40a4-8305-4a210e17fbc7/Screenshot 2025-08-23 at 7.04.00 PM.png",
+  "images": ["https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c7262f20-dd6f-40a4-8305-4a210e17fbc7/Screenshot%202025-08-23%20at%207.04.00%20PM.png"],
+  "thumbnail_url": "c7262f20-dd6f-40a4-8305-4a210e17fbc7/Screenshot%202025-08-23%20at%207.04.00%20PM.png",
   "details": "1. 원본사진 모두 제공\n2. 작가 셀렉 보정사진 5개 + 고객셀렉 보정사진 5개 = 총 보정사진 10개",
-  "reservation_url": "https://smartstore.naver.com/ordasnap/products/10723621450?nl-query=%EC%98%A4%EB%A5%B4%EB%8B%A4%EC%8A%A4%EB%83%85&nl-ts-pid=j6F7vwqosKwssbE52uVssssssM0-289811&NaPm=ct%3Dmeoc2pns%7Cci%3D2170ea391dd135111d8122295d6bb4de3db11a39%7Ctr%3Dsls%7Csn%3D11117624%7Chk%3D72f43ef8bd55a051bddaf080eacd6d8bac43a69a",
+  "reservation_url": "https://smartstore.naver.com/ordasnap/products/10723621450",
   "sample_image_urls": [],
-  "folder_path": "packages/c7262f20-dd6f-40a4-8305-4a210e17fbc7",
+  "folder_path": "c7262f20-dd6f-40a4-8305-4a210e17fbc7",
   "featured": false
 }
