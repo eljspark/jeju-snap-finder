@@ -13,10 +13,17 @@ export function formatThumbnailUrl(thumbnailUrl: string | null, supabaseClient?:
     return thumbnailUrl
   }
   
+  // Clean up path by removing leading slashes and fixing double slashes
+  let cleanPath = thumbnailUrl.replace(/^\/+/, '').replace(/\/+/g, '/')
+  
+  // Remove 'packages/' prefix if it exists (since it's already in the base URL)
+  if (cleanPath.startsWith('packages/')) {
+    cleanPath = cleanPath.substring('packages/'.length)
+  }
+  
   // If it's just a storage path, convert to full URL
-  // Using the direct public URL format instead of client call
-  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
-  return `${baseUrl}/${thumbnailUrl}`
+  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages"
+  return `${baseUrl}/${cleanPath}`
 }
 
 export function formatDuration(minutes: number): string {
