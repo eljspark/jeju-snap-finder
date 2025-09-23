@@ -4,11 +4,11 @@
   "price": 160000,
   "duration": "1시간",
   "occasions": [],
-  "images": [],
-  "thumbnail_url": null,
+  "images": ["https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/4b3b397a-abcf-4219-b616-4af43f996df8/1756043649620_screenshot_2025-08-24_at_10.52.18_pm.png"],
+  "thumbnail_url": "4b3b397a-abcf-4219-b616-4af43f996df8/1756043649620_screenshot_2025-08-24_at_10.52.18_pm.png",
   "details": "2. 원본 전체제공\n3. 세부보정본 10장",
   "reservation_url": "https://www.instagram.com/ollegamsa_jejusnap/",
   "sample_image_urls": [],
-  "folder_path": "packages/4b3b397a-abcf-4219-b616-4af43f996df8",
+  "folder_path": "4b3b397a-abcf-4219-b616-4af43f996df8",
   "featured": false
 }
