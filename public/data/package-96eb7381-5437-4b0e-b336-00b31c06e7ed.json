@@ -1,0 +1,14 @@
+{
+  "id": "96eb7381-5437-4b0e-b336-00b31c06e7ed",
+  "title": "송그림일기스냅",
+  "price": 120000,
+  "duration": "40분",
+  "occasions": ["가족"],
+  "images": ["https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/96eb7381-5437-4b0e-b336-00b31c06e7ed/songrim4.png"],
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/96eb7381-5437-4b0e-b336-00b31c06e7ed/songrim4.png",
+  "details": "1. 촬영시간: 40분\n2. 색보정된 원본사진 모두제공\n3. 인물스냅으로 추가할 경우 정밀 인물포토샵 3장 제공 (14만원/ 기본금에서 2만원 추가)",
+  "reservation_url": "https://smartstore.naver.com/songgrim/products/3068794207",
+  "sample_image_urls": [],
+  "folder_path": "packages/96eb7381-5437-4b0e-b336-00b31c06e7ed/",
+  "featured": false
+}
