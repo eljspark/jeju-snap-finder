@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, Camera, Users } from "lucide-react";
+import { formatThumbnailUrl } from "@/lib/utils";
 
 interface PackageCardProps {
   id: string;
@@ -11,6 +12,7 @@ interface PackageCardProps {
   duration: string;
   occasions: string[];
   images: string[];
+  thumbnail_url?: string;
   featured?: boolean;
 }
 
@@ -21,8 +23,12 @@ const PackageCard = ({
   duration,
   occasions,
   images,
+  thumbnail_url,
   featured = false,
 }: PackageCardProps) => {
+  // Use first image or formatted thumbnail_url as fallback
+  const imageSource = images[0] || formatThumbnailUrl(thumbnail_url) || "/placeholder.svg";
+  
   return (
     <Link to={`/packages/${id}`} className="block">
       <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
@@ -31,7 +37,7 @@ const PackageCard = ({
       <CardHeader className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
-            src={images[0] || "/placeholder.svg"}
+            src={imageSource}
             alt={title}
             className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
             style={{ height: "var(--package-thumbnail-height)" }}
