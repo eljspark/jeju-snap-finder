@@ -1,3 +1,3 @@
 export async function prerender() {
-  return [{ url: '/' }];
+  return ['/'];
 }

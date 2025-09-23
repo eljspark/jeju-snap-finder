@@ -4,7 +4,7 @@ export async function prerender() {
   try {
     const json = readFileSync(join(process.cwd(), 'public', 'data', 'packages.json'), 'utf-8');
     const ids = JSON.parse(json).map((p) => p.id);
-    return ids.map((id) => ({ url: `/packages/${id}` }));
+    return ids.map((id) => `/packages/${id}`);
   } catch {
     return [];
   }
