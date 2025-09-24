@@ -12,3 +12,34 @@ export async function prerender() {
     return [];
   }
 }
+
+export async function onBeforeRender(pageContext: any) {
+  const { readFileSync } = await import('fs');
+  const { join } = await import('path');
+  
+  const packageId = pageContext.routeParams.id;
+  
+  try {
+    // Try to load static package data
+    const packagePath = join(process.cwd(), 'public', 'data', `package-${packageId}.json`);
+    const packageData = JSON.parse(readFileSync(packagePath, 'utf-8'));
+    
+    return {
+      pageContext: {
+        pageProps: {
+          packageData,
+          packageId,
+        }
+      }
+    };
+  } catch (error) {
+    // If static data doesn't exist, just pass the ID
+    return {
+      pageContext: {
+        pageProps: {
+          packageId,
+        }
+      }
+    };
+  }
+}
