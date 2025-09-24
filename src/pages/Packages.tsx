@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
+import PackageCardSkeleton from "@/components/PackageCardSkeleton";
 import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,8 +28,8 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
     setSelectedOccasion(prev => prev === occasionKey ? "" : occasionKey);
   };
 
-  // Fetch packages from Supabase with static data fallback
-  const { data: queryPackages = [], isLoading } = useQuery({
+  // Fetch packages from Supabase with optimized caching
+  const { data: queryPackages = [], isLoading, isError } = useQuery({
     queryKey: ['packages'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -48,7 +49,11 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       }));
     },
     initialData: staticPackages, // Use static data as initial data
-    staleTime: staticPackages ? 5 * 60 * 1000 : 0, // 5 minutes if we have static data
+    staleTime: staticPackages ? 10 * 60 * 1000 : 30 * 1000, // 10 minutes if static, 30s if not
+    gcTime: 30 * 60 * 1000, // Keep in cache for 30 minutes
+    enabled: !staticPackages || staticPackages.length === 0, // Only query if no static data
+    retry: 2, // Reduce retries for faster failure
+    refetchOnWindowFocus: false, // Prevent unnecessary refetches
   });
 
   // Use static data if available, otherwise use query data
@@ -212,7 +217,13 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
             </DropdownMenu>
           </div>
 
-          {filteredPackages.length > 0 ? (
+          {isLoading && !staticPackages ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <PackageCardSkeleton key={index} />
+              ))}
+            </div>
+          ) : filteredPackages.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPackages.map((pkg) => (
                 <PackageCard key={pkg.id} {...pkg} thumbnail_url={pkg.thumbnail_url} />

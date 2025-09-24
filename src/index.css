@@ -133,3 +133,33 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Performance optimizations */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Image loading optimizations */
+  .image-loading {
+    background: linear-gradient(-90deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 100%);
+    background-size: 400% 400%;
+    animation: loading 1.5s ease-in-out infinite;
+  }
+
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Optimized transform animations */
+  .transform-gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}

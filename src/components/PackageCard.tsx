@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, Camera, Users } from "lucide-react";
 import { formatThumbnailUrl } from "@/lib/utils";
+import { useState } from "react";
 
 interface PackageCardProps {
   id: string;
@@ -26,6 +27,9 @@ const PackageCard = ({
   thumbnail_url,
   featured = false,
 }: PackageCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  
   // Use first image or formatted thumbnail_url as fallback
   const imageSource = images[0] || formatThumbnailUrl(thumbnail_url) || "/placeholder.svg";
   
@@ -36,12 +40,41 @@ const PackageCard = ({
       }`}>
       <CardHeader className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
+          {/* Skeleton/Loading placeholder */}
+          {!imageLoaded && !imageError && (
+            <div 
+              className="w-full bg-muted animate-pulse flex items-center justify-center"
+              style={{ height: "var(--package-thumbnail-height)" }}
+            >
+              <Camera className="h-8 w-8 text-muted-foreground" />
+            </div>
+          )}
+          
           <img
             src={imageSource}
-            alt={title}
-            className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            alt={`${title} 패키지 썸네일`}
+            className={`w-full object-cover transition-all duration-300 group-hover:scale-105 ${
+              imageLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
             style={{ height: "var(--package-thumbnail-height)" }}
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
+            onError={() => {
+              setImageError(true);
+              setImageLoaded(true);
+            }}
           />
+          
+          {/* Error fallback */}
+          {imageError && (
+            <div 
+              className="absolute inset-0 w-full bg-muted flex items-center justify-center"
+              style={{ height: "var(--package-thumbnail-height)" }}
+            >
+              <Camera className="h-8 w-8 text-muted-foreground" />
+            </div>
+          )}
+          
           <div className="absolute top-3 right-3 flex gap-1 flex-wrap">
             {occasions.map((occasion, index) => (
               <Badge key={index} variant="secondary" className="bg-background/90 text-foreground">
