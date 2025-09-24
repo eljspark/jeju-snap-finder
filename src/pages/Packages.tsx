@@ -38,16 +38,34 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       
       if (error) throw error;
       
-      return data.map(pkg => ({
-        id: pkg.id,
-        title: pkg.title,
-        price: pkg.price_krw,
-        duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "촬영 시간 미정",
-        occasions: pkg.occasions || ["Photography"],
-        images: [formatThumbnailUrl(pkg.thumbnail_url)],
-        thumbnail_url: pkg.thumbnail_url,
-        featured: false,
-      }));
+      return data.map(pkg => {
+        // Preserve existing images array or create from thumbnail_url
+        const existingImages = (pkg as any).images;
+        const hasValidImages = existingImages && Array.isArray(existingImages) && existingImages.length > 0;
+        
+        let images = [];
+        if (hasValidImages) {
+          images = existingImages;
+          console.log('📸 Using existing images for', pkg.title, ':', images);
+        } else if (pkg.thumbnail_url) {
+          const formattedUrl = formatThumbnailUrl(pkg.thumbnail_url);
+          images = [formattedUrl];
+          console.log('🔄 Generated image from thumbnail_url for', pkg.title, ':');
+          console.log('  Input:', pkg.thumbnail_url);
+          console.log('  Output:', formattedUrl);
+        }
+
+        return {
+          id: pkg.id,
+          title: pkg.title,
+          price: pkg.price_krw,
+          duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "촬영 시간 미정",
+          occasions: pkg.occasions || ["Photography"],
+          images: images,
+          thumbnail_url: pkg.thumbnail_url,
+          featured: false,
+        };
+      });
     },
     initialData: staticPackages, // Use static data as initial data
     staleTime: staticPackages ? 10 * 60 * 1000 : 30 * 1000, // 10 minutes if static, 30s if not
