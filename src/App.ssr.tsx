@@ -7,13 +7,13 @@ import PackageDetail from "./pages/PackageDetail";
 
 const queryClient = new QueryClient();
 
-const App = ({ pageProps, packages, packageData, packageId }: { pageProps?: any, packages?: any[], packageData?: any, packageId?: string }) => (
+const App = ({ pageProps, packages, packageData }: { pageProps?: any, packages?: any[], packageData?: any }) => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       {packageData ? (
-        <PackageDetail packageData={packageData} packageId={packageId} />
+        <PackageDetail packageData={packageData} />
       ) : (
         <Packages packages={packages} />
       )}

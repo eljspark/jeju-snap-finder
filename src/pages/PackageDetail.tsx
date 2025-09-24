@@ -1,4 +1,4 @@
-// Removed React Router imports - using vite-plugin-ssr routing
+import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,9 +22,8 @@ import {
   Phone
 } from "lucide-react";
 
-const PackageDetail = ({ packageData: staticPackageData, packageId }: { packageData?: any, packageId?: string }) => {
-  // Get ID from props (passed from vite-plugin-ssr) or extract from packageData
-  const id = packageId || staticPackageData?.id;
+const PackageDetail = ({ packageData: staticPackageData }: { packageData?: any }) => {
+  const { id } = useParams();
 
   // Fetch package data from Supabase with static data fallback
   const { data: queryPackageData, isLoading } = useQuery({
@@ -158,9 +157,9 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: { packageD
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-2">패키지를 찾을 수 없습니다</h2>
             <p className="text-muted-foreground mb-4">찾고 있는 패키지가 존재하지 않습니다.</p>
-            <a href="/">
+            <Link to="/packages">
               <Button>패키지 목록으로</Button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -197,7 +196,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: { packageD
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <a href="/" className="hover:text-primary">패키지</a>
+            <Link to="/" className="hover:text-primary">패키지</Link>
             <span>/</span>
             <span className="text-foreground">{packageData.title}</span>
           </div>
