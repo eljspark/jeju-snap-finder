@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,7 +33,7 @@ const PackageCard = ({
   const imageSource = images[0] || formatThumbnailUrl(thumbnail_url) || "/placeholder.svg";
   
   return (
-    <Link to={`/packages/${id}`} className="block">
+    <a href={`/packages/${id}`} className="block">
       <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
         featured ? 'ring-2 ring-primary/20 shadow-medium' : 'shadow-soft hover:shadow-medium'
       }`}>
@@ -106,7 +105,7 @@ const PackageCard = ({
         </div>
       </CardContent>
     </Card>
-    </Link>
+    </a>
   );
 };
 
