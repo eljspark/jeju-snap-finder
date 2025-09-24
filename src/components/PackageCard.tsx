@@ -29,8 +29,8 @@ const PackageCard = ({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   
-  // Use first image or formatted thumbnail_url as fallback
-  const imageSource = images[0] || formatThumbnailUrl(thumbnail_url) || "/placeholder.svg";
+  // Use first image (which is the formatted thumbnail) as primary source
+  const imageSource = images[0] || "/placeholder.svg";
   
   return (
     <a href={`/packages/${id}`} className="block">

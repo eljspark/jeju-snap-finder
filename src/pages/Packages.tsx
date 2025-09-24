@@ -44,7 +44,7 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
         price: pkg.price_krw,
         duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "촬영 시간 미정",
         occasions: pkg.occasions || ["Photography"],
-        images: (pkg as any).images || [],
+        images: [formatThumbnailUrl(pkg.thumbnail_url)],
         thumbnail_url: pkg.thumbnail_url,
         featured: false,
       }));
