@@ -93,7 +93,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
     initialData: staticPackageData ? {
       ...staticPackageData,
       folderPath: staticPackageData.folder_path || staticPackageData.id,
-      thumbnailUrl: staticPackageData.thumbnail_url,
+      thumbnailUrl: formatThumbnailUrl(staticPackageData.thumbnail_url),
       description: staticPackageData.details || "No description available",
       reservationUrl: staticPackageData.reservation_url,
       // Mock data for fields not in database yet

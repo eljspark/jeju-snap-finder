@@ -16,7 +16,9 @@ export function formatThumbnailUrl(thumbnailUrl: string | null, supabaseClient?:
   // If it's just a storage path, convert to full URL
   // Using the direct public URL format instead of client call
   const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
-  return `${baseUrl}/${thumbnailUrl}`
+  // Clean up path to prevent double slashes
+  const cleanPath = thumbnailUrl.replace(/^\/+/, ''); // Remove leading slashes
+  return `${baseUrl}/${cleanPath}`
 }
 
 export function formatDuration(minutes: number): string {
