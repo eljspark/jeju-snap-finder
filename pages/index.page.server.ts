@@ -1,5 +1,5 @@
 export async function prerender() {
-  return ['/'];
+  return [{ url: '/' }];
 }
 
 export async function onBeforeRender() {

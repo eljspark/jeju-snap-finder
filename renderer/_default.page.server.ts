@@ -1,6 +1,5 @@
 import ReactDOMServer from 'react-dom/server';
 import React from 'react';
-import { StaticRouter } from 'react-router-dom/server';
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr/server';
 import type { PageContextServer } from 'vite-plugin-ssr/types';
 import '../src/index.css';
@@ -17,9 +16,7 @@ async function render(pageContext: PageContextServer) {
   const staticData = getStaticData(pageContext.urlPathname);
   
   const pageHtml = ReactDOMServer.renderToString(
-    React.createElement(StaticRouter, { location: pageContext.urlOriginal }, 
-      React.createElement(Page, { pageProps, ...staticData })
-    )
+    React.createElement(Page, { pageProps, ...staticData })
   );
 
   // Generate meta tags based on page and data
@@ -65,11 +62,11 @@ async function render(pageContext: PageContextServer) {
   };
 }
 
-function getStaticData(urlPathname: string) {
+async function getStaticData(urlPathname: string) {
   try {
-    // Import server-only modules inside function to avoid client bundle inclusion
-    const { readFileSync } = require('fs');
-    const { join } = require('path');
+    // Use dynamic imports to avoid client bundle inclusion
+    const { readFileSync } = await import('fs');
+    const { join } = await import('path');
     
     const dataPath = join(process.cwd(), 'public', 'data');
     

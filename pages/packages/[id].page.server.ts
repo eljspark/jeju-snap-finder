@@ -1,10 +1,13 @@
 export async function prerender() {
-  const { readFileSync } = await import('fs');
+  const { readdirSync, readFileSync } = await import('fs');
   const { join } = await import('path');
   try {
-    const json = readFileSync(join(process.cwd(), 'public', 'data', 'packages.json'), 'utf-8');
-    const packages = JSON.parse(json);
-    return packages.map((p) => ({ id: p.id }));
+    const dir = join(process.cwd(), 'public', 'data');
+    const files = readdirSync(dir).filter(f => f.startsWith('package-') && f.endsWith('.json'));
+    return files.map(f => {
+      const pkg = JSON.parse(readFileSync(join(dir, f), 'utf-8'));
+      return { url: `/packages/${pkg.id}` };
+    });
   } catch {
     return [];
   }
