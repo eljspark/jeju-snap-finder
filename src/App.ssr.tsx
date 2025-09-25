@@ -7,18 +7,24 @@ import PackageDetail from "./pages/PackageDetail";
 
 const queryClient = new QueryClient();
 
-const App = ({ pageProps, packages, packageData }: { pageProps?: any, packages?: any[], packageData?: any }) => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      {packageData ? (
-        <PackageDetail packageData={packageData} />
-      ) : (
-        <Packages packages={packages} />
-      )}
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = ({ pageProps, packages, packageData }: { pageProps?: any, packages?: any[], packageData?: any }) => {
+  // Extract data from pageProps (for SSG routes) or use direct props (for fallback)
+  const actualPackageData = pageProps?.packageData || packageData;
+  const actualPackages = pageProps?.packages || packages;
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        {actualPackageData ? (
+          <PackageDetail packageData={actualPackageData} />
+        ) : (
+          <Packages packages={actualPackages} />
+        )}
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
