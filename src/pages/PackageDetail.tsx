@@ -1,4 +1,3 @@
-import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,19 +21,23 @@ import {
   Phone
 } from "lucide-react";
 
-const PackageDetail = ({ packageData: staticPackageData }: { packageData?: any }) => {
-  const { id } = useParams();
+interface PackageDetailProps {
+  packageData?: any;
+  packageId?: string;
+}
+
+const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDetailProps) => {
 
   // Fetch package data from Supabase with static data fallback
   const { data: queryPackageData, isLoading } = useQuery({
-    queryKey: ['package', id],
+    queryKey: ['package', packageId],
     queryFn: async () => {
-      if (!id) throw new Error('Package ID is required');
+      if (!packageId) throw new Error('Package ID is required');
       
       const { data, error } = await supabase
         .from('packages')
         .select('id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, folder_path, reservation_url')
-        .eq('id', id)
+        .eq('id', packageId)
         .single();
       
       if (error) throw error;
@@ -86,7 +89,7 @@ const PackageDetail = ({ packageData: staticPackageData }: { packageData?: any }
         ]
       };
     },
-    enabled: !!id,
+    enabled: !!packageId,
     initialData: staticPackageData ? {
       ...staticPackageData,
       folderPath: staticPackageData.folder_path || staticPackageData.id,
@@ -157,9 +160,9 @@ const PackageDetail = ({ packageData: staticPackageData }: { packageData?: any }
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-2">패키지를 찾을 수 없습니다</h2>
             <p className="text-muted-foreground mb-4">찾고 있는 패키지가 존재하지 않습니다.</p>
-            <Link to="/packages">
+            <a href="/packages">
               <Button>패키지 목록으로</Button>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -196,7 +199,7 @@ const PackageDetail = ({ packageData: staticPackageData }: { packageData?: any }
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-primary">패키지</Link>
+            <a href="/" className="hover:text-primary">패키지</a>
             <span>/</span>
             <span className="text-foreground">{packageData.title}</span>
           </div>
