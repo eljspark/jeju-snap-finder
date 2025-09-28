@@ -4,6 +4,29 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { ssr } from "vite-plugin-ssr/plugin";
 
+// Custom plugin to fetch data before build
+function ssgDataFetchPlugin() {
+  return {
+    name: 'ssg-data-fetch',
+    async buildStart() {
+      console.log('🚀 Starting SSG build with data fetching...');
+      try {
+        // Import and run the data fetching script
+        // @ts-ignore - JS module import
+        const fetchDataModule = await import('./scripts/fetch-data.js');
+        const { fetchPackages } = fetchDataModule as { fetchPackages: () => Promise<void> };
+        console.log('📡 Fetching data from Supabase...');
+        await fetchPackages();
+        console.log('✅ Data fetching complete!');
+      } catch (error) {
+        console.error('❌ Data fetching failed:', error);
+        // Don't fail the build, just log the error
+        console.warn('⚠️ Continuing build without fresh data...');
+      }
+    }
+  };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
@@ -12,6 +35,8 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
+    // Add data fetching before SSR in all modes
+    ssgDataFetchPlugin(),
     ssr({ 
       prerender: true
     }),
