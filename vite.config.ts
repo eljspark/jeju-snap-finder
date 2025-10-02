@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { ssr } from "vite-plugin-ssr/plugin";
-import { execSync } from "node:child_process";
 
 // --- Custom plugin: fetch data before build ---
 function ssgDataFetchPlugin() {
@@ -28,29 +27,6 @@ function ssgDataFetchPlugin() {
   };
 }
 
-// --- Custom plugin: ensure SSR + prerender runs after build ---
-function ssgPrerenderPlugin() {
-  return {
-    name: "ssg-prerender",
-    apply: "build",
-    closeBundle() {
-      console.log("🛠 Running SSR build + prerender...");
-      try {
-        // Step 1: build server bundle
-        execSync("vite build --ssr", { stdio: "inherit" });
-
-        // Step 2: prerender all routes into dist/
-        execSync("npx vite-plugin-ssr prerender", { stdio: "inherit" });
-
-        console.log("✅ Prerender complete!");
-      } catch (error) {
-        console.error("❌ Prerender failed:", error);
-      }
-    },
-  };
-}
-
-// --- Main config ---
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -60,7 +36,6 @@ export default defineConfig(({ mode }) => ({
     react(),
     ssgDataFetchPlugin(),          // fetch Supabase data at build start
     ssr({ prerender: true }),      // enable vite-plugin-ssr prerender
-    ssgPrerenderPlugin(),          // run SSR build + prerender after vite build
     mode === "development" && componentTagger(),
   ].filter(Boolean),
   resolve: {
@@ -69,4 +44,3 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
-
