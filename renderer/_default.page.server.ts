@@ -33,6 +33,13 @@ async function render(pageContext: PageContextServer) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${title}</title>
         <meta name="description" content="${description}" />
+
+          <!-- Google AdSense (global) -->
+        ${dangerouslySkipEscape(
+          import.meta.env.PROD
+            ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3433360229161618" crossorigin="anonymous"></script>`
+            : ''
+        )}
         
         <!-- Open Graph -->
         <meta property="og:title" content="${title}" />
