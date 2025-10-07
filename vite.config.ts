@@ -12,10 +12,9 @@ function ssgDataFetchPlugin() {
       console.log("🚀 Starting SSG build with data fetching...");
       try {
         // Import and run the data fetching script
+        // @ts-ignore - JavaScript module without TypeScript declarations
         const fetchDataModule = await import("./scripts/fetch-data.js");
-        const { fetchPackages } = fetchDataModule as {
-          fetchPackages: () => Promise<void>;
-        };
+        const { fetchPackages } = fetchDataModule;
         console.log("📡 Fetching data from Supabase...");
         await fetchPackages();
         console.log("✅ Data fetching complete!");
