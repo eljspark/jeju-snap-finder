@@ -6,23 +6,20 @@
   "scripts": {
     "prebuild": "node scripts/generate-sitemap.mjs || true",
     "build": "node scripts/fetch-data.mjs && vite build",
-    "dev": "vite",
     "preview": "vite preview --port 5173"
   },
   "dependencies": {
-  "@supabase/supabase-js": "^2.45.0",
-  "@vitejs/plugin-react-swc": "^3.5.0",
-  "react": "^18.3.1",
-  "react-dom": "^18.3.1",
-  "vite": "^5.4.0",
-  "vite-plugin-ssr": "0.4.142"
-},
- "devDependencies": {
-  "tailwindcss": "^3.4.10",
-  "postcss": "^8.4.47",
-  "autoprefixer": "^10.4.20",
-  "typescript": "^5.4.0"
-}
+    "@supabase/supabase-js": "^2.45.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.4.0",
+    "vite-plugin-ssr": "0.4.142"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.10",
+    "postcss": "^8.4.47",
+    "autoprefixer": "^10.4.20",
+    "typescript": "^5.4.0"
   },
   "engines": {
     "node": ">=18"
