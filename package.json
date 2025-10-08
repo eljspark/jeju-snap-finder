@@ -4,21 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild": "node scripts/generate-sitemap.js || true",
+    "build": "node scripts/fetch-data.js && vite build",
     "dev": "vite",
-    "build": "node scripts/generate-sitemap.js && vite build",
-    "preview": "vite preview"
+    "start": "vite"
   },
-  "dependencies": {
-    "@vitejs/plugin-react-swc": "^3.5.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "vite-plugin-ssr": "^0.4.142"
-  },
-  "devDependencies": {
-    "typescript": "^5.3.3",
-    "vite": "^5.4.0"
-  },
-  {
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
     "react": "^18.3.1",
@@ -27,11 +17,7 @@
     "vite-plugin-ssr": "0.4.142"
   },
   "devDependencies": {},
-  "type": "module",
-  "scripts": {
-    "prebuild": "node scripts/generate-sitemap.js || true",
-    "build": "node scripts/fetch-data.js && vite build",
-    "start": "vite"
+  "engines": {
+    "node": ">=18"
   }
 }
-
