@@ -4,6 +4,7 @@
   "price": 120000,
   "duration": "1시간",
   "occasions": ["우정", "커플"],
+  "mood": "energetic_adventurous",
   "images": ["https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/c7262f20-dd6f-40a4-8305-4a210e17fbc7/Screenshot 2025-08-23 at 7.04.00 PM.png"],
   "thumbnail_url": "packages/c7262f20-dd6f-40a4-8305-4a210e17fbc7/Screenshot 2025-08-23 at 7.04.00 PM.png",
   "details": "1. 원본사진 모두 제공\n2. 작가 셀렉 보정사진 5개 + 고객셀렉 보정사진 5개 = 총 보정사진 10개",

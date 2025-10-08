@@ -4,6 +4,7 @@
   "price": 120000,
   "duration": "30분",
   "occasions": ["만삭", "커플"],
+  "mood": "bright_hopeful",
   "images": ["https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/4b3444b3-f8e6-4e59-8169-9963dafffbcc/Screenshot%202025-08-23%20at%207.16.52%20PM.png"],
   "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/4b3444b3-f8e6-4e59-8169-9963dafffbcc/Screenshot%202025-08-23%20at%207.16.52%20PM.png",
   "details": "촬영 상품 구성\n\n1. 촬영시간: 30분\n2. 색보정된 사진 30컷\n3. 세부보정: 작가 셀렉컷 5장 + 미리보기 3장",

@@ -4,6 +4,7 @@
   "price": 180000,
   "duration": "30분",
   "occasions": ["우정", "커플"],
+  "mood": "casual_youthful",
   "images": ["https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/b410b167-4f29-479b-a8c5-0e62dce836ee/cropped_1756564997738_jaylim5.jpeg"],
   "thumbnail_url": "packages/b410b167-4f29-479b-a8c5-0e62dce836ee//cropped_1756564997738_jaylim5.jpeg",
   "details": "1. 촬영시간: 30분\n2. 원본 전체제공 50장 이상\n3. 세부보정본 10장",
