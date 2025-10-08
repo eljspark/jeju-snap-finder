@@ -1,42 +1,44 @@
-/ scripts/fetch-data.js  (CommonJS)
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createClient } from '@supabase/supabase-js';
 
-(async () => {
-  const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  const SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  if (!SUPABASE_URL || !SUPABASE_KEY) {
-    console.warn('[fetch-data] Missing Supabase env vars; skipping data fetch.');
-    process.exit(0);
-  }
+// Init Supabase (read from env on Vercel / .env locally)
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL,
+  process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY
+);
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  const { data: packages, error } = await supabase
-    .from('packages')
-    .select('*');
-
-  if (error) {
-    console.error('[fetch-data] Supabase error:', error);
-    process.exit(0); // don't fail the build
-  }
+async function main() {
+  const { data, error } = await supabase.from('packages').select('*');
+  if (error) throw error;
 
   const outDir = path.join(process.cwd(), 'public', 'data');
-  fs.mkdirSync(outDir, { recursive: true });
+  await fs.mkdir(outDir, { recursive: true });
 
-  fs.writeFileSync(
+  // index
+  await fs.writeFile(
     path.join(outDir, 'packages.json'),
-    JSON.stringify(packages || [], null, 2)
+    JSON.stringify(data || [], null, 2),
+    'utf8'
   );
 
-  for (const p of packages || []) {
-    fs.writeFileSync(
-      path.join(outDir, `package-${p.id}.json`),
-      JSON.stringify(p, null, 2)
+  // detail JSON per package (optional)
+  for (const pkg of data || []) {
+    await fs.writeFile(
+      path.join(outDir, `package-${pkg.id}.json`),
+      JSON.stringify(pkg, null, 2),
+      'utf8'
     );
   }
 
-  console.log(`[fetch-data] Wrote static JSON for ${(packages || []).length} packages`);
-})();
+  console.log('✔ Fetched packages & wrote static JSON');
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
