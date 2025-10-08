@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { writeFileSync, mkdirSync } from 'fs';
-import { dirname, join } from 'path';
+import { writeFileSync, mkdirSync } from 'node.fs';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
