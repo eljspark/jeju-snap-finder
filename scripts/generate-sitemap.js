@@ -1,44 +1,45 @@
-mport fs from 'fs';
-import path from 'path';
+// scripts/generate-sitemap.js  (CommonJS)
+const fs = require('fs');
+const path = require('path');
 
-const baseUrl = 'https://jejusnapfinder.com';
-const dataPath = path.join(process.cwd(), 'public', 'data');
+const SITE = process.env.SITE_URL || 'https://jejusnapfinder.com';
 
-// Find all JSON files that start with "package-"
-const files = fs.readdirSync(dataPath).filter(f => f.startsWith('package-') && f.endsWith('.json'));
+function getPackageIds() {
+  try {
+    const dataDir = path.join(process.cwd(), 'public', 'data');
+    const files = fs.readdirSync(dataDir).filter(f => f.startsWith('package-') && f.endsWith('.json'));
+    return files.map(f => f.slice('package-'.length, -'.json'.length));
+  } catch {
+    return [];
+  }
+}
 
-// Build <url> entries for each package
-const urls = files.map(file => {
-  const id = file.replace('package-', '').replace('.json', '');
-  return `
-  <url>
-    <loc>${baseUrl}/packages/${id}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+function makeUrl({ loc, changefreq, priority }) {
+  return `  <url>
+    <loc>${loc}</loc>
+    ${changefreq ? `<changefreq>${changefreq}</changefreq>` : ''}
+    ${priority ? `<priority>${priority}</priority>` : ''}
   </url>`;
-});
+}
 
-// Add homepage + static pages manually
-const staticPages = [
-  '/',
-  '/about',
-  '/contact',
-  '/privacy',
-  '/terms'
-].map(page => `
-  <url>
-    <loc>${baseUrl}${page}</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>`);
+const urls = [
+  { loc: `${SITE}/`, changefreq: 'weekly', priority: '1.0' },
+  { loc: `${SITE}/privacy`, changefreq: 'yearly', priority: '0.5' },
+  { loc: `${SITE}/terms`, changefreq: 'yearly', priority: '0.5' },
+  { loc: `${SITE}/contact`, changefreq: 'yearly', priority: '0.5' },
+  { loc: `${SITE}/about`, changefreq: 'yearly', priority: '0.5' },
+  ...getPackageIds().map(id => ({
+    loc: `${SITE}/packages/${id}`,
+    changefreq: 'weekly',
+    priority: '0.8'
+  })),
+];
 
-// Combine everything
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${staticPages.join('\n')}
-  ${urls.join('\n')}
-</urlset>`;
+${urls.map(makeUrl).join('\n')}
+</urlset>
+`;
 
-// Write sitemap.xml into /public
-fs.writeFileSync(path.join(process.cwd(), 'public', 'sitemap.xml'), sitemap);
-console.log('✅ sitemap.xml generated successfully');
+fs.writeFileSync(path.join(process.cwd(), 'public', 'sitemap.xml'), xml);
+console.log(`[sitemap] Generated ${urls.length} URLs`);
