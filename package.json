@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prebuild": "node scripts/generate-sitemap.js || true",
-    "build": "node scripts/fetch-data.js && vite build",
+    "prebuild": "node scripts/generate-sitemap.mjs || true",
+    "build": "node scripts/fetch-data.mjs && vite build",
     "dev": "vite",
-    "start": "vite"
+    "preview": "vite preview --port 5173"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
@@ -16,7 +16,9 @@
     "vite": "^5.4.0",
     "vite-plugin-ssr": "0.4.142"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
   "engines": {
     "node": ">=18"
   }
