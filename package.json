@@ -17,8 +17,12 @@
   "vite": "^5.4.0",
   "vite-plugin-ssr": "0.4.142"
 },
-  "devDependencies": {
-    "typescript": "^5.4.0"
+ "devDependencies": {
+  "tailwindcss": "^3.4.10",
+  "postcss": "^8.4.47",
+  "autoprefixer": "^10.4.20",
+  "typescript": "^5.4.0"
+}
   },
   "engines": {
     "node": ">=18"
