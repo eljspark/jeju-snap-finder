@@ -10,12 +10,13 @@
     "preview": "vite preview --port 5173"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "vite": "^5.4.0",
-    "vite-plugin-ssr": "0.4.142"
-  },
+  "@supabase/supabase-js": "^2.45.0",
+  "@vitejs/plugin-react-swc": "^3.5.0",
+  "react": "^18.3.1",
+  "react-dom": "^18.3.1",
+  "vite": "^5.4.0",
+  "vite-plugin-ssr": "0.4.142"
+},
   "devDependencies": {
     "typescript": "^5.4.0"
   },
