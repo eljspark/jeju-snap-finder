@@ -23,11 +23,11 @@ export default defineConfig(async () => {
 
   return {
     plugins,
-    resolve: {
-      alias: {
-        '~': '/src'
-      }
-    },
+   resolve: {
+  alias: {
+    '@': path.resolve(__dirname, './src'),
+  },
+},
     build: {
       outDir: 'dist/client',
     },
