@@ -3,6 +3,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import vps from 'vite-plugin-ssr/plugin'
 
+// ✅ ESM-safe imports for path + __dirname
+import * as path from 'node:path'
+import { fileURLToPath } from 'node:url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 export default defineConfig(async () => {
   const plugins = [react(), vps({ prerender: true })]
 
