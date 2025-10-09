@@ -65,7 +65,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="md:hidden py-4 border-t border">
             <div className="flex flex-col space-y-3">
               <a 
                 href="/" 
