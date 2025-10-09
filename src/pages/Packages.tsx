@@ -115,7 +115,7 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
                 className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
                   isSelected
                     ? "border-primary bg-primary/10 text-primary"
-                    : "border-border bg-background hover:border-primary/50"
+                    : "border bg-background hover:border-primary/50"
                 }`}
               >
                 <div className={`p-2 rounded-full mb-1 ${
