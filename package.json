@@ -13,6 +13,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "vite": "^5.4.0",
+    "@tanstack/react-query": "^5.56.0",
     "vite-plugin-ssr": "0.4.142"
   },
   "devDependencies": {
