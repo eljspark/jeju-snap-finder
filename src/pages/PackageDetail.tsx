@@ -252,14 +252,6 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
                 packageTitle={packageData.title} 
               />
 
-              {/* Description below photos */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold">상품구성</h2>
-                <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                  {packageData.description}
-                </p>
-              </div>
-
             </div>
 
             {/* Right Column - Empty for now */}
@@ -321,8 +313,18 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         </Button>
       </div>
 
+      {/* Package Description */}
+      <div className="bg-muted/50 py-8 border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-semibold mb-4">상품구성</h2>
+          <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+            {packageData.description}
+          </p>
+        </div>
+      </div>
+
       {/* Copyright Message */}
-      <div className="bg-muted py-6">
+      <div className="bg-muted py-6 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-muted-foreground">
             모든 사진과 상품의 저작권은 {packageData.title}에 있습니다.
