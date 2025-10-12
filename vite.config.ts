@@ -14,9 +14,13 @@ export default defineConfig(async () => {
 
   // Try to load lovable-tagger only when it exists (e.g. in Lovable)
   try {
+    // @ts-ignore
     const mod = await import('lovable-tagger')
+    // @ts-ignore
     if (mod?.default) {
+      // @ts-ignore
       plugins.push(mod.default())
+    // @ts-ignore
     } else if (typeof mod === 'function') {
       // in case it exports a function directly
       // @ts-ignore
