@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "node scripts/generate-sitemap.mjs || true",
     "build": "node scripts/fetch-data.mjs && vite build",
+    "build:dev": "vite build --mode development",
     "preview": "vite preview --port 5173"
   },
   "dependencies": {
