@@ -201,7 +201,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
             <a href="/" className="hover:text-primary">패키지</a>
             <span>/</span>
-            <span className="text-foreground">{packageData.title}</span>
+            <span className="text-foreground">{packageData?.title || 'Package'}</span>
           </div>
         </div>
 
@@ -214,13 +214,13 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
               <div className="space-y-4">
                 <div className="relative rounded-lg overflow-hidden">
                   <img 
-                    src={packageData.thumbnailUrl} 
-                    alt={packageData.title}
+                    src={packageData?.thumbnailUrl || '/placeholder.svg'} 
+                    alt={packageData?.title || 'Package'}
                     className="w-full h-96 object-cover"
                   />
                   <div className="absolute top-4 left-4">
                     <div className="flex flex-wrap gap-2">
-                      {packageData.occasions.map((occasion, index) => (
+                      {packageData?.occasions?.map((occasion, index) => (
                         <Badge key={index} className="bg-accent text-accent-foreground">
                           {occasion}
                         </Badge>
@@ -233,14 +233,14 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
               {/* Title & Basic Info */}
               <div className="space-y-4">
                 <div>
-                  <h1 className="text-3xl font-bold mb-2">{packageData.title}</h1>
+                  <h1 className="text-3xl font-bold mb-2">{packageData?.title || 'Package'}</h1>
                   <div className="flex items-center justify-between text-muted-foreground">
                     <div className="flex items-center space-x-1">
                       <Clock className="h-4 w-4" />
-                      <span>{packageData.duration}</span>
+                      <span>{packageData?.duration || '촬영 시간 미정'}</span>
                     </div>
                     <div className="text-2xl font-bold text-primary lg:hidden">
-                      ₩{packageData.price.toLocaleString()}
+                      ₩{packageData?.price?.toLocaleString() || '0'}
                     </div>
                   </div>
                 </div>
@@ -248,8 +248,8 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
 
               {/* Sample Photos Gallery */}
               <PackageImageGallery 
-                folderPath={packageData.folderPath} 
-                packageTitle={packageData.title} 
+                folderPath={packageData?.folderPath || packageData?.id || 'default'} 
+                packageTitle={packageData?.title || 'Package'} 
               />
 
             </div>
@@ -270,7 +270,12 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
             e.preventDefault();
             e.stopPropagation();
             
-            let url = packageData.reservationUrl;
+            let url = packageData?.reservationUrl;
+            
+            if (!url) {
+              alert('예약 URL이 설정되지 않았습니다.');
+              return;
+            }
             
             // Handle different URL formats
             if (url.startsWith('카카오톡:')) {
@@ -318,7 +323,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold mb-4">상품구성</h2>
           <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-            {packageData.description}
+            {packageData?.description || 'No description available'}
           </p>
         </div>
       </div>
@@ -327,7 +332,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       <div className="bg-muted py-6 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-muted-foreground">
-            모든 사진과 상품의 저작권은 {packageData.title}에 있습니다.
+            모든 사진과 상품의 저작권은 {packageData?.title || 'Package'}에 있습니다.
           </p>
         </div>
       </div>
