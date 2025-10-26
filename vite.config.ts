@@ -33,13 +33,13 @@ export default defineConfig(async () => {
 
   return {
     plugins,
-   resolve: {
-  alias: {
-    '@': path.resolve(__dirname, './src'),
-  },
-},
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
     build: {
-      outDir: 'dist/client',
+      outDir: 'dist',
     },
     ssr: {
       noExternal: ['vite-plugin-ssr']
