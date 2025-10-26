@@ -12,6 +12,38 @@ const supabase = createClient(
   process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY
 );
 
+// Helper to format thumbnail URLs consistently
+function formatThumbnailUrl(thumbnailUrl) {
+  if (!thumbnailUrl || thumbnailUrl.trim() === '') {
+    return "/placeholder.svg";
+  }
+  
+  // If it's already a full URL, encode it properly
+  if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
+    try {
+      const urlObj = new URL(thumbnailUrl);
+      const pathParts = urlObj.pathname.split('/');
+      const encodedParts = pathParts.map(part => encodeURIComponent(decodeURIComponent(part)));
+      urlObj.pathname = encodedParts.join('/');
+      return urlObj.toString();
+    } catch {
+      return thumbnailUrl;
+    }
+  }
+  
+  // If it's a relative path, convert to full URL
+  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
+  let cleanPath = thumbnailUrl.replace(/^\/+/, '');
+  
+  if (!cleanPath.startsWith('packages/')) {
+    cleanPath = `packages/${cleanPath}`;
+  }
+  
+  const pathParts = cleanPath.split('/');
+  const encodedParts = pathParts.map(part => encodeURIComponent(part));
+  return `${baseUrl}/${encodedParts.join('/')}`;
+}
+
 async function main() {
   const { data, error } = await supabase.from('packages').select('*');
   if (error) throw error;
@@ -19,15 +51,22 @@ async function main() {
   const outDir = path.join(process.cwd(), 'public', 'data');
   await fs.mkdir(outDir, { recursive: true });
 
+  // Format thumbnail URLs for all packages
+  const formattedData = (data || []).map(pkg => ({
+    ...pkg,
+    thumbnail_url: formatThumbnailUrl(pkg.thumbnail_url),
+    images: pkg.images?.map(img => formatThumbnailUrl(img)) || [formatThumbnailUrl(pkg.thumbnail_url)]
+  }));
+
   // index
   await fs.writeFile(
     path.join(outDir, 'packages.json'),
-    JSON.stringify(data || [], null, 2),
+    JSON.stringify(formattedData, null, 2),
     'utf8'
   );
 
   // detail JSON per package (optional)
-  for (const pkg of data || []) {
+  for (const pkg of formattedData) {
     await fs.writeFile(
       path.join(outDir, `package-${pkg.id}.json`),
       JSON.stringify(pkg, null, 2),
