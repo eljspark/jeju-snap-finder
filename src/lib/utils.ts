@@ -27,12 +27,7 @@ export function formatThumbnailUrl(thumbnailUrl: string | null | undefined, supa
     cleanPath = `packages/${cleanPath}`;
   }
   
-  // URL encode any spaces or special characters in the filename
-  const pathParts = cleanPath.split('/');
-  const encodedParts = pathParts.map(part => encodeURIComponent(part).replace(/%2F/g, '/'));
-  const encodedPath = encodedParts.join('/');
-  
-  return `${baseUrl}/${encodedPath}`;
+  return `${baseUrl}/${cleanPath}`;
 }
 
 export function formatDuration(minutes: number | null | undefined): string {
