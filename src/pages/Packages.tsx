@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter } from "lucide-react";
+import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter, Camera, MapPin, Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
@@ -47,14 +47,12 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
         featured: false,
       }));
     },
-    initialData: staticPackages, // Use static data as initial data
-    staleTime: staticPackages ? 5 * 60 * 1000 : 0, // 5 minutes if we have static data
+    initialData: staticPackages,
+    staleTime: staticPackages ? 5 * 60 * 1000 : 0,
   });
 
-  // Use static data if available, otherwise use query data
   const allPackages = staticPackages || queryPackages;
 
-  // Filter and sort packages based on filters
   const filteredPackages = allPackages
     .filter((pkg) => {
       const matchesOccasion = selectedOccasion === "" || (pkg.occasions as string[]).includes(selectedOccasion);
@@ -68,14 +66,9 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       return matchesOccasion && matchesPrice;
     })
     .sort((a, b) => {
-      // If no occasion is selected, maintain original order
       if (selectedOccasion === "") return 0;
-      
-      // Get the index of selected occasion in each package's occasions array
       const aIndex = (a.occasions as string[]).indexOf(selectedOccasion);
       const bIndex = (b.occasions as string[]).indexOf(selectedOccasion);
-      
-      // Packages with the occasion as first element (index 0) should come first
       return aIndex - bIndex;
     });
 
@@ -98,39 +91,121 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
         </div>
       </section>
 
+      {/* NEW: Informative Content Section for AdSense */}
+      <section className="py-12 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <Camera className="h-8 w-8 text-primary" />
+                  <CardTitle>전문 스냅 촬영</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  제주도의 아름다운 풍경을 배경으로 전문 사진작가가 촬영하는 
+                  스냅 촬영 서비스입니다. 커플, 가족, 우정, 만삭, 아기 등 
+                  다양한 테마의 촬영을 제공합니다.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-8 w-8 text-primary" />
+                  <CardTitle>제주 명소 촬영지</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  협재해수욕장, 성산일출봉, 우도 등 제주도의 유명 관광지에서 
+                  촬영이 진행됩니다. 각 촬영지의 특성에 맞는 최적의 
+                  시간대를 선택하여 아름다운 사진을 남겨드립니다.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <Star className="h-8 w-8 text-primary" />
+                  <CardTitle>고품질 결과물</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  전문 장비로 촬영하고 세심한 보정 작업을 거쳐 
+                  고해상도 사진을 제공합니다. 온라인 갤러리를 통해 
+                  편리하게 다운로드하실 수 있으며, 인화용 파일도 포함됩니다.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* NEW: How to Choose Section */}
+          <div className="mb-12 p-8 bg-muted/50 rounded-lg">
+            <h2 className="text-2xl font-bold mb-4">스냅 촬영 패키지 선택 가이드</h2>
+            <div className="space-y-4 text-muted-foreground">
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">1. 촬영 목적 결정</h3>
+                <p>
+                  커플 여행 기념, 가족 여행 추억, 만삭 기념 등 촬영의 주요 목적을 
+                  먼저 정하세요. 각 패키지는 특정 테마에 최적화되어 있습니다.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">2. 예산 및 시간 확인</h3>
+                <p>
+                  촬영 소요 시간과 예산을 고려하여 적합한 패키지를 선택하세요. 
+                  가격대별 필터를 활용하면 예산에 맞는 패키지를 쉽게 찾을 수 있습니다.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">3. 촬영지 및 시간대 고려</h3>
+                <p>
+                  해변 촬영은 일출이나 일몰 시간대가 가장 아름답고, 
+                  관광지 촬영은 평일 오전이 한적합니다. 원하시는 분위기와 
+                  일정에 맞는 패키지를 선택하세요.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Filters Section */}
       <section className="pt-8 pb-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Category Buttons */}
-      <div className="mb-1">
-        <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-          {occasionCategories.map((category) => {
-            const Icon = category.icon;
-            const isSelected = selectedOccasion === category.key;
-            return (
-              <button
-                key={category.key}
-                onClick={() => selectOccasion(category.key)}
-                className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
-                  isSelected
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border bg-background hover:border-primary/50"
-                }`}
-              >
-                <div className={`p-2 rounded-full mb-1 ${
-                  isSelected ? "bg-primary/20" : "bg-muted"
-                }`}>
-                  <Icon className={`h-4 w-4 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
-                </div>
-                <span className="text-xs font-medium">{category.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+          <div className="mb-1">
+            <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+              {occasionCategories.map((category) => {
+                const Icon = category.icon;
+                const isSelected = selectedOccasion === category.key;
+                return (
+                  <button
+                    key={category.key}
+                    onClick={() => selectOccasion(category.key)}
+                    className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
+                      isSelected
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border bg-background hover:border-primary/50"
+                    }`}
+                  >
+                    <div className={`p-2 rounded-full mb-1 ${
+                      isSelected ? "bg-primary/20" : "bg-muted"
+                    }`}>
+                      <Icon className={`h-4 w-4 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                    </div>
+                    <span className="text-xs font-medium">{category.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-          {/* Active Filters & Clear */}
           {(selectedOccasion !== "" || priceFilter !== "all") && (
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-sm text-muted-foreground">적용된 필터:</span>
@@ -158,7 +233,6 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       {/* Packages Grid */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Price Filter */}
           <div className="mb-8 flex justify-end">
             <DropdownMenu>
               <div className="flex items-center gap-2">
@@ -216,28 +290,3 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPackages.map((pkg) => (
                 <PackageCard key={pkg.id} {...pkg} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-                <Search className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-medium mb-2">패키지가 없습니다</h3>
-              <p className="text-muted-foreground mb-4">
-                필터를 조정해서 더 많은 패키지를 찾아보세요.
-              </p>
-              <Button variant="outline" onClick={clearFilters}>
-                모든 필터 지우기
-              </Button>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default Packages;
