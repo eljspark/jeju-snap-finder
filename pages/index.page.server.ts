@@ -8,29 +8,53 @@ function formatThumbnailUrl(thumbnailUrl: string) {
     return "/placeholder.svg";
   }
   
-  // If it's already a full URL, encode it properly
+  // If it's already a full URL, fix any issues
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
     try {
       const urlObj = new URL(thumbnailUrl);
-      const pathParts = urlObj.pathname.split('/');
-      const encodedParts = pathParts.map(part => encodeURIComponent(decodeURIComponent(part)));
-      urlObj.pathname = encodedParts.join('/');
+      
+      // Remove duplicate slashes and clean up the path
+      let pathname = urlObj.pathname
+        .replace(/\/+/g, '/') // Replace multiple slashes with single slash
+        .split('/')
+        .filter(part => part.length > 0) // Remove empty parts
+        .map(part => {
+          // Decode first in case it's already encoded, then encode properly
+          try {
+            return encodeURIComponent(decodeURIComponent(part));
+          } catch {
+            return encodeURIComponent(part);
+          }
+        })
+        .join('/');
+      
+      urlObj.pathname = '/' + pathname;
       return urlObj.toString();
-    } catch {
-      return thumbnailUrl;
+    } catch (e) {
+      console.error('Error formatting URL:', thumbnailUrl, e);
+      return "/placeholder.svg";
     }
   }
   
   // If it's a relative path, convert to full URL
   const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
-  let cleanPath = thumbnailUrl.replace(/^\/+/, '');
+  let cleanPath = thumbnailUrl
+    .replace(/^\/+/, '') // Remove leading slashes
+    .replace(/\/+/g, '/'); // Remove duplicate slashes
   
   if (!cleanPath.startsWith('packages/')) {
     cleanPath = `packages/${cleanPath}`;
   }
   
-  const pathParts = cleanPath.split('/');
-  const encodedParts = pathParts.map(part => encodeURIComponent(part));
+  const pathParts = cleanPath.split('/').filter(part => part.length > 0);
+  const encodedParts = pathParts.map(part => {
+    try {
+      return encodeURIComponent(decodeURIComponent(part));
+    } catch {
+      return encodeURIComponent(part);
+    }
+  });
+  
   return `${baseUrl}/${encodedParts.join('/')}`;
 }
 
