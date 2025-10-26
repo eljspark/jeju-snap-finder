@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,13 +29,13 @@ const PackageCard = ({
     <CardHeader className="p-0">
       <div className="relative overflow-hidden rounded-t-lg">
         <img
-          src={images[0] || "/placeholder.svg"}
+          src={images?.[0] || "/placeholder.svg"}
           alt={title}
           className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
           style={{ height: "var(--package-thumbnail-height)" }}
         />
         <div className="absolute top-3 right-3 flex gap-1 flex-wrap">
-          {occasions.map((occasion, index) => (
+          {occasions?.map((occasion, index) => (
             <Badge key={index} variant="secondary" className="bg-background/90 text-foreground">
               {occasion}
             </Badge>
@@ -58,7 +57,7 @@ const PackageCard = ({
 
       <div className="flex items-center justify-between pt-3 border-t border">
         <div className="text-right">
-          <span className="text-2xl font-bold text-primary">₩{price.toLocaleString()}</span>
+          <span className="text-2xl font-bold text-primary">₩{price?.toLocaleString()}</span>
         </div>
         <a href={`/packages/${id}`}>
           <Button size="sm">
