@@ -5,23 +5,41 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatThumbnailUrl(thumbnailUrl: string | null, supabaseClient?: any): string {
-  if (!thumbnailUrl) return "/placeholder.svg"
+export function formatThumbnailUrl(thumbnailUrl: string | null | undefined, supabaseClient?: any): string {
+  // Return placeholder if no URL provided
+  if (!thumbnailUrl || thumbnailUrl.trim() === '') {
+    return "/placeholder.svg"
+  }
   
   // If it's already a full URL, return as is
-  if (thumbnailUrl.startsWith("http")) {
+  if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
     return thumbnailUrl
   }
   
   // If it's just a storage path, convert to full URL
-  // Using the direct public URL format instead of client call
   const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
+  
   // Clean up path to prevent double slashes
-  const cleanPath = thumbnailUrl.replace(/^\/+/, ''); // Remove leading slashes
-  return `${baseUrl}/${cleanPath}`
+  let cleanPath = thumbnailUrl.replace(/^\/+/, ''); // Remove leading slashes
+  
+  // If path doesn't start with 'packages/', add it
+  if (!cleanPath.startsWith('packages/')) {
+    cleanPath = `packages/${cleanPath}`;
+  }
+  
+  // URL encode any spaces or special characters in the filename
+  const pathParts = cleanPath.split('/');
+  const encodedParts = pathParts.map(part => encodeURIComponent(part).replace(/%2F/g, '/'));
+  const encodedPath = encodedParts.join('/');
+  
+  return `${baseUrl}/${encodedPath}`;
 }
 
-export function formatDuration(minutes: number): string {
+export function formatDuration(minutes: number | null | undefined): string {
+  if (!minutes || minutes <= 0) {
+    return "촬영 시간 미정"
+  }
+  
   if (minutes < 60) {
     return `${minutes}분`
   }
