@@ -27,7 +27,10 @@ export async function onBeforeRender(pageContext) {
     return {
       pageContext: {
         pageProps: {
-          packageData,
+          packageData: {
+            ...packageData,
+            description: packageData.details
+          },
           packages,
           packageId: id
         }
