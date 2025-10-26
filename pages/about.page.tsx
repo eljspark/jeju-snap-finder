@@ -1,325 +1,304 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
-import { Camera, Heart, Users, Star, MapPin, Clock } from "lucide-react";
+import PackageCard from "@/components/PackageCard";
+import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter, Camera, MapPin, Star } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 
-const About = () => {
+const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
+  const [selectedOccasion, setSelectedOccasion] = useState<string>("");
+  const [priceFilter, setPriceFilter] = useState("all");
+
+  // Define occasion categories with icons based on actual database values
+  const occasionCategories = [
+    { key: "커플", label: "커플", icon: Heart },
+    { key: "가족", label: "가족", icon: Users },
+    { key: "우정", label: "우정", icon: HeartHandshake },
+    { key: "만삭", label: "만삭", icon: Smile },
+    { key: "아기", label: "아기", icon: Baby },
+  ];
+
+  const selectOccasion = (occasionKey: string) => {
+    setSelectedOccasion(prev => prev === occasionKey ? "" : occasionKey);
+  };
+
+  // Fetch packages from Supabase with static data fallback
+  const { data: queryPackages = [], isLoading } = useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*');
+      
+      if (error) throw error;
+      
+      return data.map(pkg => ({
+        id: pkg.id,
+        title: pkg.title,
+        price: pkg.price_krw,
+        duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "촬영 시간 미정",
+        occasions: pkg.occasions || ["Photography"],
+        images: [formatThumbnailUrl(pkg.thumbnail_url)],
+        featured: false,
+      }));
+    },
+    initialData: staticPackages,
+    staleTime: staticPackages ? 5 * 60 * 1000 : 0,
+  });
+
+  const allPackages = staticPackages || queryPackages;
+
+  const filteredPackages = allPackages
+    .filter((pkg) => {
+      const matchesOccasion = selectedOccasion === "" || (pkg.occasions as string[]).includes(selectedOccasion);
+      
+      let matchesPrice = true;
+      if (priceFilter === "under-100") matchesPrice = pkg.price < 100000;
+      else if (priceFilter === "100-150") matchesPrice = pkg.price >= 100000 && pkg.price <= 150000;
+      else if (priceFilter === "160-200") matchesPrice = pkg.price >= 160000 && pkg.price <= 200000;
+      else if (priceFilter === "over-200") matchesPrice = pkg.price > 200000;
+
+      return matchesOccasion && matchesPrice;
+    })
+    .sort((a, b) => {
+      if (selectedOccasion === "") return 0;
+      const aIndex = (a.occasions as string[]).indexOf(selectedOccasion);
+      const bIndex = (b.occasions as string[]).indexOf(selectedOccasion);
+      return aIndex - bIndex;
+    });
+
+  const clearFilters = () => {
+    setSelectedOccasion("");
+    setPriceFilter("all");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="pt-12 pb-12 bg-gradient-card">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-bold mb-4">제주 스냅 파인더 소개</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            제주도에서 가장 아름다운 순간을 남기세요
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-3xl font-bold mb-4">제주 인기스냅들을 한눈에!</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            인스타, 네이버에는 웨딩스냅만 많아서<br />
+            커플스냅, 가족스냅을 찾기 힘들었다면?<br /><br />
+            제가 대신 한곳에 모아드렸어요! 💙
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* About Us */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">서비스 소개</h2>
+      {/* NEW: Informative Content Section for AdSense */}
+      <section className="py-12 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             <Card>
-              <CardContent className="p-6">
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  제주 스냅 파인더는 제주도 전역의 우수한 사진 작가님들이 제공하는 
-                  다양한 스냅 촬영 패키지를 한눈에 비교하고 예약할 수 있는 플랫폼입니다.
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <Camera className="h-8 w-8 text-primary" />
+                  <CardTitle>전문 스냅 촬영</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  제주도의 아름다운 풍경을 배경으로 전문 사진작가가 촬영하는 
+                  스냅 촬영 서비스입니다. 커플, 가족, 우정, 만삭, 아기 등 
+                  다양한 테마의 촬영을 제공합니다.
                 </p>
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  인스타그램이나 네이버에서 웨딩스냅 위주로 검색 결과가 나와 
-                  커플스냅, 가족스냅, 우정스냅을 찾기 어려웠던 경험이 있으신가요? 
-                  저희는 이런 불편함을 해소하기 위해 다양한 테마의 스냅 촬영 
-                  패키지를 한곳에 모아 제공합니다.
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-8 w-8 text-primary" />
+                  <CardTitle>제주 명소 촬영지</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  협재해수욕장, 성산일출봉, 우도 등 제주도의 유명 관광지에서 
+                  촬영이 진행됩니다. 각 촬영지의 특성에 맞는 최적의 
+                  시간대를 선택하여 아름다운 사진을 남겨드립니다.
                 </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  제주도의 아름다운 풍경을 배경으로, 전문 사진 작가님들이 
-                  여러분의 소중한 순간을 특별한 추억으로 남겨드립니다.
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <Star className="h-8 w-8 text-primary" />
+                  <CardTitle>고품질 결과물</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  전문 장비로 촬영하고 세심한 보정 작업을 거쳐 
+                  고해상도 사진을 제공합니다. 온라인 갤러리를 통해 
+                  편리하게 다운로드하실 수 있으며, 인화용 파일도 포함됩니다.
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          {/* Our Services */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">제공 서비스</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <Heart className="h-8 w-8 text-primary" />
-                    <CardTitle>커플 스냅 촬영</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    연인과 함께하는 제주 여행의 로맨틱한 순간을 담아드립니다. 
-                    해변, 카페, 숲길 등 다양한 배경에서 자연스러운 커플 사진을 
-                    촬영합니다.
-                  </p>
-                </CardContent>
-              </Card>
+          {/* NEW: How to Choose Section */}
+          <div className="mb-12 p-8 bg-muted/50 rounded-lg">
+            <h2 className="text-2xl font-bold mb-4">스냅 촬영 패키지 선택 가이드</h2>
+            <div className="space-y-4 text-muted-foreground">
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">1. 촬영 목적 결정</h3>
+                <p>
+                  커플 여행 기념, 가족 여행 추억, 만삭 기념 등 촬영의 주요 목적을 
+                  먼저 정하세요. 각 패키지는 특정 테마에 최적화되어 있습니다.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">2. 예산 및 시간 확인</h3>
+                <p>
+                  촬영 소요 시간과 예산을 고려하여 적합한 패키지를 선택하세요. 
+                  가격대별 필터를 활용하면 예산에 맞는 패키지를 쉽게 찾을 수 있습니다.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">3. 촬영지 및 시간대 고려</h3>
+                <p>
+                  해변 촬영은 일출이나 일몰 시간대가 가장 아름답고, 
+                  관광지 촬영은 평일 오전이 한적합니다. 원하시는 분위기와 
+                  일정에 맞는 패키지를 선택하세요.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <Users className="h-8 w-8 text-primary" />
-                    <CardTitle>가족 스냅 촬영</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    가족과 함께한 제주 여행의 따뜻한 순간들을 기록합니다. 
-                    아이들의 자연스러운 모습부터 가족 단체사진까지 
-                    소중한 추억을 남겨드립니다.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <Camera className="h-8 w-8 text-primary" />
-                    <CardTitle>만삭 및 아기 촬영</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    생애 가장 특별한 순간인 임신과 출산의 기억을 아름답게 
-                    담아드립니다. 제주의 자연 속에서 편안하고 안전한 
-                    촬영을 진행합니다.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <Star className="h-8 w-8 text-primary" />
-                    <CardTitle>우정 및 개인 촬영</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    친구들과의 우정 여행이나 개인 프로필 촬영까지, 
-                    다양한 목적의 촬영을 지원합니다. 자연스럽고 
-                    감각적인 사진으로 당신만의 스토리를 담습니다.
-                  </p>
-                </CardContent>
-              </Card>
+      {/* Filters Section */}
+      <section className="pt-8 pb-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-1">
+            <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+              {occasionCategories.map((category) => {
+                const Icon = category.icon;
+                const isSelected = selectedOccasion === category.key;
+                return (
+                  <button
+                    key={category.key}
+                    onClick={() => selectOccasion(category.key)}
+                    className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
+                      isSelected
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border bg-background hover:border-primary/50"
+                    }`}
+                  >
+                    <div className={`p-2 rounded-full mb-1 ${
+                      isSelected ? "bg-primary/20" : "bg-muted"
+                    }`}>
+                      <Icon className={`h-4 w-4 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                    </div>
+                    <span className="text-xs font-medium">{category.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Why Choose Us */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">왜 제주 스냅 파인더인가요?</h2>
-            <Card>
-              <CardContent className="p-6 space-y-4">
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">1. 다양한 테마의 패키지</h3>
-                  <p className="text-muted-foreground">
-                    커플, 가족, 우정, 만삭, 아기 등 다양한 촬영 테마를 
-                    한눈에 비교하고 선택할 수 있습니다. 각 테마별로 
-                    최적화된 패키지를 제공합니다.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">2. 검증된 전문 작가</h3>
-                  <p className="text-muted-foreground">
-                    제주도에서 활동하는 경험 많은 전문 사진 작가님들의 
-                    포트폴리오와 리뷰를 확인하고 선택할 수 있습니다.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">3. 투명한 가격 정보</h3>
-                  <p className="text-muted-foreground">
-                    모든 패키지의 가격, 촬영 시간, 포함 사항이 명확하게 
-                    표시되어 있어 숨겨진 비용 없이 안심하고 예약할 수 있습니다.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">4. 간편한 예약 시스템</h3>
-                  <p className="text-muted-foreground">
-                    원하는 패키지를 선택하고 작가님과 직접 소통하여 
-                    촬영 일정을 조율할 수 있습니다. 편리한 예약 프로세스로 
-                    시간을 절약하세요.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Popular Locations */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">인기 촬영 장소</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-base">협재 해수욕장</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    에메랄드빛 바다와 흰 모래사장이 아름다운 제주 대표 해변으로, 
-                    특히 일몰 촬영에 최적입니다.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-base">성산일출봉</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    UNESCO 세계자연유산으로 지정된 명소로, 일출 촬영과 
-                    웅장한 자연 배경의 사진에 인기가 많습니다.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-base">카페 거리</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    애월, 한림 등 감성적인 카페들이 모여있는 거리에서 
-                    트렌디하고 세련된 분위기의 촬영이 가능합니다.
-                  </p>
-                </CardContent>
-              </Card>
+          {(selectedOccasion !== "" || priceFilter !== "all") && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm text-muted-foreground">적용된 필터:</span>
+              {selectedOccasion && (
+                <Badge variant="secondary">
+                  {selectedOccasion}
+                </Badge>
+              )}
+              {priceFilter !== "all" && (
+                <Badge variant="secondary">
+                  {priceFilter === "under-100" && "10만원 미만"}
+                  {priceFilter === "100-150" && "10만원 ~ 15만원"}
+                  {priceFilter === "160-200" && "16만원 ~ 20만원"}
+                  {priceFilter === "over-200" && "20만원 이상"}
+                </Badge>
+              )}
+              <Button variant="ghost" size="sm" onClick={clearFilters}>
+                모두 지우기
+              </Button>
             </div>
+          )}
+        </div>
+      </section>
+
+      {/* Packages Grid */}
+      <section className="py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 flex justify-end">
+            <DropdownMenu>
+              <div className="flex items-center gap-2">
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2 p-2">
+                    <Filter className="h-4 w-4 text-foreground" />
+                    <span className="text-sm font-medium">가격대</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                {priceFilter !== "all" && (
+                  <Badge variant="secondary" className="text-xs">
+                    {priceFilter === "under-100" && "10만원 미만"}
+                    {priceFilter === "100-150" && "10만원 ~ 15만원"}
+                    {priceFilter === "160-200" && "16만원 ~ 20만원"}
+                    {priceFilter === "over-200" && "20만원 이상"}
+                  </Badge>
+                )}
+              </div>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("all")}
+                  className={priceFilter === "all" ? "bg-primary/10 text-primary" : ""}
+                >
+                  모든 가격
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("under-100")}
+                  className={priceFilter === "under-100" ? "bg-primary/10 text-primary" : ""}
+                >
+                  10만원 미만
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("100-150")}
+                  className={priceFilter === "100-150" ? "bg-primary/10 text-primary" : ""}
+                >
+                  10만원 ~ 15만원
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("160-200")}
+                  className={priceFilter === "160-200" ? "bg-primary/10 text-primary" : ""}
+                >
+                  16만원 ~ 20만원
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setPriceFilter("over-200")}
+                  className={priceFilter === "over-200" ? "bg-primary/10 text-primary" : ""}
+                >
+                  20만원 이상
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
-          {/* How It Works */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">이용 방법</h2>
-            <Card>
-              <CardContent className="p-6">
-                <div className="space-y-6">
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold">
-                      1
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">패키지 검색 및 선택</h3>
-                      <p className="text-muted-foreground">
-                        촬영 목적, 가격대, 위치 등으로 필터링하여 
-                        원하는 스냅 촬영 패키지를 찾아보세요.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold">
-                      2
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">작가님께 문의</h3>
-                      <p className="text-muted-foreground">
-                        마음에 드는 패키지를 찾으셨다면 '예약하기' 버튼을 
-                        클릭하여 작가님과 직접 상담하세요.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold">
-                      3
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">일정 및 세부사항 조율</h3>
-                      <p className="text-muted-foreground">
-                        촬영 날짜, 시간, 장소, 컨셉 등을 작가님과 
-                        상의하여 확정합니다.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold">
-                      4
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">촬영 진행</h3>
-                      <p className="text-muted-foreground">
-                        약속된 시간과 장소에서 전문 작가님과 함께 
-                        즐겁고 편안한 촬영을 진행합니다.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold">
-                      5
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">사진 수령</h3>
-                      <p className="text-muted-foreground">
-                        2-4주 후 보정이 완료된 고품질 사진을 
-                        온라인 갤러리를 통해 다운로드 받으세요.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Tips for Great Photos */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">멋진 사진을 위한 팁</h2>
-            <Card>
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2">
-                      <Clock className="h-5 w-5 text-primary" />
-                      최적의 촬영 시간
-                    </h3>
-                    <p className="text-muted-foreground">
-                      골든아워(일출 직후, 일몰 1-2시간 전)가 가장 아름다운 
-                      자연광을 제공합니다. 여름철 정오의 강한 햇빛은 피하는 것이 좋습니다.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-2">의상 준비</h3>
-                    <p className="text-muted-foreground">
-                      2-3벌의 의상을 준비하여 다양한 분위기를 연출하세요. 
-                      촬영 장소의 배경색과 대비되는 색상을 선택하면 더욱 돋보입니다.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-2">편안한 자세</h3>
-                    <p className="text-muted-foreground">
-                      어색한 포즈보다는 자연스러운 움직임과 표정이 더 좋은 
-                      사진을 만듭니다. 작가님의 지시에 따라 편안하게 촬영에 임하세요.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-2">소품 활용</h3>
-                    <p className="text-muted-foreground">
-                      풍선, 꽃다발, 모자 등의 소품은 사진에 포인트를 주고 
-                      다양한 연출을 가능하게 합니다. 작가님과 미리 상의해보세요.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          {filteredPackages.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredPackages.map((pkg) => (
+                <PackageCard key={pkg.id} {...pkg} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">
+                선택한 필터에 맞는 패키지가 없습니다.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -328,4 +307,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Packages;
