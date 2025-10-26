@@ -8,7 +8,18 @@ export async function onBeforeRender() {
   
   try {
     const json = readFileSync(join(process.cwd(), 'public', 'data', 'packages.json'), 'utf-8');
-    const packages = JSON.parse(json);
+    const packagesData = JSON.parse(json);
+    
+    // Transform the data to match what the components expect
+    const packages = packagesData.map((pkg: any) => ({
+      id: pkg.id,
+      title: pkg.title,
+      price: pkg.price_krw,
+      duration: pkg.duration_minutes ? `${pkg.duration_minutes}분` : "촬영 시간 미정",
+      occasions: pkg.occasions || [],
+      images: [pkg.thumbnail_url],
+      featured: pkg.featured || false,
+    }));
     
     return {
       pageContext: {
