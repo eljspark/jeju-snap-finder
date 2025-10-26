@@ -290,3 +290,21 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPackages.map((pkg) => (
                 <PackageCard key={pkg.id} {...pkg} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">
+                선택한 필터에 맞는 패키지가 없습니다.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Packages;
