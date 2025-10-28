@@ -18,17 +18,9 @@ function formatThumbnailUrl(thumbnailUrl) {
     return "/placeholder.svg";
   }
   
-  // If it's already a full URL, encode it properly
+  // If it's already a full URL, return as-is
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
-    try {
-      const urlObj = new URL(thumbnailUrl);
-      const pathParts = urlObj.pathname.split('/');
-      const encodedParts = pathParts.map(part => encodeURIComponent(decodeURIComponent(part)));
-      urlObj.pathname = encodedParts.join('/');
-      return urlObj.toString();
-    } catch {
-      return thumbnailUrl;
-    }
+    return thumbnailUrl;
   }
   
   // If it's a relative path, convert to full URL
@@ -39,9 +31,7 @@ function formatThumbnailUrl(thumbnailUrl) {
     cleanPath = `packages/${cleanPath}`;
   }
   
-  const pathParts = cleanPath.split('/');
-  const encodedParts = pathParts.map(part => encodeURIComponent(part));
-  return `${baseUrl}/${encodedParts.join('/')}`;
+  return `${baseUrl}/${cleanPath}`;
 }
 
 async function main() {
