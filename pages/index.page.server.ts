@@ -8,32 +8,9 @@ function formatThumbnailUrl(thumbnailUrl: string) {
     return "/placeholder.svg";
   }
   
-  // If it's already a full URL, fix any issues
+  // If it's already a full URL, return as-is
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
-    try {
-      const urlObj = new URL(thumbnailUrl);
-      
-      // Remove duplicate slashes and clean up the path
-      let pathname = urlObj.pathname
-        .replace(/\/+/g, '/') // Replace multiple slashes with single slash
-        .split('/')
-        .filter(part => part.length > 0) // Remove empty parts
-        .map(part => {
-          // Decode first in case it's already encoded, then encode properly
-          try {
-            return encodeURIComponent(decodeURIComponent(part));
-          } catch {
-            return encodeURIComponent(part);
-          }
-        })
-        .join('/');
-      
-      urlObj.pathname = '/' + pathname;
-      return urlObj.toString();
-    } catch (e) {
-      console.error('Error formatting URL:', thumbnailUrl, e);
-      return "/placeholder.svg";
-    }
+    return thumbnailUrl;
   }
   
   // If it's a relative path, convert to full URL
