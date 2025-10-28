@@ -34,7 +34,7 @@ function formatThumbnailUrl(thumbnailUrl) {
   return `${baseUrl}/${cleanPath}`;
 }
 
-async function main() {
+export async function fetchPackages() {
   const { data, error } = await supabase.from('packages').select('*');
   if (error) throw error;
 
@@ -67,7 +67,10 @@ async function main() {
   console.log('✔ Fetched packages & wrote static JSON');
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+// Run directly if this file is executed
+if (import.meta.url === `file://${process.argv[1]}`) {
+  fetchPackages().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
