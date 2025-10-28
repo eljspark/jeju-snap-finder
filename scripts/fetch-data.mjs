@@ -6,10 +6,10 @@ import { createClient } from '@supabase/supabase-js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Init Supabase (read from env on Vercel / .env locally)
+// Init Supabase with hardcoded credentials (since env vars aren't available during build)
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL,
-  process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY
+  'https://cvuirhzznizztbtclieu.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2dWlyaHp6bml6enRidGNsaWV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzMzI5NDksImV4cCI6MjA3MDkwODk0OX0.NjZ27UkIucha31KdnjeLMl1gxJsuDBouflxmrnRw-EM'
 );
 
 // Helper to format thumbnail URLs consistently
@@ -18,9 +18,9 @@ function formatThumbnailUrl(thumbnailUrl) {
     return "/placeholder.svg";
   }
   
-  // If it's already a full URL, return as-is
+  // If it's already a full URL, fix double /packages/packages/ if present
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
-    return thumbnailUrl;
+    return thumbnailUrl.replace('/packages/packages/', '/packages/');
   }
   
   // If it's a relative path, convert to full URL
