@@ -35,8 +35,13 @@ function formatThumbnailUrl(thumbnailUrl) {
 }
 
 export async function fetchPackages() {
+  console.log('🔄 Fetching packages from Supabase...');
   const { data, error } = await supabase.from('packages').select('*');
-  if (error) throw error;
+  if (error) {
+    console.error('❌ Error fetching packages:', error);
+    throw error;
+  }
+  console.log(`✅ Fetched ${data?.length || 0} packages from database`);
 
   const outDir = path.join(process.cwd(), 'public', 'data');
   await fs.mkdir(outDir, { recursive: true });
@@ -49,11 +54,13 @@ export async function fetchPackages() {
   }));
 
   // index
+  console.log(`📝 Writing packages.json with ${formattedData.length} packages...`);
   await fs.writeFile(
     path.join(outDir, 'packages.json'),
     JSON.stringify(formattedData, null, 2),
     'utf8'
   );
+  console.log('✅ packages.json written successfully');
 
   // detail JSON per package (optional)
   for (const pkg of formattedData) {
