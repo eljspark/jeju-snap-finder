@@ -18,9 +18,9 @@ function formatThumbnailUrl(thumbnailUrl) {
     return "/placeholder.svg";
   }
   
-  // If it's already a full URL, fix double /packages/packages/ if present
+  // If it's already a full URL, return as-is
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
-    return thumbnailUrl.replace('/packages/packages/', '/packages/');
+    return thumbnailUrl;
   }
   
   // If it's a relative path, convert to full URL
