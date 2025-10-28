@@ -11,9 +11,9 @@ export function formatThumbnailUrl(thumbnailUrl: string | null | undefined, supa
     return "/placeholder.svg"
   }
   
-  // If it's already a full URL, return as is
+  // If it's already a full URL, fix any double /packages/packages/ and return
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
-    return thumbnailUrl
+    return thumbnailUrl.replace('/packages/packages/', '/packages/')
   }
   
   // If it's just a storage path, convert to full URL
