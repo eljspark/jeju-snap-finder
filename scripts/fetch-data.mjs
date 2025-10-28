@@ -24,7 +24,7 @@ function formatThumbnailUrl(thumbnailUrl) {
   }
   
   // If it's a relative path, convert to full URL
-  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
+  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public";
   let cleanPath = thumbnailUrl.replace(/^\/+/, '');
   
   if (!cleanPath.startsWith('packages/')) {
