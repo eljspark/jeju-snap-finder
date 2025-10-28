@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { fetchPackages } from './scripts/fetch-data.js';
+import { fetchPackages } from './scripts/fetch-data.mjs';
 
 console.log('🚀 Starting SSG build process...\n');
 
