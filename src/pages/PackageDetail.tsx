@@ -7,18 +7,18 @@ import { PackageImageGallery } from "@/components/PackageImageGallery";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
-import { 
-  MapPin, 
-  Clock, 
-  Camera, 
-  Users, 
-  Star, 
-  Check, 
+import {
+  MapPin,
+  Clock,
+  Camera,
+  Users,
+  Star,
+  Check,
   ChevronLeft,
   Heart,
   Share2,
   MessageCircle,
-  Phone
+  Phone,
 } from "lucide-react";
 
 interface PackageDetailProps {
@@ -27,21 +27,22 @@ interface PackageDetailProps {
 }
 
 const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDetailProps) => {
-
   // Fetch package data from Supabase with static data fallback
   const { data: queryPackageData, isLoading } = useQuery({
-    queryKey: ['package', packageId],
+    queryKey: ["package", packageId],
     queryFn: async () => {
-      if (!packageId) throw new Error('Package ID is required');
-      
+      if (!packageId) throw new Error("Package ID is required");
+
       const { data, error } = await supabase
-        .from('packages')
-        .select('id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, folder_path, reservation_url')
-        .eq('id', packageId)
+        .from("packages")
+        .select(
+          "id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, folder_path, reservation_url",
+        )
+        .eq("id", packageId)
         .single();
-      
+
       if (error) throw error;
-      
+
       return {
         id: data.id,
         title: data.title,
@@ -60,7 +61,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           rating: 4.9,
           reviewCount: 127,
           experience: "5 years",
-          specialties: ["Couple Photography", "Beach Sessions", "Golden Hour"]
+          specialties: ["Couple Photography", "Beach Sessions", "Golden Hour"],
         },
         location: "Hyeopjae Beach, Jeju",
         maxPeople: 2,
@@ -72,84 +73,88 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           "Online gallery with download links",
           "Print release for personal use",
           "Complimentary location scouting",
-          "Backup photographer available"
+          "Backup photographer available",
         ],
         notIncluded: [
           "Transportation to location",
           "Hair and makeup services",
           "Additional outfit changes",
-          "Physical prints (available for purchase)"
+          "Physical prints (available for purchase)",
         ],
         meetingPoint: "Hyeopjae Beach Parking Area",
-        cancellationPolicy: "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
+        cancellationPolicy:
+          "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
         tips: [
           "Best time is 1-2 hours before sunset",
           "Bring multiple outfit options",
           "Comfortable shoes for beach walking",
-          "Props and accessories welcome"
-        ]
+          "Props and accessories welcome",
+        ],
       };
     },
     enabled: !!packageId,
-    initialData: staticPackageData ? {
-      ...staticPackageData,
-      folderPath: staticPackageData.folder_path || staticPackageData.id,
-      thumbnailUrl: formatThumbnailUrl(staticPackageData.thumbnail_url),
-      details: staticPackageData.details || "",
-      description: staticPackageData.description || "",
-      reservationUrl: staticPackageData.reservation_url,
-      // Mock data for fields not in database yet
-      photographer: {
-        name: "Kim Min-jun",
-        avatar: "/placeholder.svg",
-        rating: 4.9,
-        reviewCount: 127,
-        experience: "5 years",
-        specialties: ["Couple Photography", "Beach Sessions", "Golden Hour"]
-      },
-      location: "Hyeopjae Beach, Jeju",
-      maxPeople: 2,
-      rating: 4.9,
-      reviewCount: 127,
-      included: [
-        "Professional photography session",
-        "50+ high-resolution edited photos",
-        "Online gallery with download links",
-        "Print release for personal use",
-        "Complimentary location scouting",
-        "Backup photographer available"
-      ],
-      notIncluded: [
-        "Transportation to location",
-        "Hair and makeup services",
-        "Additional outfit changes",
-        "Physical prints (available for purchase)"
-      ],
-      meetingPoint: "Hyeopjae Beach Parking Area",
-      cancellationPolicy: "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
-      tips: [
-        "Best time is 1-2 hours before sunset",
-        "Bring multiple outfit options",
-        "Comfortable shoes for beach walking",
-        "Props and accessories welcome"
-      ]
-    } : undefined,
+    initialData: staticPackageData
+      ? {
+          ...staticPackageData,
+          folderPath: staticPackageData.folder_path || staticPackageData.id,
+          thumbnailUrl: formatThumbnailUrl(staticPackageData.thumbnail_url),
+          details: staticPackageData.details || "",
+          description: staticPackageData.description || "",
+          reservationUrl: staticPackageData.reservation_url,
+          // Mock data for fields not in database yet
+          photographer: {
+            name: "Kim Min-jun",
+            avatar: "/placeholder.svg",
+            rating: 4.9,
+            reviewCount: 127,
+            experience: "5 years",
+            specialties: ["Couple Photography", "Beach Sessions", "Golden Hour"],
+          },
+          location: "Hyeopjae Beach, Jeju",
+          maxPeople: 2,
+          rating: 4.9,
+          reviewCount: 127,
+          included: [
+            "Professional photography session",
+            "50+ high-resolution edited photos",
+            "Online gallery with download links",
+            "Print release for personal use",
+            "Complimentary location scouting",
+            "Backup photographer available",
+          ],
+          notIncluded: [
+            "Transportation to location",
+            "Hair and makeup services",
+            "Additional outfit changes",
+            "Physical prints (available for purchase)",
+          ],
+          meetingPoint: "Hyeopjae Beach Parking Area",
+          cancellationPolicy:
+            "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
+          tips: [
+            "Best time is 1-2 hours before sunset",
+            "Bring multiple outfit options",
+            "Comfortable shoes for beach walking",
+            "Props and accessories welcome",
+          ],
+        }
+      : undefined,
     staleTime: staticPackageData ? 5 * 60 * 1000 : 0, // 5 minutes if we have static data
   });
 
   // Use static data if available, otherwise use query data
-  const packageData = staticPackageData ? 
-    queryPackageData || staticPackageData : 
-    queryPackageData;
+  const packageData = staticPackageData ? queryPackageData || staticPackageData : queryPackageData;
 
   // Debug log
-  console.log('Package Data:', {
+  console.log("Package Data:", {
     details: packageData?.details,
     description: packageData?.description,
-    staticPackageData: staticPackageData ? {
-      details: staticPackageData.details,
-      description: staticPackageData.description
-    } : null
+    staticPackageData: staticPackageData
+      ? {
+          details: staticPackageData.details,
+          description: staticPackageData.description,
+        }
+      : null,
   });
 
   if (isLoading && !staticPackageData) {
@@ -187,22 +192,25 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       name: "Sarah & John",
       rating: 5,
       date: "2024-01-15",
-      comment: "Absolutely magical experience! Min-jun captured our love story perfectly against the stunning Jeju sunset. The photos are breathtaking and we couldn't be happier!"
+      comment:
+        "Absolutely magical experience! Min-jun captured our love story perfectly against the stunning Jeju sunset. The photos are breathtaking and we couldn't be happier!",
     },
     {
       id: 2,
-      name: "Emma Kim", 
+      name: "Emma Kim",
       rating: 5,
       date: "2024-01-10",
-      comment: "Professional, creative, and so much fun to work with. The beach location was perfect and the golden hour timing made for incredible photos."
+      comment:
+        "Professional, creative, and so much fun to work with. The beach location was perfect and the golden hour timing made for incredible photos.",
     },
     {
       id: 3,
       name: "Michael & Lisa",
       rating: 4,
-      date: "2024-01-05", 
-      comment: "Great photographer with excellent knowledge of the best spots at Hyeopjae Beach. Photos turned out beautiful, though weather wasn't perfect that day."
-    }
+      date: "2024-01-05",
+      comment:
+        "Great photographer with excellent knowledge of the best spots at Hyeopjae Beach. Photos turned out beautiful, though weather wasn't perfect that day.",
+    },
   ];
 
   return (
@@ -211,9 +219,11 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <a href="/" className="hover:text-primary">패키지</a>
+            <a href="/" className="hover:text-primary">
+              패키지
+            </a>
             <span>/</span>
-            <span className="text-foreground">{packageData?.title || 'Package'}</span>
+            <span className="text-foreground">{packageData?.title || "Package"}</span>
           </div>
         </div>
 
@@ -225,9 +235,9 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
               {/* Hero Image with Badges */}
               <div className="space-y-4">
                 <div className="relative rounded-lg overflow-hidden">
-                  <img 
-                    src={packageData?.thumbnailUrl || '/placeholder.svg'} 
-                    alt={packageData?.title || 'Package'}
+                  <img
+                    src={packageData?.thumbnailUrl || "/placeholder.svg"}
+                    alt={packageData?.title || "Package"}
                     className="w-full h-96 object-cover"
                   />
                   <div className="absolute top-4 left-4">
@@ -245,82 +255,77 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
               {/* Title & Basic Info */}
               <div className="space-y-4">
                 <div>
-                  <h1 className="text-3xl font-bold mb-2">{packageData?.title || 'Package'}</h1>
+                  <h1 className="text-3xl font-bold mb-2">{packageData?.title || "Package"}</h1>
                   <div className="flex items-center justify-between text-muted-foreground">
                     <div className="flex items-center space-x-1">
                       <Clock className="h-4 w-4" />
-                      <span>{packageData?.duration || '촬영 시간 미정'}</span>
+                      <span>{packageData?.duration || "촬영 시간 미정"}</span>
                     </div>
                     <div className="text-2xl font-bold text-primary lg:hidden">
-                      ₩{packageData?.price?.toLocaleString() || '0'}
+                      ₩{packageData?.price?.toLocaleString() || "0"}
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Sample Photos Gallery */}
-              {typeof window !== 'undefined' && (
-                <PackageImageGallery 
-                  folderPath={packageData?.folderPath || packageData?.id || 'default'} 
-                  packageTitle={packageData?.title || 'Package'} 
-                />
-              )}
-
+              <PackageImageGallery
+                folderPath={packageData?.folderPath || packageData?.id || "default"}
+                packageTitle={packageData?.title || "Package"}
+              />
             </div>
 
             {/* Right Column - Empty for now */}
-            <div className="space-y-6">
-              {/* Additional content can be added here later */}
-            </div>
+            <div className="space-y-6">{/* Additional content can be added here later */}</div>
           </div>
         </div>
       </div>
 
       {/* Floating Reservation Button */}
       <div className="fixed bottom-0 left-0 right-0 z-50">
-        <Button 
+        <Button
           className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover-scale"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            
+
             let url = packageData?.reservationUrl;
-            
+
             if (!url) {
-              alert('예약 URL이 설정되지 않았습니다.');
+              alert("예약 URL이 설정되지 않았습니다.");
               return;
             }
-            
+
             // Handle different URL formats
-            if (url.startsWith('카카오톡:')) {
+            if (url.startsWith("카카오톡:")) {
               // For KakaoTalk links, show alert with instructions
-              alert(`카카오톡 ID: ${url.replace('카카오톡:', '')}`);
+              alert(`카카오톡 ID: ${url.replace("카카오톡:", "")}`);
               return;
             }
-            
+
             // Ensure URL has proper protocol
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
               url = `https://${url}`;
             }
-            
+
             // Try multiple methods to open the link
             try {
               // Method 1: Direct window.open with specific parameters
-              const newWindow = window.open(url, '_blank', 'noopener=yes,noreferrer=yes,width=800,height=600');
-              
+              const newWindow = window.open(url, "_blank", "noopener=yes,noreferrer=yes,width=800,height=600");
+
               // If window.open fails, try alternative method
-              if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+              if (!newWindow || newWindow.closed || typeof newWindow.closed == "undefined") {
                 // Method 2: Create a temporary link and click it
-                const link = document.createElement('a');
+                const link = document.createElement("a");
                 link.href = url;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
               }
             } catch (error) {
-              console.error('Failed to open reservation link:', error);
+              console.error("Failed to open reservation link:", error);
               // Fallback: Copy URL to clipboard
               navigator.clipboard.writeText(url).then(() => {
                 alert(`링크가 복사되었습니다: ${url}`);
@@ -338,18 +343,14 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           {packageData?.details && (
             <div>
               <h2 className="text-2xl font-semibold mb-4">상품구성</h2>
-              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                {packageData.details}
-              </p>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{packageData.details}</p>
             </div>
           )}
-          
+
           {packageData?.description && (
             <div>
               <h2 className="text-2xl font-semibold mb-4">상품 설명</h2>
-              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                {packageData.description}
-              </p>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{packageData.description}</p>
             </div>
           )}
         </div>
@@ -359,7 +360,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       <div className="bg-muted py-6 border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-muted-foreground">
-            모든 사진과 상품의 저작권은 {packageData?.title || 'Package'}에 있습니다.
+            모든 사진과 상품의 저작권은 {packageData?.title || "Package"}에 있습니다.
           </p>
         </div>
       </div>
