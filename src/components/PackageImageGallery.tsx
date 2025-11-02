@@ -28,13 +28,20 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
         setLoading(true);
         setError(null);
 
+        // Normalize folder path: remove 'packages/' prefix and ensure no trailing slash
+        let normalizedPath = folderPath.replace(/^packages\//, '').replace(/\/$/, '');
+        
+        console.log('Fetching images from path:', normalizedPath);
+
         // List all files in the folder
         const { data: files, error: listError } = await supabase.storage
           .from('packages')
-          .list(folderPath, {
-            limit: 30, // Limit to 30 images as requested
+          .list(normalizedPath, {
+            limit: 30,
             sortBy: { column: 'name', order: 'asc' }
           });
+
+        console.log('Files from storage:', files);
 
         if (listError) {
           throw listError;
@@ -52,8 +59,8 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
 
         // Get public URLs for each image
         const imagePromises = imageFiles.map(async (file) => {
-          // Ensure proper path construction with trailing slash
-          const fullPath = folderPath.endsWith('/') ? `${folderPath}${file.name}` : `${folderPath}/${file.name}`;
+          // Use normalized path for public URL
+          const fullPath = `${normalizedPath}/${file.name}`;
           const { data } = supabase.storage
             .from('packages')
             .getPublicUrl(fullPath);
