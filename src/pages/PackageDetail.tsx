@@ -36,7 +36,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       
       const { data, error } = await supabase
         .from('packages')
-        .select('id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, folder_path, reservation_url')
+        .select('id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, folder_path, reservation_url')
         .eq('id', packageId)
         .single();
       
@@ -50,7 +50,8 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         occasions: data.occasions || [],
         folderPath: data.folder_path || data.id,
         thumbnailUrl: formatThumbnailUrl(data.thumbnail_url),
-        description: data.details || "No description available",
+        details: data.details || "",
+        description: data.description || "",
         reservationUrl: data.reservation_url,
         // Mock data for fields not in database yet
         photographer: {
@@ -94,7 +95,8 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       ...staticPackageData,
       folderPath: staticPackageData.folder_path || staticPackageData.id,
       thumbnailUrl: formatThumbnailUrl(staticPackageData.thumbnail_url),
-      description: staticPackageData.details || "No description available",
+      details: staticPackageData.details || "",
+      description: staticPackageData.description || "",
       reservationUrl: staticPackageData.reservation_url,
       // Mock data for fields not in database yet
       photographer: {
@@ -318,13 +320,26 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         </Button>
       </div>
 
-      {/* Package Description */}
+      {/* Package Details */}
       <div className="bg-muted/50 py-8 border-t border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-semibold mb-4">상품구성</h2>
-          <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-            {packageData?.description || 'No description available'}
-          </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          {packageData?.details && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">상품구성</h2>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                {packageData.details}
+              </p>
+            </div>
+          )}
+          
+          {packageData?.description && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">상품 설명</h2>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                {packageData.description}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
