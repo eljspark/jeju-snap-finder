@@ -59,7 +59,7 @@ const PackageCard = ({
         </div>
       </div>
 
-      <div className="flex items-center justify-between pt-3 border-t border">
+      <div className="flex items-center justify-between pt-3">
         <div className="text-right">
           <span className="text-2xl font-bold text-primary">₩{price?.toLocaleString()}</span>
         </div>
