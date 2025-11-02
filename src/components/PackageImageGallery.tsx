@@ -30,8 +30,6 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
 
         // Normalize folder path: remove 'packages/' prefix and ensure no trailing slash
         let normalizedPath = folderPath.replace(/^packages\//, '').replace(/\/$/, '');
-        
-        console.log('Fetching images from path:', normalizedPath);
 
         // List all files in the folder
         const { data: files, error: listError } = await supabase.storage
@@ -40,8 +38,6 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
             limit: 30,
             sortBy: { column: 'name', order: 'asc' }
           });
-
-        console.log('Files from storage:', files);
 
         if (listError) {
           throw listError;
