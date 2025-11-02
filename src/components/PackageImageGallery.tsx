@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, Image as ImageIcon } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle, Image as ImageIcon } from "lucide-react";
 
 interface PackageImageGalleryProps {
   folderPath: string;
@@ -22,24 +22,20 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
 
   useEffect(() => {
     const fetchImages = async () => {
-      // Skip during SSR
-      if (typeof window === 'undefined') return;
       if (!folderPath) return;
-      
+
       try {
         setLoading(true);
         setError(null);
 
         // Normalize folder path: remove 'packages/' prefix and ensure no trailing slash
-        let normalizedPath = folderPath.replace(/^packages\//, '').replace(/\/$/, '');
+        let normalizedPath = folderPath.replace(/^packages\//, "").replace(/\/$/, "");
 
         // List all files in the folder
-        const { data: files, error: listError } = await supabase.storage
-          .from('packages')
-          .list(normalizedPath, {
-            limit: 30,
-            sortBy: { column: 'name', order: 'asc' }
-          });
+        const { data: files, error: listError } = await supabase.storage.from("packages").list(normalizedPath, {
+          limit: 30,
+          sortBy: { column: "name", order: "asc" },
+        });
 
         if (listError) {
           throw listError;
@@ -51,31 +47,25 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
         }
 
         // Filter for image files only
-        const imageFiles = files.filter(file => 
-          file.name && /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
-        );
+        const imageFiles = files.filter((file) => file.name && /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name));
 
         // Get public URLs for each image
         const imagePromises = imageFiles.map(async (file) => {
           // Use normalized path for public URL
           const fullPath = `${normalizedPath}/${file.name}`;
-          const { data } = supabase.storage
-            .from('packages')
-            .getPublicUrl(fullPath);
-          
+          const { data } = supabase.storage.from("packages").getPublicUrl(fullPath);
+
           return {
             name: file.name,
-            url: data.publicUrl
+            url: data.publicUrl,
           };
         });
 
         const imageUrls = await Promise.all(imagePromises);
         setImages(imageUrls);
       } catch (err) {
-        if (typeof window !== 'undefined') {
-          console.error('Error fetching package images:', err);
-        }
-        setError('Failed to load images');
+        console.error("Error fetching package images:", err);
+        setError("Failed to load images");
       } finally {
         setLoading(false);
       }
@@ -131,7 +121,7 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
                 loading="lazy"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
+                  target.style.display = "none";
                 }}
               />
             </div>
