@@ -142,6 +142,16 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
     queryPackageData || staticPackageData : 
     queryPackageData;
 
+  // Debug log
+  console.log('Package Data:', {
+    details: packageData?.details,
+    description: packageData?.description,
+    staticPackageData: staticPackageData ? {
+      details: staticPackageData.details,
+      description: staticPackageData.description
+    } : null
+  });
+
   if (isLoading && !staticPackageData) {
     return (
       <div className="min-h-screen bg-background">
