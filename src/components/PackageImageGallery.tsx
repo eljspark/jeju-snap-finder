@@ -22,6 +22,8 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
 
   useEffect(() => {
     const fetchImages = async () => {
+      // Skip during SSR
+      if (typeof window === 'undefined') return;
       if (!folderPath) return;
       
       try {
@@ -70,7 +72,9 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
         const imageUrls = await Promise.all(imagePromises);
         setImages(imageUrls);
       } catch (err) {
-        console.error('Error fetching package images:', err);
+        if (typeof window !== 'undefined') {
+          console.error('Error fetching package images:', err);
+        }
         setError('Failed to load images');
       } finally {
         setLoading(false);
