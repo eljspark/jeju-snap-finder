@@ -249,10 +249,12 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
               </div>
 
               {/* Sample Photos Gallery */}
-              <PackageImageGallery 
-                folderPath={packageData?.folderPath || packageData?.id || 'default'} 
-                packageTitle={packageData?.title || 'Package'} 
-              />
+              {typeof window !== 'undefined' && (
+                <PackageImageGallery 
+                  folderPath={packageData?.folderPath || packageData?.id || 'default'} 
+                  packageTitle={packageData?.title || 'Package'} 
+                />
+              )}
 
             </div>
 
