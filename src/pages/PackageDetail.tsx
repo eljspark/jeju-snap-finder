@@ -131,7 +131,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
             "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
         }
       : undefined,
-    staleTime: staticPackageData ? 5 * 60 * 1000 : 0, // 5 minutes if we have static data
+    staleTime: 0, // Always fetch fresh data for real-time updates
   });
 
   // Use static data if available, otherwise use query data
