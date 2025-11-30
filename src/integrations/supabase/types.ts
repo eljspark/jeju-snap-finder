@@ -93,6 +93,8 @@ export type Database = {
         | "순수한"
         | "깨끗한"
         | "아날로그"
+        | "일본감성"
+        | "청춘만화"
       occasion_enum:
         | "커플"
         | "가족"
@@ -246,6 +248,8 @@ export const Constants = {
         "순수한",
         "깨끗한",
         "아날로그",
+        "일본감성",
+        "청춘만화",
       ],
       occasion_enum: [
         "커플",
