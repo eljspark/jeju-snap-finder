@@ -22,6 +22,7 @@ export type Database = {
           duration_minutes: number | null
           folder_path: string | null
           id: string
+          mood: string | null
           occasions: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
           reservation_url: string
@@ -38,6 +39,7 @@ export type Database = {
           duration_minutes?: number | null
           folder_path?: string | null
           id?: string
+          mood?: string | null
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
           reservation_url: string
@@ -54,6 +56,7 @@ export type Database = {
           duration_minutes?: number | null
           folder_path?: string | null
           id?: string
+          mood?: string | null
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw?: number
           reservation_url?: string
