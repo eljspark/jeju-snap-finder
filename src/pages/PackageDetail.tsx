@@ -36,7 +36,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       const { data, error } = await supabase
         .from("packages")
         .select(
-          "id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, mood, folder_path, reservation_url",
+          "id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, mood, folder_path, reservation_url, Tips",
         )
         .eq("id", packageId)
         .single();
@@ -55,6 +55,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         description: data.description || "",
         mood: data.mood || "",
         reservationUrl: data.reservation_url,
+        tips: data.Tips || "",
         // Mock data for fields not in database yet
         photographer: {
           name: "Kim Min-jun",
@@ -85,12 +86,6 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         meetingPoint: "Hyeopjae Beach Parking Area",
         cancellationPolicy:
           "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
-        tips: [
-          "Best time is 1-2 hours before sunset",
-          "Bring multiple outfit options",
-          "Comfortable shoes for beach walking",
-          "Props and accessories welcome",
-        ],
       };
     },
     enabled: !!packageId,
@@ -103,6 +98,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           description: staticPackageData.description || "",
           mood: staticPackageData.mood || "",
           reservationUrl: staticPackageData.reservation_url,
+          tips: staticPackageData.Tips || "",
           // Mock data for fields not in database yet
           photographer: {
             name: "Kim Min-jun",
@@ -133,12 +129,6 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           meetingPoint: "Hyeopjae Beach Parking Area",
           cancellationPolicy:
             "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
-          tips: [
-            "Best time is 1-2 hours before sunset",
-            "Bring multiple outfit options",
-            "Comfortable shoes for beach walking",
-            "Props and accessories welcome",
-          ],
         }
       : undefined,
     staleTime: staticPackageData ? 5 * 60 * 1000 : 0, // 5 minutes if we have static data
@@ -366,6 +356,13 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
                   </Badge>
                 ))}
               </div>
+            </div>
+          )}
+
+          {packageData?.tips && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">촬영팁</h2>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{packageData.tips}</p>
             </div>
           )}
         </div>
