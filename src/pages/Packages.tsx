@@ -48,7 +48,7 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       }));
     },
     initialData: staticPackages,
-    staleTime: staticPackages ? 5 * 60 * 1000 : 0,
+    staleTime: 0, // Always fetch fresh data for real-time updates
   });
 
   const allPackages = staticPackages || queryPackages;
