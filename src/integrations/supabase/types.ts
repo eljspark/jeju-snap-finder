@@ -89,6 +89,7 @@ export type Database = {
         | "활기찬"
         | "차분한"
         | "몽환적인"
+        | "고요한"
       occasion_enum:
         | "커플"
         | "가족"
@@ -238,6 +239,7 @@ export const Constants = {
         "활기찬",
         "차분한",
         "몽환적인",
+        "고요한",
       ],
       occasion_enum: [
         "커플",
