@@ -32,6 +32,12 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
     ? window.location.pathname.split('/packages/')[1] 
     : undefined);
 
+  console.log("PackageId Debug:", {
+    propPackageId: packageId,
+    extractedPackageId,
+    pathname: typeof window !== 'undefined' ? window.location.pathname : 'SSR',
+  });
+
   // Fetch package data from Supabase with static data fallback
   const { data: queryPackageData, isLoading } = useQuery({
     queryKey: ["package", extractedPackageId],
@@ -47,6 +53,13 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         .single();
 
       if (error) throw error;
+
+      console.log("Query Result from Supabase:", {
+        id: data.id,
+        title: data.title,
+        Tips: data.Tips,
+        hasTips: !!data.Tips,
+      });
 
       return {
         id: data.id,
@@ -143,13 +156,15 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
   const packageData = queryPackageData || staticPackageData;
 
   // Debug log
-  console.log("Package Data Debug:", {
+  console.log("Final Package Data Debug:", {
     hasQueryData: !!queryPackageData,
     hasStaticData: !!staticPackageData,
+    usingQueryData: !!queryPackageData,
     tips: packageData?.tips,
     title: packageData?.title,
     queryTips: queryPackageData?.tips,
     staticTips: staticPackageData?.Tips || staticPackageData?.tips,
+    allKeys: packageData ? Object.keys(packageData) : [],
   });
 
   if (isLoading && !staticPackageData) {
