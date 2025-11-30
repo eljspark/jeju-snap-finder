@@ -18,7 +18,7 @@ const App = ({ pageProps, packages, packageData }: { pageProps?: any, packages?:
         <Toaster />
         <Sonner />
         {actualPackageData ? (
-          <PackageDetail packageData={actualPackageData} />
+          <PackageDetail packageData={actualPackageData} packageId={actualPackageData?.id} />
         ) : (
           <Packages packages={actualPackages} />
         )}
