@@ -36,7 +36,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       const { data, error } = await supabase
         .from("packages")
         .select(
-          "id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, folder_path, reservation_url",
+          "id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, mood, folder_path, reservation_url",
         )
         .eq("id", packageId)
         .single();
@@ -53,6 +53,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         thumbnailUrl: formatThumbnailUrl(data.thumbnail_url),
         details: data.details || "",
         description: data.description || "",
+        mood: data.mood || "",
         reservationUrl: data.reservation_url,
         // Mock data for fields not in database yet
         photographer: {
@@ -100,6 +101,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           thumbnailUrl: formatThumbnailUrl(staticPackageData.thumbnail_url),
           details: staticPackageData.details || "",
           description: staticPackageData.description || "",
+          mood: staticPackageData.mood || "",
           reservationUrl: staticPackageData.reservation_url,
           // Mock data for fields not in database yet
           photographer: {
@@ -351,6 +353,13 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
             <div>
               <h2 className="text-2xl font-semibold mb-4">상품 설명</h2>
               <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{packageData.description}</p>
+            </div>
+          )}
+
+          {packageData?.mood && (
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">촬영무드</h2>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{packageData.mood}</p>
             </div>
           )}
         </div>

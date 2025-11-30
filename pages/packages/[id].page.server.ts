@@ -30,7 +30,8 @@ export async function onBeforeRender(pageContext) {
           packageData: {
             ...packageData,
             details: packageData.details,
-            description: packageData.description
+            description: packageData.description,
+            mood: packageData.mood
           },
           packages,
           packageId: id
