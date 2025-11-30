@@ -27,18 +27,23 @@ interface PackageDetailProps {
 }
 
 const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDetailProps) => {
+  // Extract packageId from URL if not provided as prop
+  const extractedPackageId = packageId || (typeof window !== 'undefined' 
+    ? window.location.pathname.split('/packages/')[1] 
+    : undefined);
+
   // Fetch package data from Supabase with static data fallback
   const { data: queryPackageData, isLoading } = useQuery({
-    queryKey: ["package", packageId],
+    queryKey: ["package", extractedPackageId],
     queryFn: async () => {
-      if (!packageId) throw new Error("Package ID is required");
+      if (!extractedPackageId) throw new Error("Package ID is required");
 
       const { data, error } = await supabase
         .from("packages")
         .select(
           "id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, mood, folder_path, reservation_url, Tips",
         )
-        .eq("id", packageId)
+        .eq("id", extractedPackageId)
         .single();
 
       if (error) throw error;
@@ -88,7 +93,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
           "Free cancellation up to 48 hours before the session. Weather-related cancellations are fully refundable.",
       };
     },
-    enabled: !!packageId,
+    enabled: !!extractedPackageId,
     initialData: staticPackageData
       ? {
           ...staticPackageData,

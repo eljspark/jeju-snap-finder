@@ -51,7 +51,7 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
     staleTime: 0, // Always fetch fresh data for real-time updates
   });
 
-  const allPackages = staticPackages || queryPackages;
+  const allPackages = queryPackages?.length > 0 ? queryPackages : (staticPackages || []);
 
   const filteredPackages = allPackages
     .filter((pkg) => {
