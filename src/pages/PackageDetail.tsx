@@ -139,19 +139,17 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
     staleTime: 0, // Always fetch fresh data for real-time updates
   });
 
-  // Use static data if available, otherwise use query data
-  const packageData = staticPackageData ? queryPackageData || staticPackageData : queryPackageData;
+  // Use query data if available (fresh from database), otherwise use static data
+  const packageData = queryPackageData || staticPackageData;
 
   // Debug log
-  console.log("Package Data:", {
-    details: packageData?.details,
-    description: packageData?.description,
-    staticPackageData: staticPackageData
-      ? {
-          details: staticPackageData.details,
-          description: staticPackageData.description,
-        }
-      : null,
+  console.log("Package Data Debug:", {
+    hasQueryData: !!queryPackageData,
+    hasStaticData: !!staticPackageData,
+    tips: packageData?.tips,
+    title: packageData?.title,
+    queryTips: queryPackageData?.tips,
+    staticTips: staticPackageData?.Tips || staticPackageData?.tips,
   });
 
   if (isLoading && !staticPackageData) {
