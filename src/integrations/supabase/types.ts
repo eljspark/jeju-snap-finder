@@ -27,6 +27,7 @@ export type Database = {
           reservation_url: string
           sample_image_urls: string[] | null
           thumbnail_url: string | null
+          Tips: string | null
           title: string
           updated_at: string
         }
@@ -42,6 +43,7 @@ export type Database = {
           reservation_url: string
           sample_image_urls?: string[] | null
           thumbnail_url?: string | null
+          Tips?: string | null
           title: string
           updated_at?: string
         }
@@ -57,6 +59,7 @@ export type Database = {
           reservation_url?: string
           sample_image_urls?: string[] | null
           thumbnail_url?: string | null
+          Tips?: string | null
           title?: string
           updated_at?: string
         }
