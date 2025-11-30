@@ -22,7 +22,7 @@ export type Database = {
           duration_minutes: number | null
           folder_path: string | null
           id: string
-          mood: string | null
+          mood: Database["public"]["Enums"]["mood_enum"][] | null
           occasions: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
           reservation_url: string
@@ -39,7 +39,7 @@ export type Database = {
           duration_minutes?: number | null
           folder_path?: string | null
           id?: string
-          mood?: string | null
+          mood?: Database["public"]["Enums"]["mood_enum"][] | null
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw: number
           reservation_url: string
@@ -56,7 +56,7 @@ export type Database = {
           duration_minutes?: number | null
           folder_path?: string | null
           id?: string
-          mood?: string | null
+          mood?: Database["public"]["Enums"]["mood_enum"][] | null
           occasions?: Database["public"]["Enums"]["occasion_enum"][]
           price_krw?: number
           reservation_url?: string
@@ -76,6 +76,19 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      mood_enum:
+        | "로맨틱"
+        | "자연스러운"
+        | "밝은"
+        | "감성적인"
+        | "따뜻한"
+        | "청량한"
+        | "모던한"
+        | "빈티지"
+        | "편안한"
+        | "활기찬"
+        | "차분한"
+        | "몽환적인"
       occasion_enum:
         | "커플"
         | "가족"
@@ -212,6 +225,20 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      mood_enum: [
+        "로맨틱",
+        "자연스러운",
+        "밝은",
+        "감성적인",
+        "따뜻한",
+        "청량한",
+        "모던한",
+        "빈티지",
+        "편안한",
+        "활기찬",
+        "차분한",
+        "몽환적인",
+      ],
       occasion_enum: [
         "커플",
         "가족",
