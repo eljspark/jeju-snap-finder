@@ -356,10 +356,16 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
             </div>
           )}
 
-          {packageData?.mood && (
+          {packageData?.mood && packageData.mood.length > 0 && (
             <div>
               <h2 className="text-2xl font-semibold mb-4">촬영무드</h2>
-              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{packageData.mood}</p>
+              <div className="flex flex-wrap gap-2">
+                {packageData.mood.map((tag: string, index: number) => (
+                  <Badge key={index} variant="secondary" className="text-sm px-3 py-1">
+                    #{tag}
+                  </Badge>
+                ))}
+              </div>
             </div>
           )}
         </div>
