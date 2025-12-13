@@ -82,7 +82,7 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       {/* Hero Section */}
       <section className="pt-12 pb-12 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl font-bold mb-4">제주 인기스냅들을 한눈에!</h1>
+          <h1 className="text-3xl font-bold mb-4">제주 스냅 촬영 비교 - 커플, 가족, 만삭 스냅 패키지 총정리</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             인스타, 네이버에는 웨딩스냅만 많아서<br />
             커플스냅, 가족스냅을 찾기 힘들었다면?<br /><br />
