@@ -84,9 +84,7 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl font-bold mb-4">제주 스냅 촬영 비교 - 커플, 가족, 만삭 스냅 패키지 총정리</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            인스타, 네이버에는 웨딩스냅만 많아서<br />
-            커플스냅, 가족스냅을 찾기 힘들었다면?<br /><br />
-            제가 대신 한곳에 모아드렸어요! 💙
+            제주도 커플스냅, 가족스냅, 만삭스냅 작가님들을 가격별, 유형별로 쉽게 비교하고 찾을 수 있어요.
           </p>
         </div>
       </section>
