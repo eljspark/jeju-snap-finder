@@ -53,6 +53,9 @@ async function render(pageContext: PageContextServer) {
         <meta name="twitter:description" content="${description}" />
         <meta name="twitter:image" content="${ogImage}" />
         
+        <!-- Naver Site Verification -->
+        <meta name="naver-site-verification" content="e6c43980d7aadfed027fc5e211b84ec7bb5749bd" />
+        
         <!-- Structured Data -->
         ${structuredData ? dangerouslySkipEscape(`<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`) : ''}
       </head>
