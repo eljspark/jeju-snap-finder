@@ -7,6 +7,7 @@ import { PackageImageGallery } from "@/components/PackageImageGallery";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
+import { trackReservationClick } from "@/hooks/useReservationTracking";
 import {
   MapPin,
   Clock,
@@ -295,9 +296,18 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
       <div className="fixed bottom-0 left-0 right-0 z-50">
         <Button
           className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover-scale"
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
             e.stopPropagation();
+
+            // Track the click before opening the URL
+            if (packageData?.id && packageData?.title) {
+              trackReservationClick({
+                packageId: packageData.id,
+                packageTitle: packageData.title,
+                priceKrw: packageData.price,
+              });
+            }
 
             let url = packageData?.reservationUrl;
 
