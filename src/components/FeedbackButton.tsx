@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+const isBrowser = typeof window !== "undefined";
+
 const ratingLabels = [
   "매우 불만족",
   "불만족",
@@ -20,10 +22,19 @@ const ratingLabels = [
 ];
 
 export function FeedbackButton() {
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState<number | null>(null);
   const [suggestion, setSuggestion] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !isBrowser) {
+    return null;
+  }
 
   const handleSubmit = async () => {
     if (rating === null) {
