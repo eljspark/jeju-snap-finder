@@ -11,14 +11,20 @@ try {
   await fetchPackages();
   console.log('✅ Data fetching complete!\n');
 
-  // Step 2: Build the site with Vite
-  console.log('🔨 Step 2: Building static site...');
+  // Step 2: Generate sitemap with all packages
+  console.log('🗺️ Step 2: Generating sitemap...');
+  execSync('node scripts/generate-sitemap.mjs', { stdio: 'inherit' });
+  console.log('✅ Sitemap generated!\n');
+
+  // Step 3: Build the site with Vite
+  console.log('🔨 Step 3: Building static site...');
   execSync('vite build --mode development', { stdio: 'inherit' });
   console.log('✅ Build complete!\n');
 
   console.log('🎉 SSG build finished successfully!');
   console.log('📄 Static HTML files generated with SEO-optimized content');
   console.log('🔍 Search engines will now see fully rendered pages');
+  console.log('🗺️ Sitemap includes all 19 package detail pages');
 
 } catch (error) {
   console.error('❌ Build failed:', error.message);
