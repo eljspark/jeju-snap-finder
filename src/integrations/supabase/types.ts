@@ -68,6 +68,44 @@ export type Database = {
         }
         Relationships: []
       }
+      reservation_clicks: {
+        Row: {
+          clicked_at: string
+          id: string
+          package_id: string | null
+          package_title: string
+          price_krw: number | null
+          referrer: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          clicked_at?: string
+          id?: string
+          package_id?: string | null
+          package_title: string
+          price_krw?: number | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          clicked_at?: string
+          id?: string
+          package_id?: string | null
+          package_title?: string
+          price_krw?: number | null
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservation_clicks_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
