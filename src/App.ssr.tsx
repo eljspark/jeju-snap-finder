@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Packages from "./pages/Packages";
 import PackageDetail from "./pages/PackageDetail";
+import { FeedbackButton } from "./components/FeedbackButton";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = ({ pageProps, packages, packageData }: { pageProps?: any, packages?:
         ) : (
           <Packages packages={actualPackages} />
         )}
+        <FeedbackButton />
       </TooltipProvider>
     </QueryClientProvider>
   );

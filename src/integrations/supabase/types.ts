@@ -106,6 +106,36 @@ export type Database = {
           },
         ]
       }
+      user_feedback: {
+        Row: {
+          created_at: string
+          id: string
+          improvement_suggestion: string | null
+          page_url: string | null
+          referrer: string | null
+          satisfaction_rating: number
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          improvement_suggestion?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          satisfaction_rating: number
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          improvement_suggestion?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          satisfaction_rating?: number
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
