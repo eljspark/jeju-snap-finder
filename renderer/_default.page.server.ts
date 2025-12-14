@@ -123,7 +123,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
       "@type": "CollectionPage",
       "name": title,
       "description": description,
-      "url": "https://yoursite.com/",
+      "url": "https://jejusnapfinder.com/",
       "mainEntity": {
         "@type": "ItemList",
         "itemListElement": staticData.packages.slice(0, 10).map((pkg: any, index: number) => ({
@@ -146,27 +146,121 @@ function generateMetaTags(urlPathname: string, staticData: any) {
 
   if (staticData.packageData) {
     const pkg = staticData.packageData;
-    title = `${pkg.title} | 제주도 사진촬영`;
-    description = pkg.details || `${pkg.title} - 제주도 사진촬영 패키지. 가격: ${pkg.price.toLocaleString()}원`;
+    
+    // Generate occasion labels in Korean
+    const occasionLabels: Record<string, string> = {
+      'couple': '커플스냅',
+      'family': '가족스냅',
+      'solo': '개인스냅',
+      'friends': '우정스냅',
+      'maternity': '만삭스냅',
+      'wedding': '웨딩스냅',
+      'engagement': '약혼스냅',
+      'anniversary': '기념일스냅',
+      'graduation': '졸업스냅',
+      'birthday': '생일스냅',
+      'proposal': '프러포즈스냅',
+      'honeymoon': '신혼여행스냅',
+      'business': '비즈니스스냅',
+      'pet': '반려동물스냅',
+      'kids': '아이스냅'
+    };
+    
+    // Get occasions as Korean labels
+    const occasions = (pkg.occasions || [])
+      .map((o: string) => occasionLabels[o] || o)
+      .slice(0, 3)
+      .join(', ');
+    
+    // Get mood hashtags
+    const moods = (pkg.mood || [])
+      .slice(0, 3)
+      .map((m: string) => `#${m}`)
+      .join(' ');
+    
+    // Format price
+    const priceFormatted = (pkg.price_krw || pkg.price || 0).toLocaleString();
+    
+    // Build SEO-optimized title (max 60 chars)
+    const occasionPrefix = occasions ? `${occasions.split(',')[0].trim()} ` : '';
+    title = `${pkg.title} - ${occasionPrefix}${priceFormatted}원 | 제주스냅파인더`;
+    if (title.length > 60) {
+      title = `${pkg.title} | 제주스냅파인더`;
+    }
+    
+    // Build SEO-optimized description (max 160 chars)
+    const descParts: string[] = [];
+    
+    // Add occasions
+    if (occasions) {
+      descParts.push(occasions);
+    }
+    
+    // Add price
+    descParts.push(`${priceFormatted}원`);
+    
+    // Add duration if available
+    if (pkg.duration_minutes) {
+      const hours = Math.floor(pkg.duration_minutes / 60);
+      const mins = pkg.duration_minutes % 60;
+      const durationStr = hours > 0 
+        ? (mins > 0 ? `${hours}시간 ${mins}분` : `${hours}시간`)
+        : `${mins}분`;
+      descParts.push(durationStr);
+    }
+    
+    // Start building description
+    let descBase = `제주도 ${descParts.join(' · ')}`;
+    
+    // Add mood if available
+    if (moods) {
+      descBase += ` ${moods}`;
+    }
+    
+    // Add tips excerpt if available and space permits
+    if (pkg.Tips && descBase.length < 120) {
+      const tipsExcerpt = pkg.Tips.substring(0, 160 - descBase.length - 5).trim();
+      if (tipsExcerpt.length > 10) {
+        descBase += ` | ${tipsExcerpt}`;
+      }
+    } else if (pkg.details && descBase.length < 120) {
+      // Fallback to details
+      const detailsExcerpt = pkg.details.substring(0, 160 - descBase.length - 5).trim();
+      if (detailsExcerpt.length > 10) {
+        descBase += ` | ${detailsExcerpt}`;
+      }
+    }
+    
+    description = descBase.substring(0, 160);
+    
+    // Use package thumbnail
     ogImage = pkg.thumbnail_url || ogImage;
 
-    // Package structured data
+    // Enhanced package structured data
     structuredData = {
       "@context": "https://schema.org",
       "@type": "Service",
       "name": pkg.title,
-      "description": pkg.details || "제주도 사진촬영 서비스",
+      "description": pkg.details || pkg.description || "제주도 사진촬영 서비스",
       "image": pkg.thumbnail_url,
+      "category": occasions || "사진촬영",
       "offers": {
         "@type": "Offer",
-        "price": pkg.price,
+        "price": pkg.price_krw || pkg.price,
         "priceCurrency": "KRW",
         "availability": "https://schema.org/InStock"
       },
       "provider": {
         "@type": "Organization",
-        "name": "제주 스냅 서비스"
-      }
+        "name": "제주스냅파인더",
+        "url": "https://jejusnapfinder.com"
+      },
+      ...(pkg.duration_minutes && {
+        "duration": `PT${pkg.duration_minutes}M`
+      }),
+      ...(moods && {
+        "keywords": (pkg.mood || []).join(', ')
+      })
     };
   }
 
