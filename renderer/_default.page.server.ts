@@ -12,17 +12,35 @@ const passToClient = ['pageProps', 'urlPathname', 'packageData'];
 async function render(pageContext: PageContextServer) {
   const { Page, pageProps } = pageContext;
   
-  // Get static data based on route
-  const staticData = getStaticData(pageContext.urlPathname);
-  
-  const pageHtml = ReactDOMServer.renderToString(
-    React.createElement(Page, { pageProps, ...staticData })
-  );
+  // Load meta overrides from file
+  let metaOverrides: Record<string, any> = {};
+  try {
+    const { readFileSync } = await import('fs');
+    const { join } = await import('path');
+    const overridesPath = join(process.cwd(), 'public', 'data', 'package-meta-overrides.json');
+    const overridesData = readFileSync(overridesPath, 'utf-8');
+    metaOverrides = JSON.parse(overridesData);
+  } catch {
+    // No overrides file, use defaults
+  }
+
+  // Get package data from pageProps (set by onBeforeRender in package pages)
+  const packageData = pageProps?.packageData || null;
+  const packageId = packageData?.id || null;
+  const packageMetaOverride = packageId ? metaOverrides[packageId] : null;
 
   // Generate meta tags based on page and data
   const { title, description, ogImage, ogTitle, ogDescription, twitterDescription, canonicalUrl, ogType, structuredData } = generateMetaTags(
     pageContext.urlPathname, 
-    staticData
+    { 
+      packageData, 
+      packages: pageProps?.packages || [],
+      packageMetaOverride 
+    }
+  );
+  
+  const pageHtml = ReactDOMServer.renderToString(
+    React.createElement(Page, { pageProps })
   );
 
   const documentHtml = escapeInject`<!DOCTYPE html>
@@ -64,7 +82,7 @@ async function render(pageContext: PageContextServer) {
       <body>
         <div id="root">${dangerouslySkipEscape(pageHtml)}</div>
         <script>
-          window.__STATIC_DATA__ = ${dangerouslySkipEscape(JSON.stringify(staticData))};
+          window.__STATIC_DATA__ = ${dangerouslySkipEscape(JSON.stringify({ packageData, packages: pageProps?.packages || [] }))};
         </script>
       </body>
     </html>`;
@@ -72,56 +90,6 @@ async function render(pageContext: PageContextServer) {
   return {
     documentHtml
   };
-}
-
-async function getStaticData(urlPathname: string) {
-  try {
-    // Use dynamic imports to avoid client bundle inclusion
-    const { readFileSync } = await import('fs');
-    const { join } = await import('path');
-    
-    const dataPath = join(process.cwd(), 'public', 'data');
-    
-    // Load meta overrides
-    let metaOverrides: Record<string, any> = {};
-    try {
-      const overridesData = readFileSync(join(dataPath, 'package-meta-overrides.json'), 'utf-8');
-      metaOverrides = JSON.parse(overridesData);
-    } catch {
-      // No overrides file, use defaults
-    }
-    
-    if (urlPathname === '/') {
-      try {
-        const packagesData = readFileSync(join(dataPath, 'packages.json'), 'utf-8');
-        return { packages: JSON.parse(packagesData), metaOverrides };
-      } catch (error) {
-        console.warn('Packages data not found, using empty array');
-        return { packages: [], metaOverrides };
-      }
-    }
-    
-    const packageMatch = urlPathname.match(/^\/packages\/(.+)$/);
-    if (packageMatch) {
-      const packageId = packageMatch[1];
-      try {
-        const packageData = readFileSync(join(dataPath, `package-${packageId}.json`), 'utf-8');
-        return { 
-          packageData: JSON.parse(packageData), 
-          metaOverrides,
-          packageMetaOverride: metaOverrides[packageId] || null
-        };
-      } catch (error) {
-        console.warn(`Package data not found for ${packageId}`);
-        return { packageData: null, metaOverrides };
-      }
-    }
-    
-    return { metaOverrides };
-  } catch (error) {
-    console.warn(`Could not load static data for ${urlPathname}:`, error);
-    return {};
-  }
 }
 
 function generateMetaTags(urlPathname: string, staticData: any) {
@@ -136,7 +104,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
   let twitterDescription = "";
   let canonicalUrl = "";
   let ogType = "website";
-  let structuredData = null;
+  let structuredData: any = null;
 
   if (urlPathname === '/') {
     canonicalUrl = BASE_URL + "/";
@@ -235,7 +203,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
     
     // Parse details for key info (원본, 보정, etc.)
     const extractDetailsInfo = (detailsText: string) => {
-      const lines = detailsText.split('\n').filter(l => l.trim());
+      const lines = detailsText.split('\n').filter((l: string) => l.trim());
       const keyInfo: string[] = [];
       
       for (const line of lines) {
