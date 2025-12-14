@@ -82,13 +82,22 @@ async function getStaticData(urlPathname: string) {
     
     const dataPath = join(process.cwd(), 'public', 'data');
     
+    // Load meta overrides
+    let metaOverrides: Record<string, any> = {};
+    try {
+      const overridesData = readFileSync(join(dataPath, 'package-meta-overrides.json'), 'utf-8');
+      metaOverrides = JSON.parse(overridesData);
+    } catch {
+      // No overrides file, use defaults
+    }
+    
     if (urlPathname === '/') {
       try {
         const packagesData = readFileSync(join(dataPath, 'packages.json'), 'utf-8');
-        return { packages: JSON.parse(packagesData) };
+        return { packages: JSON.parse(packagesData), metaOverrides };
       } catch (error) {
         console.warn('Packages data not found, using empty array');
-        return { packages: [] };
+        return { packages: [], metaOverrides };
       }
     }
     
@@ -97,14 +106,18 @@ async function getStaticData(urlPathname: string) {
       const packageId = packageMatch[1];
       try {
         const packageData = readFileSync(join(dataPath, `package-${packageId}.json`), 'utf-8');
-        return { packageData: JSON.parse(packageData) };
+        return { 
+          packageData: JSON.parse(packageData), 
+          metaOverrides,
+          packageMetaOverride: metaOverrides[packageId] || null
+        };
       } catch (error) {
         console.warn(`Package data not found for ${packageId}`);
-        return { packageData: null };
+        return { packageData: null, metaOverrides };
       }
     }
     
-    return {};
+    return { metaOverrides };
   } catch (error) {
     console.warn(`Could not load static data for ${urlPathname}:`, error);
     return {};
@@ -159,6 +172,24 @@ function generateMetaTags(urlPathname: string, staticData: any) {
 
   if (staticData.packageData) {
     const pkg = staticData.packageData;
+    const override = staticData.packageMetaOverride;
+    
+    // If we have custom overrides for this package, use them
+    if (override) {
+      title = override.title || title;
+      description = override.description || description;
+      ogTitle = override.ogTitle || '';
+      ogDescription = override.ogDescription || '';
+      twitterDescription = override.twitterDescription || '';
+      ogImage = override.ogImage || pkg.thumbnail_url || ogImage;
+      canonicalUrl = `${BASE_URL}/packages/${pkg.id}`;
+      ogType = "product";
+      structuredData = override.structuredData || null;
+      
+      return { title, description, ogImage, ogTitle, ogDescription, twitterDescription, canonicalUrl, ogType, structuredData };
+    }
+    
+    // Default auto-generated meta tags for packages without overrides
     
     // Korean occasion labels mapping
     const occasionLabels: Record<string, string> = {

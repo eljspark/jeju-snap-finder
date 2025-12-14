@@ -1,0 +1,25 @@
+{
+  "c57c6561-cab2-4e34-b16c-edb93d5ad47e": {
+    "title": "오우리스냅 - 제주 가족·만삭 스냅 175분 50만원 | 제주스냅파인더",
+    "description": "오우리스냅 제주 가족, 만삭 스냅 촬영. 175분 촬영, 원본 600장 전체 제공, 보정 15장. 협재해수욕장 등 제주 자연 배경. 예약 및 포트폴리오 확인.",
+    "ogTitle": "오우리스냅 - 제주 가족·만삭 스냅 175분 50만원",
+    "ogDescription": "175분 촬영, 원본 600장 + 보정 15장. 따뜻한 필름 감성 스냅.",
+    "ogImage": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c57c6561-cab2-4e34-b16c-edb93d5ad47e/thumbnails/cropped_1756566064177_1756040667758_img_8524.jpeg",
+    "twitterDescription": "175분 촬영, 원본 600장 + 보정 15장",
+    "structuredData": {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "오우리스냅 제주 스냅 촬영",
+      "description": "제주 가족, 만삭 스냅 촬영 전문. 175분 촬영, 원본 600장 제공",
+      "image": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c57c6561-cab2-4e34-b16c-edb93d5ad47e/thumbnails/cropped_1756566064177_1756040667758_img_8524.jpeg",
+      "offers": {
+        "@type": "Offer",
+        "price": "500000",
+        "priceCurrency": "KRW",
+        "availability": "https://schema.org/InStock"
+      },
+      "brand": { "@type": "Brand", "name": "오우리스냅" },
+      "category": "가족, 만삭"
+    }
+  }
+}
