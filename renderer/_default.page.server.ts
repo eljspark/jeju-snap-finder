@@ -20,7 +20,7 @@ async function render(pageContext: PageContextServer) {
   );
 
   // Generate meta tags based on page and data
-  const { title, description, ogImage, structuredData } = generateMetaTags(
+  const { title, description, ogImage, ogTitle, ogDescription, twitterDescription, canonicalUrl, ogType, structuredData } = generateMetaTags(
     pageContext.urlPathname, 
     staticData
   );
@@ -33,6 +33,7 @@ async function render(pageContext: PageContextServer) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${title}</title>
         <meta name="description" content="${description}" />
+        ${canonicalUrl ? dangerouslySkipEscape(`<link rel="canonical" href="${canonicalUrl}" />`) : ''}
 
           <!-- Google AdSense (global) -->
         ${dangerouslySkipEscape(
@@ -42,15 +43,16 @@ async function render(pageContext: PageContextServer) {
         )}
         
         <!-- Open Graph -->
-        <meta property="og:title" content="${title}" />
-        <meta property="og:description" content="${description}" />
+        <meta property="og:title" content="${ogTitle || title}" />
+        <meta property="og:description" content="${ogDescription || description}" />
         <meta property="og:image" content="${ogImage}" />
-        <meta property="og:type" content="website" />
+        ${canonicalUrl ? dangerouslySkipEscape(`<meta property="og:url" content="${canonicalUrl}" />`) : ''}
+        <meta property="og:type" content="${ogType || 'website'}" />
         
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="${title}" />
-        <meta name="twitter:description" content="${description}" />
+        <meta name="twitter:title" content="${ogTitle || title}" />
+        <meta name="twitter:description" content="${twitterDescription || ogDescription || description}" />
         <meta name="twitter:image" content="${ogImage}" />
         
         <!-- Naver Site Verification -->
@@ -110,11 +112,22 @@ async function getStaticData(urlPathname: string) {
 }
 
 function generateMetaTags(urlPathname: string, staticData: any) {
+  const BASE_URL = "https://jejusnapfinder.com";
+  
   // Default meta
   let title = "제주 스냅 촬영 비교 - 커플, 가족, 만삭 스냅 패키지 총정리 | 제주스냅파인더";
   let description = "제주도 커플스냅, 가족스냅, 만삭스냅 작가님들을 가격별, 유형별로 쉽게 비교하고 찾을 수 있어요.";
   let ogImage = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/hero-jeju.jpg";
+  let ogTitle = "";
+  let ogDescription = "";
+  let twitterDescription = "";
+  let canonicalUrl = "";
+  let ogType = "website";
   let structuredData = null;
+
+  if (urlPathname === '/') {
+    canonicalUrl = BASE_URL + "/";
+  }
 
   if (urlPathname === '/' && staticData.packages) {
     // Homepage structured data
@@ -123,19 +136,19 @@ function generateMetaTags(urlPathname: string, staticData: any) {
       "@type": "CollectionPage",
       "name": title,
       "description": description,
-      "url": "https://jejusnapfinder.com/",
+      "url": BASE_URL + "/",
       "mainEntity": {
         "@type": "ItemList",
         "itemListElement": staticData.packages.slice(0, 10).map((pkg: any, index: number) => ({
           "@type": "ListItem",
           "position": index + 1,
           "item": {
-            "@type": "Service",
+            "@type": "Product",
             "name": pkg.title,
             "description": pkg.details || "제주도 사진촬영 서비스",
             "offers": {
               "@type": "Offer",
-              "price": pkg.price,
+              "price": pkg.price_krw || pkg.price,
               "priceCurrency": "KRW"
             }
           }
@@ -147,122 +160,124 @@ function generateMetaTags(urlPathname: string, staticData: any) {
   if (staticData.packageData) {
     const pkg = staticData.packageData;
     
-    // Generate occasion labels in Korean
+    // Korean occasion labels mapping
     const occasionLabels: Record<string, string> = {
-      'couple': '커플스냅',
-      'family': '가족스냅',
-      'solo': '개인스냅',
-      'friends': '우정스냅',
-      'maternity': '만삭스냅',
-      'wedding': '웨딩스냅',
-      'engagement': '약혼스냅',
-      'anniversary': '기념일스냅',
-      'graduation': '졸업스냅',
-      'birthday': '생일스냅',
-      'proposal': '프러포즈스냅',
-      'honeymoon': '신혼여행스냅',
-      'business': '비즈니스스냅',
-      'pet': '반려동물스냅',
-      'kids': '아이스냅'
+      '커플': '커플',
+      '가족': '가족',
+      '우정': '우정',
+      '프로필': '프로필',
+      '웨딩': '웨딩',
+      '만삭': '만삭',
+      '개인': '개인',
+      '아기': '아기'
     };
     
-    // Get occasions as Korean labels
-    const occasions = (pkg.occasions || [])
-      .map((o: string) => occasionLabels[o] || o)
-      .slice(0, 3)
-      .join(', ');
+    // Get occasions as display labels
+    const occasionsList = (pkg.occasions || []).map((o: string) => occasionLabels[o] || o);
+    const occasionsDisplay = occasionsList.join('·');
+    const occasionsCategory = occasionsList.join(', ');
     
-    // Get mood hashtags
-    const moods = (pkg.mood || [])
-      .slice(0, 3)
-      .map((m: string) => `#${m}`)
-      .join(' ');
+    // Format duration
+    let durationDisplay = '';
+    if (pkg.duration_minutes) {
+      durationDisplay = `${pkg.duration_minutes}분`;
+    } else if (pkg.duration) {
+      durationDisplay = pkg.duration;
+    }
     
     // Format price
-    const priceFormatted = (pkg.price_krw || pkg.price || 0).toLocaleString();
+    const price = pkg.price_krw || pkg.price || 0;
+    const priceInMan = price >= 10000 ? `${Math.floor(price / 10000)}만원` : `${price.toLocaleString()}원`;
     
-    // Build SEO-optimized title (max 60 chars)
-    const occasionPrefix = occasions ? `${occasions.split(',')[0].trim()} ` : '';
-    title = `${pkg.title} - ${occasionPrefix}${priceFormatted}원 | 제주스냅파인더`;
-    if (title.length > 60) {
-      title = `${pkg.title} | 제주스냅파인더`;
-    }
+    // Canonical URL
+    canonicalUrl = `${BASE_URL}/packages/${pkg.id}`;
+    ogType = "product";
     
-    // Build SEO-optimized description (max 160 chars)
-    const descParts: string[] = [];
+    // Build title: "{title} - 제주 {occasions} 스냅 {duration} {price} | 제주스냅파인더"
+    title = `${pkg.title} - 제주 ${occasionsDisplay} 스냅 ${durationDisplay} ${priceInMan} | 제주스냅파인더`;
     
-    // Add occasions
-    if (occasions) {
-      descParts.push(occasions);
-    }
+    // Build OG title (shorter): "{title} - 제주 {occasions} 스냅 {duration} {price}"
+    ogTitle = `${pkg.title} - 제주 ${occasionsDisplay} 스냅 ${durationDisplay} ${priceInMan}`;
     
-    // Add price
-    descParts.push(`${priceFormatted}원`);
+    // Extract details from package
+    const details = pkg.details || '';
     
-    // Add duration if available
-    if (pkg.duration_minutes) {
-      const hours = Math.floor(pkg.duration_minutes / 60);
-      const mins = pkg.duration_minutes % 60;
-      const durationStr = hours > 0 
-        ? (mins > 0 ? `${hours}시간 ${mins}분` : `${hours}시간`)
-        : `${mins}분`;
-      descParts.push(durationStr);
-    }
-    
-    // Start building description
-    let descBase = `제주도 ${descParts.join(' · ')}`;
-    
-    // Add mood if available
-    if (moods) {
-      descBase += ` ${moods}`;
-    }
-    
-    // Add tips excerpt if available and space permits
-    if (pkg.Tips && descBase.length < 120) {
-      const tipsExcerpt = pkg.Tips.substring(0, 160 - descBase.length - 5).trim();
-      if (tipsExcerpt.length > 10) {
-        descBase += ` | ${tipsExcerpt}`;
+    // Parse details for key info (원본, 보정, etc.)
+    const extractDetailsInfo = (detailsText: string) => {
+      const lines = detailsText.split('\n').filter(l => l.trim());
+      const keyInfo: string[] = [];
+      
+      for (const line of lines) {
+        // Look for patterns like "원본 600장", "보정 15장", etc.
+        if (line.includes('원본') || line.includes('보정') || line.includes('제공')) {
+          keyInfo.push(line.replace(/^\d+\.\s*/, '').trim());
+        }
       }
-    } else if (pkg.details && descBase.length < 120) {
-      // Fallback to details
-      const detailsExcerpt = pkg.details.substring(0, 160 - descBase.length - 5).trim();
-      if (detailsExcerpt.length > 10) {
-        descBase += ` | ${detailsExcerpt}`;
+      
+      return keyInfo.slice(0, 2).join(', ');
+    };
+    
+    const detailsInfo = extractDetailsInfo(details);
+    
+    // Build description: "{title} 제주 {occasions} 스냅 촬영. {duration} 촬영, {details excerpt}. 예약 및 포트폴리오 확인."
+    const descriptionParts = [
+      `${pkg.title} 제주 ${occasionsCategory} 스냅 촬영.`
+    ];
+    
+    if (durationDisplay) {
+      descriptionParts.push(`${durationDisplay} 촬영`);
+    }
+    
+    if (detailsInfo) {
+      descriptionParts.push(detailsInfo);
+    }
+    
+    // Add location info from Tips if available
+    if (pkg.Tips) {
+      const locationMatch = pkg.Tips.match(/([가-힣]+해수욕장|[가-힣]+해변|[가-힣]+오름|[가-힣]+숲|[가-힣]+공원)/);
+      if (locationMatch) {
+        descriptionParts.push(`${locationMatch[1]} 등 제주 자연 배경`);
       }
     }
     
-    description = descBase.substring(0, 160);
+    descriptionParts.push('예약 및 포트폴리오 확인.');
+    
+    description = descriptionParts.join(' ').substring(0, 160);
+    
+    // Build OG description (shorter, with mood)
+    const moods = (pkg.mood || []).slice(0, 2);
+    const moodText = moods.length > 0 ? `${moods.join(' ')} 감성 스냅.` : '';
+    ogDescription = `${durationDisplay} 촬영${detailsInfo ? ', ' + detailsInfo : ''}. ${moodText}`.trim();
+    if (ogDescription.length > 100) {
+      ogDescription = ogDescription.substring(0, 97) + '...';
+    }
+    
+    // Twitter description (even shorter)
+    twitterDescription = `${durationDisplay} 촬영${detailsInfo ? ', ' + detailsInfo : ''}`;
     
     // Use package thumbnail
     ogImage = pkg.thumbnail_url || ogImage;
 
-    // Enhanced package structured data
+    // Product structured data
     structuredData = {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": pkg.title,
-      "description": pkg.details || pkg.description || "제주도 사진촬영 서비스",
-      "image": pkg.thumbnail_url,
-      "category": occasions || "사진촬영",
+      "@type": "Product",
+      "name": `${pkg.title} 제주 스냅 촬영`,
+      "description": `제주 ${occasionsCategory} 스냅 촬영 전문. ${durationDisplay} 촬영${detailsInfo ? ', ' + detailsInfo : ''}`,
+      "image": ogImage,
       "offers": {
         "@type": "Offer",
-        "price": pkg.price_krw || pkg.price,
+        "price": String(price),
         "priceCurrency": "KRW",
         "availability": "https://schema.org/InStock"
       },
-      "provider": {
-        "@type": "Organization",
-        "name": "제주스냅파인더",
-        "url": "https://jejusnapfinder.com"
+      "brand": {
+        "@type": "Brand",
+        "name": pkg.title
       },
-      ...(pkg.duration_minutes && {
-        "duration": `PT${pkg.duration_minutes}M`
-      }),
-      ...(moods && {
-        "keywords": (pkg.mood || []).join(', ')
-      })
+      "category": occasionsCategory || "스냅촬영"
     };
   }
 
-  return { title, description, ogImage, structuredData };
+  return { title, description, ogImage, ogTitle, ogDescription, twitterDescription, canonicalUrl, ogType, structuredData };
 }
