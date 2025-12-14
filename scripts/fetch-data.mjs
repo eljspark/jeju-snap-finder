@@ -62,7 +62,7 @@ export async function fetchPackages() {
   );
   console.log('✅ packages.json written successfully');
 
-  // detail JSON per package (optional)
+  // detail JSON per package
   for (const pkg of formattedData) {
     await fs.writeFile(
       path.join(outDir, `package-${pkg.id}.json`),
@@ -70,6 +70,24 @@ export async function fetchPackages() {
       'utf8'
     );
   }
+
+  // Generate routes.json with all package routes
+  const routes = [
+    "/",
+    "/admin",
+    "/privacy",
+    "/terms",
+    "/about",
+    "/contact",
+    ...formattedData.map(pkg => `/packages/${pkg.id}`)
+  ];
+  
+  await fs.writeFile(
+    path.join(outDir, 'routes.json'),
+    JSON.stringify(routes, null, 2),
+    'utf8'
+  );
+  console.log(`✅ Generated routes.json with ${routes.length} routes`);
 
   console.log('✔ Fetched packages & wrote static JSON');
 }
