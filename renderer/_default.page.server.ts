@@ -53,7 +53,18 @@ async function render(pageContext: PageContextServer) {
         <meta name="description" content="${description}" />
         ${canonicalUrl ? dangerouslySkipEscape(`<link rel="canonical" href="${canonicalUrl}" />`) : ''}
 
-          <!-- Google AdSense (global) -->
+        <!-- Google Analytics -->
+        ${dangerouslySkipEscape(`
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-KF157LNGL5"></script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KF157LNGL5');
+          </script>
+        `)}
+        
+        <!-- Google AdSense (global) -->
         ${dangerouslySkipEscape(
           import.meta.env.PROD
             ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3433360229161618" crossorigin="anonymous"></script>`
