@@ -69,7 +69,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         duration: data.duration_minutes ? formatDuration(data.duration_minutes) : "촬영 시간 미정",
         occasions: data.occasions || [],
         folderPath: data.folder_path || data.id,
-        thumbnailUrl: formatThumbnailUrl(data.thumbnail_url),
+        thumbnailUrl: data.thumbnail_url, // Keep raw URL, transform at render time
         details: data.details || "",
         description: data.description || "",
         mood: data.mood || "",
