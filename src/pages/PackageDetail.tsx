@@ -247,7 +247,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
               <div className="space-y-4">
                 <div className="relative rounded-lg overflow-hidden">
                   <img
-                    src={packageData?.thumbnailUrl || "/placeholder.svg"}
+                    src={formatThumbnailUrl(packageData?.thumbnailUrl || packageData?.thumbnail_url, { width: 800, quality: 75 }) || "/placeholder.svg"}
                     alt={packageData?.title || "Package"}
                     className="w-full h-96 object-cover"
                   />
