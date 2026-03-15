@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vite",
     "prebuild": "node scripts/generate-sitemap.mjs || true",
     "build": "node scripts/fetch-data.mjs && vite build",
     "build:dev": "vite build --mode development",
