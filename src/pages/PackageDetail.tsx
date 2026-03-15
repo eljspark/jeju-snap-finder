@@ -69,7 +69,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         duration: data.duration_minutes ? formatDuration(data.duration_minutes) : "촬영 시간 미정",
         occasions: data.occasions || [],
         folderPath: data.folder_path || data.id,
-        thumbnailUrl: formatThumbnailUrl(data.thumbnail_url),
+        thumbnailUrl: data.thumbnail_url, // Keep raw URL, transform at render time
         details: data.details || "",
         description: data.description || "",
         mood: data.mood || "",
@@ -247,7 +247,7 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
               <div className="space-y-4">
                 <div className="relative rounded-lg overflow-hidden">
                   <img
-                    src={packageData?.thumbnailUrl || "/placeholder.svg"}
+                    src={formatThumbnailUrl(packageData?.thumbnailUrl || packageData?.thumbnail_url, { width: 800, quality: 75 }) || "/placeholder.svg"}
                     alt={packageData?.title || "Package"}
                     className="w-full h-96 object-cover"
                   />

@@ -5,29 +5,59 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatThumbnailUrl(thumbnailUrl: string | null | undefined, supabaseClient?: any): string {
+interface ImageTransformOptions {
+  width?: number;
+  height?: number;
+  quality?: number;
+}
+
+export function formatThumbnailUrl(
+  thumbnailUrl: string | null | undefined, 
+  transform?: ImageTransformOptions
+): string {
   // Return placeholder if no URL provided
   if (!thumbnailUrl || thumbnailUrl.trim() === '') {
     return "/placeholder.svg"
   }
   
-  // If it's already a full URL, return as-is
+  let fullUrl: string;
+  
+  // If it's already a full URL, use as-is
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
-    return thumbnailUrl
+    fullUrl = thumbnailUrl;
+  } else {
+    // If it's just a storage path, convert to full URL
+    // Use /render/image/ endpoint for transformations instead of /object/public/
+    const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
+    
+    // Clean up path to prevent double slashes
+    let cleanPath = thumbnailUrl.replace(/^\/+/, '');
+    
+    if (!cleanPath.startsWith('packages/')) {
+      cleanPath = `packages/${cleanPath}`;
+    }
+    
+    fullUrl = `${baseUrl}/${cleanPath}`;
   }
   
-  // If it's just a storage path, convert to full URL
-  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
-  
-  // Clean up path to prevent double slashes
-  let cleanPath = thumbnailUrl.replace(/^\/+/, ''); // Remove leading slashes
-  
-  // If path doesn't start with 'packages/', add it
-  if (!cleanPath.startsWith('packages/')) {
-    cleanPath = `packages/${cleanPath}`;
+  // Append Supabase image transformation query params
+  if (transform && (transform.width || transform.height || transform.quality)) {
+    // Supabase uses /render/image/ path for transformations
+    // Replace /object/public/ with /render/image/public/ for transform support
+    if (fullUrl.includes('/storage/v1/object/public/')) {
+      fullUrl = fullUrl.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/');
+    }
+    
+    const params = new URLSearchParams();
+    if (transform.width) params.set('width', String(transform.width));
+    if (transform.height) params.set('height', String(transform.height));
+    if (transform.quality) params.set('quality', String(transform.quality));
+    params.set('resize', 'contain');
+    
+    fullUrl += `?${params.toString()}`;
   }
   
-  return `${baseUrl}/${cleanPath}`;
+  return fullUrl;
 }
 
 export function formatDuration(minutes: number | null | undefined): string {

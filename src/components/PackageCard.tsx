@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, Camera, Users } from "lucide-react";
+import { formatThumbnailUrl } from "@/lib/utils";
 
 interface PackageCardProps {
   id: string;
@@ -30,7 +31,7 @@ const PackageCard = ({
       <CardHeader className="p-0">
       <div className="relative overflow-hidden rounded-t-lg">
         <img
-          src={images?.[0] || "/placeholder.svg"}
+          src={formatThumbnailUrl(images?.[0], { width: 400, quality: 70 }) || "/placeholder.svg"}
           alt={title}
           className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
           style={{ height: "var(--package-thumbnail-height)" }}
