@@ -51,13 +51,18 @@ export function PackageImageGallery({ folderPath, packageTitle }: PackageImageGa
 
         // Get public URLs for each image
         const imagePromises = imageFiles.map(async (file) => {
-          // Use normalized path for public URL
           const fullPath = `${normalizedPath}/${file.name}`;
           const { data } = supabase.storage.from("packages").getPublicUrl(fullPath);
+          
+          // Use Supabase image transformation for optimized delivery
+          const optimizedUrl = data.publicUrl.replace(
+            '/storage/v1/object/public/',
+            '/storage/v1/render/image/public/'
+          ) + '?width=600&quality=70&resize=contain';
 
           return {
             name: file.name,
-            url: data.publicUrl,
+            url: optimizedUrl,
           };
         });
 
