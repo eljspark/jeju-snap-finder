@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, Camera, Users } from "lucide-react";
+import { formatThumbnailUrl } from "@/lib/utils";
 
 interface PackageCardProps {
   id: string;
