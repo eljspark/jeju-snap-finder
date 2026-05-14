@@ -1,73 +1,61 @@
-# Welcome to your Lovable project
+# Jeju Snap Finder
 
-## Project info
+제주도 스냅 사진 패키지 큐레이션 웹사이트. 사용자가 점유율·분위기·인물 구성 등으로 패키지를 탐색하고 외부 예약 페이지로 이동합니다.
 
-**URL**: https://lovable.dev/projects/747e2aca-18db-42b8-a3aa-fb5a9c4f7214
+배포: https://jejusnapfinder.vercel.app
 
-## How can I edit this code?
+## 스택
 
-There are several ways of editing your application.
+- Vite 5 + React 18 + TypeScript 5
+- Tailwind CSS v3 + shadcn/ui (Radix UI 기반)
+- `vite-plugin-ssr` 기반 SSG (빌드 시점에 Supabase 데이터 fetch → 정적 prerender)
+- Supabase (Postgres + Storage)
+- Vercel 배포
 
-**Use Lovable**
+## 로컬 개발
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/747e2aca-18db-42b8-a3aa-fb5a9c4f7214) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Node.js 18 이상 필요.
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# 의존성 설치
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# .env.example을 복사해 .env 작성 (값은 Supabase 프로젝트에서 발급)
+cp .env.example .env
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 개발 서버
 npm run dev
+
+# 프로덕션 빌드 (Supabase에서 데이터 fetch 후 SSG)
+npm run build
+
+# 빌드 결과 미리보기
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## 환경 변수
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+`.env`에 다음 키를 설정합니다.
 
-**Use GitHub Codespaces**
+| 키 | 설명 |
+|---|---|
+| `VITE_SUPABASE_URL` | Supabase 프로젝트 URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon 키 |
+| `VITE_SUPABASE_PROJECT_ID` | Supabase 프로젝트 ref |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+`.env`는 git에 커밋하지 않습니다 (`.gitignore` 적용).
 
-## What technologies are used for this project?
+## 디렉터리 구조
 
-This project is built with:
+- `src/` — React 앱 (페이지/컴포넌트/훅/유틸/Supabase 클라이언트)
+- `pages/` — `vite-plugin-ssr`용 라우트 및 SSR/SSG 엔트리
+- `renderer/` — SSR 렌더러 (HTML 셸, OG 메타 등)
+- `scripts/` — 빌드 시점 데이터 fetch, sitemap 생성
+- `public/` — 정적 자산 (빌드 시 `public/data/*.json` 생성됨)
+- `supabase/` — DB 마이그레이션 SQL
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+자세한 SSG 아키텍처는 `SSG_README.md`, 백엔드 마이그레이션 메모는 `MIGRATION_GUIDE.md` 참고.
 
-## How can I deploy this project?
+## 배포
 
-Simply open [Lovable](https://lovable.dev/projects/747e2aca-18db-42b8-a3aa-fb5a9c4f7214) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+main 브랜치 푸시 시 Vercel이 자동 빌드합니다. Vercel 프로젝트에 위 환경 변수가 등록되어 있어야 SSG 빌드가 성공합니다.
