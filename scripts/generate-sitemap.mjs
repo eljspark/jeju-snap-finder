@@ -48,6 +48,16 @@ async function main() {
     { loc: `${SITE}/contact`, changefreq: 'yearly', priority: '0.3' }
   ];
 
+  // Category index pages (high priority for SEO)
+  const categorySlugs = ['couple', 'family', 'friends', 'maternity', 'baby'];
+  for (const slug of categorySlugs) {
+    urls.push({
+      loc: `${SITE}/category/${slug}`,
+      changefreq: 'weekly',
+      priority: '0.9'
+    });
+  }
+
   for (const p of packages) {
     urls.push({
       loc: `${SITE}/packages/${encodeURIComponent(p.id)}`,

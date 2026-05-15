@@ -8,7 +8,7 @@
     "prebuild": "node scripts/generate-sitemap.mjs || true",
     "build": "node scripts/fetch-data.mjs && vite build",
     "build:dev": "vite build --mode development",
-    "preview": "vite preview --port 5173"
+    "preview": "vite preview --outDir dist/client --port 5173"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

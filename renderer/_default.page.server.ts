@@ -7,7 +7,7 @@ import '../src/index.css';
 export { render };
 export { passToClient };
 
-const passToClient = ['pageProps', 'urlPathname', 'packageData'];
+const passToClient = ['pageProps', 'urlPathname', 'packageData', 'occasionFilter'];
 
 async function render(pageContext: PageContextServer) {
   const { Page, pageProps } = pageContext;
@@ -31,11 +31,12 @@ async function render(pageContext: PageContextServer) {
 
   // Generate meta tags based on page and data
   const { title, description, ogImage, ogTitle, ogDescription, twitterDescription, canonicalUrl, ogType, structuredData } = generateMetaTags(
-    pageContext.urlPathname, 
-    { 
-      packageData, 
+    pageContext.urlPathname,
+    {
+      packageData,
       packages: pageProps?.packages || [],
-      packageMetaOverride 
+      packageMetaOverride,
+      occasionFilter: pageProps?.occasionFilter || null,
     }
   );
   
@@ -119,6 +120,70 @@ function generateMetaTags(urlPathname: string, staticData: any) {
 
   if (urlPathname === '/') {
     canonicalUrl = BASE_URL + "/";
+  }
+
+  // Category page meta tags
+  if (urlPathname.startsWith('/category/') && staticData.occasionFilter) {
+    const occasion = staticData.occasionFilter as string;
+    const occasionToEn: Record<string, string> = {
+      '커플': 'couple',
+      '가족': 'family',
+      '우정': 'friends',
+      '만삭': 'maternity',
+      '아기': 'baby',
+    };
+    const slug = occasionToEn[occasion] || occasion;
+    const pkgCount = (staticData.packages || []).length;
+
+    const categoryTitleMap: Record<string, string> = {
+      '커플': '제주 커플스냅 추천 - 가격·작가·스타일 비교 | 제주스냅파인더',
+      '가족': '제주 가족스냅 추천 - 가격·작가·스타일 비교 | 제주스냅파인더',
+      '우정': '제주 우정스냅 추천 - 친구와 함께하는 제주 여행 스냅 | 제주스냅파인더',
+      '만삭': '제주 만삭스냅 추천 - 가격·작가·스타일 비교 | 제주스냅파인더',
+      '아기': '제주 아기스냅·돌스냅 추천 - 가격·작가 비교 | 제주스냅파인더',
+    };
+    const categoryDescMap: Record<string, string> = {
+      '커플': `제주 커플스냅 작가 ${pkgCount}곳의 가격·스타일·촬영 시간을 한 곳에서 비교하세요. 데이트·기념일·여행 컨셉별 커플 스냅 패키지 추천.`,
+      '가족': `제주 가족스냅 작가 ${pkgCount}곳의 가격·스타일·촬영 시간을 한 곳에서 비교하세요. 10만원대부터 시작하는 부모·아이·3대 가족 스냅 패키지 추천.`,
+      '우정': `제주 우정스냅 작가 ${pkgCount}곳의 가격·스타일을 한 곳에서 비교. 친구와 추억 남기기 좋은 2~6인 스냅 패키지 모음.`,
+      '만삭': `제주 만삭스냅 작가 ${pkgCount}곳의 가격·스타일·촬영 시간을 한 곳에서 비교. 자연 배경·드레스 컨셉의 만삭 기념 촬영 패키지.`,
+      '아기': `제주 아기스냅·돌스냅 작가 ${pkgCount}곳의 가격·스타일을 한 곳에서 비교. 아기 컨디션과 동선을 고려한 추억 패키지 모음.`,
+    };
+
+    title = categoryTitleMap[occasion] || title;
+    description = categoryDescMap[occasion] || description;
+    ogTitle = title.replace(' | 제주스냅파인더', '');
+    ogDescription = description;
+    twitterDescription = description.length > 100 ? description.substring(0, 97) + '...' : description;
+    canonicalUrl = `${BASE_URL}/category/${slug}`;
+    ogType = 'website';
+
+    structuredData = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": title,
+      "description": description,
+      "url": canonicalUrl,
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": (staticData.packages || []).slice(0, 10).map((pkg: any, index: number) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "item": {
+            "@type": "Product",
+            "name": pkg.title,
+            "description": pkg.details || `제주 ${occasion} 스냅 촬영`,
+            "offers": {
+              "@type": "Offer",
+              "price": String(pkg.price_krw || pkg.price || 0),
+              "priceCurrency": "KRW"
+            }
+          }
+        }))
+      }
+    };
+
+    return { title, description, ogImage, ogTitle, ogDescription, twitterDescription, canonicalUrl, ogType, structuredData };
   }
 
   if (urlPathname === '/' && staticData.packages) {

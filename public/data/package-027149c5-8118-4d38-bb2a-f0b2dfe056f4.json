@@ -1,0 +1,29 @@
+{
+  "id": "027149c5-8118-4d38-bb2a-f0b2dfe056f4",
+  "title": "젠타일스스튜디오",
+  "price_krw": 80000,
+  "reservation_url": "https://smartstore.naver.com/gentilesstudio/products/10861329917?nl-ts-pid=j6J3mwqo1aVsslXhQSGssssssLd-084238&NaPm=ct%3Dmetxy9jx%7Cci%3DERefe388d9%2D833f%2D11f0%2Db578%2D361db63684d1%7Ctr%3Dpla%7Chk%3D1c75b7e4593bc226da150b1a476e89a532723e96%7Cnacn%3D4lSfCYBLQnONA",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/027149c5-8118-4d38-bb2a-f0b2dfe056f4/1756297949660_screenshot_2025-08-27_at_9.23.01_pm.png",
+  "details": "전체 색감 보정된 원본 사진 400장이 포함되어 있어요.  인물정밀 보정 2장제공이 기본이에요.  5인이상 촬영을 원하시는 경우 1명당 만원씩 추가 비용이 발생할 수 있어요.",
+  "sample_image_urls": null,
+  "occasions": [
+    "가족",
+    "커플"
+  ],
+  "created_at": "2025-08-27T12:31:45.093068+00:00",
+  "updated_at": "2025-11-30T11:25:10.956649+00:00",
+  "duration_minutes": 30,
+  "folder_path": "packages/027149c5-8118-4d38-bb2a-f0b2dfe056f4",
+  "description": "세련되고 우아한 무드의 젠타일스스튜디오. 깔끔하고 살짝 밝은한 톤의 사진을 좋아하시는 분들이 찾으시면 좋을 것 같아요. 잘 지어진 집에 이런 톤의 사진 한장을 배치해두면 더 고급스러운 인테리어가 될 것 같지 않나요? \n\n가격도 30분에 8만원이라 제주 방문한 김에 부담없이 추억을 남기기 좋아요.",
+  "Tips": "의상: 뮤트한 톤의 배경인만큼 옷은 단조롭게, 화이트나 블랙을 추천해요. 숲을 배경으로 촬영하실 예정이라면 화이트, 노을진 배경에서 촬영하실 예정이라면 블랙톤의 의상을 입으면 좋을 것 같아요. 가족촬영이라면 화이트톤과 베이지톤을 섞어서 코디하시는 것도 방법일 것 같아요.\n\n촬영용도: 커플, 만삭 등 다양한 사진을 촬영하시지만, 아이들에게 따듯하고 친절하다는 후기와, 어린이들과도 소통에 능숙하여 자연스러운 표정을 이끌어내낸다는 후기가 많아요. 가족촬영을 고려하시는 분들이라면 꼭 둘러보세요.\n\n촬영배경: 젠타일스튜디오 작가님께서 따뜻하고 꺠끗한 이미지를 잘 촬영하는만큼, 자연이 잘 드러나는 숲 배경이나 언덕을 추천해요.",
+  "mood": [
+    "따뜻한",
+    "깨끗한",
+    "자연스러운",
+    "고요한",
+    "순수한"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/027149c5-8118-4d38-bb2a-f0b2dfe056f4/1756297949660_screenshot_2025-08-27_at_9.23.01_pm.png"
+  ]
+}

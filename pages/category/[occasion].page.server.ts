@@ -1,0 +1,81 @@
+import { createClient } from '@supabase/supabase-js';
+
+// English slug → Korean occasion (DB enum value)
+const OCCASION_EN_TO_KO: Record<string, string> = {
+  couple: '커플',
+  family: '가족',
+  friends: '우정',
+  maternity: '만삭',
+  baby: '아기',
+};
+
+const ALL_OCCASIONS = Object.keys(OCCASION_EN_TO_KO);
+
+function getSupabaseClient() {
+  return createClient(
+    'https://cvuirhzznizztbtclieu.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2dWlyaHp6bml6enRidGNsaWV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzMzI5NDksImV4cCI6MjA3MDkwODk0OX0.NjZ27UkIucha31KdnjeLMl1gxJsuDBouflxmrnRw-EM'
+  );
+}
+
+function formatThumbnailUrl(url: string | null | undefined) {
+  if (!url || url.trim() === '') return "/placeholder.svg";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public";
+  let cleanPath = url.replace(/^\/+/, '');
+  if (!cleanPath.startsWith('packages/')) cleanPath = `packages/${cleanPath}`;
+  return `${baseUrl}/${cleanPath}`;
+}
+
+export async function prerender() {
+  return ALL_OCCASIONS.map((slug) => ({ url: `/category/${slug}` }));
+}
+
+export async function onBeforeRender(pageContext: any) {
+  const occasionSlug = pageContext.routeParams.occasion as string;
+  const occasionKo = OCCASION_EN_TO_KO[occasionSlug];
+
+  if (!occasionKo) {
+    // Unknown slug → return empty packages
+    return {
+      pageContext: {
+        pageProps: {
+          packages: [],
+          occasionFilter: null,
+        },
+      },
+    };
+  }
+
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.from('packages').select('*');
+
+  if (error || !data) {
+    console.error('Failed to fetch packages for category prerender:', error);
+    return {
+      pageContext: {
+        pageProps: {
+          packages: [],
+          occasionFilter: occasionKo,
+        },
+      },
+    };
+  }
+
+  // Filter packages whose `occasions` array contains the requested occasion
+  const filtered = data
+    .filter((pkg: any) => Array.isArray(pkg.occasions) && pkg.occasions.includes(occasionKo))
+    .map((pkg: any) => ({
+      ...pkg,
+      thumbnail_url: formatThumbnailUrl(pkg.thumbnail_url),
+    }));
+
+  return {
+    pageContext: {
+      pageProps: {
+        packages: filtered,
+        occasionFilter: occasionKo,
+      },
+    },
+  };
+}

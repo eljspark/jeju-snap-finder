@@ -72,6 +72,9 @@ export async function fetchPackages() {
   }
 
   // Generate routes.json with all package routes
+  const categoryRoutes = ['couple', 'family', 'friends', 'maternity', 'baby']
+    .map(slug => `/category/${slug}`);
+
   const routes = [
     "/",
     "/admin",
@@ -79,6 +82,7 @@ export async function fetchPackages() {
     "/terms",
     "/about",
     "/contact",
+    ...categoryRoutes,
     ...formattedData.map(pkg => `/packages/${pkg.id}`)
   ];
   
