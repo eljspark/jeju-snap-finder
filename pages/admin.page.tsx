@@ -1,4 +1,4 @@
-import AdminImages from '../src/pages/AdminImages';
+import AdminPage from '../src/pages/AdminPage';
 
 export { Page };
 
@@ -6,5 +6,5 @@ export { Page };
 export const ssr = false;
 
 function Page() {
-  return <AdminImages />;
+  return <AdminPage />;
 }
