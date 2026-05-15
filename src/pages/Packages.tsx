@@ -16,15 +16,19 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
 
   // Define occasion categories with icons based on actual database values
   const occasionCategories = [
-    { key: "커플", label: "커플", icon: Heart },
-    { key: "가족", label: "가족", icon: Users },
-    { key: "우정", label: "우정", icon: HeartHandshake },
-    { key: "만삭", label: "만삭", icon: Smile },
-    { key: "아기", label: "아기", icon: Baby },
+    { key: "커플", label: "커플", icon: Heart, slug: "couple" },
+    { key: "가족", label: "가족", icon: Users, slug: "family" },
+    { key: "우정", label: "우정", icon: HeartHandshake, slug: "friends" },
+    { key: "만삭", label: "만삭", icon: Smile, slug: "maternity" },
+    { key: "아기", label: "아기", icon: Baby, slug: "baby" },
   ];
 
-  const selectOccasion = (occasionKey: string) => {
-    setSelectedOccasion(prev => prev === occasionKey ? "" : occasionKey);
+  const selectOccasion = (slug: string) => {
+    // Navigate to the dedicated category page so URL reflects the filter
+    // (improves SEO and lets users share/bookmark the filtered view)
+    if (typeof window !== "undefined") {
+      window.location.href = `/category/${slug}`;
+    }
   };
 
   // Fetch packages from Supabase with static data fallback
@@ -97,24 +101,21 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
               {occasionCategories.map((category) => {
                 const Icon = category.icon;
-                const isSelected = selectedOccasion === category.key;
                 return (
-                  <button
+                  <a
                     key={category.key}
-                    onClick={() => selectOccasion(category.key)}
-                    className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
-                      isSelected
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border bg-background hover:border-primary/50"
-                    }`}
+                    href={`/category/${category.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      selectOccasion(category.slug);
+                    }}
+                    className="flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 border bg-background hover:border-primary/50 transition-all min-w-[80px]"
                   >
-                    <div className={`p-2 rounded-full mb-1 ${
-                      isSelected ? "bg-primary/20" : "bg-muted"
-                    }`}>
-                      <Icon className={`h-4 w-4 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                    <div className="p-2 rounded-full mb-1 bg-muted">
+                      <Icon className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <span className="text-xs font-medium">{category.label}</span>
-                  </button>
+                  </a>
                 );
               })}
             </div>
