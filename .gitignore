@@ -17,6 +17,15 @@ dist-ssr
 .env.local
 .env.*.local
 
+# prospect-finder: 인스타 스크린샷은 로컬에만 보관 (회사컴 ↔ 개인노트북 전송 X)
+scripts/prospect-finder/inputs/*
+!scripts/prospect-finder/inputs/.gitkeep
+scripts/prospect-finder/processed/*
+!scripts/prospect-finder/processed/.gitkeep
+# outputs/*.jsonl 은 git patch로 회사컴 → 개인노트북 전송용이라 커밋 필요.
+# synced/ 는 적재 끝난 아카이브라 로컬에만 보관.
+scripts/prospect-finder/outputs/synced/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

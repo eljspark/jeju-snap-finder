@@ -8,9 +8,12 @@
     "prebuild": "node scripts/generate-sitemap.mjs || true",
     "build": "node scripts/fetch-data.mjs && vite build",
     "build:dev": "vite build --mode development",
-    "preview": "vite preview --outDir dist/client --port 5173"
+    "preview": "vite preview --outDir dist/client --port 5173",
+    "prospect:extract": "node scripts/prospect-finder/extract.mjs",
+    "prospect:sync": "node scripts/prospect-finder/sync.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
