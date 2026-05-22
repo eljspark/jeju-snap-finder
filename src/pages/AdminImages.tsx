@@ -29,6 +29,7 @@ import {
   Crop
 } from 'lucide-react';
 import { ImageCropper } from '@/components/ImageCropper';
+import AIPackageDescGenerator from '@/components/admin/AIPackageDescGenerator';
 
 interface Package {
   id: string;
@@ -625,6 +626,26 @@ export default function AdminImages() {
                 )}
               </CardContent>
             </Card>
+
+            {/* AI Description Generator */}
+            {existingFiles.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>AI 자동 생성</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    업로드된 이미지를 Claude에 보내 description·details·Tips·mood를 자동 작성합니다.
+                    생성 후 검토·수정한 다음 저장하면 패키지에 반영되고 자동 재배포까지 트리거됩니다.
+                  </p>
+                  <AIPackageDescGenerator
+                    packageId={selectedPackage.id}
+                    packageTitle={selectedPackage.title}
+                    imageUrls={existingFiles.map((f) => f.url)}
+                  />
+                </CardContent>
+              </Card>
+            )}
 
             {/* Existing Files */}
             <Card>
