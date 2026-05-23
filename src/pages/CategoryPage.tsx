@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Filter, Camera, MapPin, Clock } from "lucide-react";
+import { Filter, Camera, MapPin, Clock, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 
 type OccasionKey = "커플" | "가족" | "우정" | "만삭" | "아기";
@@ -135,6 +135,14 @@ const CATEGORY_COPY: Record<OccasionKey, CategoryCopy> = {
   }
 };
 
+const OCCASION_CATEGORIES: { key: OccasionKey; label: string; icon: typeof Heart; slug: string }[] = [
+  { key: "커플", label: "커플", icon: Heart, slug: "couple" },
+  { key: "가족", label: "가족", icon: Users, slug: "family" },
+  { key: "우정", label: "우정", icon: HeartHandshake, slug: "friends" },
+  { key: "만삭", label: "만삭", icon: Smile, slug: "maternity" },
+  { key: "아기", label: "아기", icon: Baby, slug: "baby" },
+];
+
 const PRICE_FILTERS = [
   { key: "all", label: "모든 가격" },
   { key: "under-100", label: "10만원 미만" },
@@ -183,8 +191,42 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
         </div>
       </section>
 
-      {/* Price Filter */}
+      {/* Category Filter — persists on category pages; active one is highlighted and clears filter on re-click */}
       <section className="pt-8 pb-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-1">
+            <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+              {OCCASION_CATEGORIES.map((category) => {
+                const Icon = category.icon;
+                const isActive = category.key === occasion;
+                const href = isActive ? "/" : `/category/${category.slug}`;
+                return (
+                  <a
+                    key={category.key}
+                    href={href}
+                    className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
+                      isActive
+                        ? "border-primary bg-primary/5"
+                        : "border bg-background hover:border-primary/50"
+                    }`}
+                  >
+                    <div className={`p-2 rounded-full mb-1 ${isActive ? "bg-primary/10" : "bg-muted"}`}>
+                      <Icon className={`h-4 w-4 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
+                    </div>
+                    <span className={`text-xs font-medium ${isActive ? "text-primary" : ""}`}>
+                      {category.label}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Price Filter */}
+      <section className="pt-2 pb-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-end">
             <DropdownMenu>

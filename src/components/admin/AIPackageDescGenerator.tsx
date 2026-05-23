@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { Sparkles, Loader2, Rocket, FileImage, X } from 'lucide-react';
+import { Sparkles, Loader2, Rocket } from 'lucide-react';
 
 const MOOD_OPTIONS = [
   '로맨틱', '자연스러운', '밝은', '감성적인', '따뜻한', '청량한', '모던한',
@@ -24,22 +24,24 @@ const MOOD_OPTIONS = [
 const DEPLOY_HOOK_STORAGE_KEY = 'vercel_deploy_hook_url';
 const MODEL = 'claude-sonnet-4-6';
 const MAX_IMAGES = 6;
-const MAX_CONTEXT_IMAGES = 3;
-const MAX_CONTEXT_FILE_BYTES = 4 * 1024 * 1024; // 4MB raw → ~5.3MB base64, under Claude's 5MB encoded limit. Actually 5MB is the limit so be safer.
 
-interface ContextImage {
+// Exported so AdminImages (which owns the context-images state + UI) can
+// use the same shape.
+export interface ContextImage {
   file: File;
   base64: string;
   mediaType: string;
   previewUrl: string;
 }
 
-async function fileToBase64(file: File): Promise<string> {
+export const MAX_CONTEXT_IMAGES = 3;
+export const MAX_CONTEXT_FILE_BYTES = 4 * 1024 * 1024; // ~5.3MB after base64; under Claude's 5MB encoded limit when packed alone.
+
+export async function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      // Strip "data:image/<type>;base64," prefix
       const idx = result.indexOf(',');
       resolve(idx >= 0 ? result.slice(idx + 1) : result);
     };
@@ -53,6 +55,8 @@ interface Props {
   packageTitle: string;
   occasions: string[] | null;
   imageUrls: string[];
+  contextImages: ContextImage[];
+  onAfterSave: () => void;
 }
 
 interface AIResult {
@@ -226,6 +230,8 @@ export default function AIPackageDescGenerator({
   packageTitle,
   occasions,
   imageUrls,
+  contextImages,
+  onAfterSave,
 }: Props) {
   const [open, setOpen] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -236,63 +242,7 @@ export default function AIPackageDescGenerator({
   const [tips, setTips] = useState('');
   const [mood, setMood] = useState<string[]>([]);
 
-  const [contextImages, setContextImages] = useState<ContextImage[]>([]);
-  const contextInputRef = useRef<HTMLInputElement | null>(null);
-
   const { toast } = useToast();
-
-  const handleAddContextImages = async (fileList: FileList | null) => {
-    if (!fileList) return;
-    const remaining = MAX_CONTEXT_IMAGES - contextImages.length;
-    if (remaining <= 0) {
-      toast({ title: `최대 ${MAX_CONTEXT_IMAGES}장까지만 추가 가능`, variant: 'destructive' });
-      return;
-    }
-    const newImages: ContextImage[] = [];
-    for (const file of Array.from(fileList).slice(0, remaining)) {
-      if (!file.type.startsWith('image/')) {
-        toast({ title: `${file.name}: 이미지가 아님 (스킵)`, variant: 'destructive' });
-        continue;
-      }
-      if (file.size > MAX_CONTEXT_FILE_BYTES) {
-        toast({
-          title: `${file.name}: 4MB 초과 (스킵)`,
-          description: '모바일 스크린샷은 보통 1MB 이하입니다. JPEG로 다시 저장하거나 잘라보세요.',
-          variant: 'destructive',
-        });
-        continue;
-      }
-      try {
-        const base64 = await fileToBase64(file);
-        newImages.push({
-          file,
-          base64,
-          mediaType: file.type,
-          previewUrl: URL.createObjectURL(file),
-        });
-      } catch (e: any) {
-        toast({ title: `${file.name}: 읽기 실패`, description: String(e?.message ?? e), variant: 'destructive' });
-      }
-    }
-    setContextImages((prev) => [...prev, ...newImages]);
-    // Reset the file input so the same file can be re-selected if removed
-    if (contextInputRef.current) contextInputRef.current.value = '';
-  };
-
-  const removeContextImage = (index: number) => {
-    setContextImages((prev) => {
-      const removed = prev[index];
-      if (removed) URL.revokeObjectURL(removed.previewUrl);
-      return prev.filter((_, i) => i !== index);
-    });
-  };
-
-  const clearContextImages = () => {
-    setContextImages((prev) => {
-      prev.forEach((img) => URL.revokeObjectURL(img.previewUrl));
-      return [];
-    });
-  };
 
   const generate = async () => {
     if (imageUrls.length === 0 && contextImages.length === 0) {
@@ -361,9 +311,9 @@ export default function AIPackageDescGenerator({
 
       toast({ title: '완료', description: redeployMsg });
       setOpen(false);
-      // Clear context screenshots after a successful save so they don't
-      // get re-sent on a subsequent generation for the same/another package.
-      clearContextImages();
+      // Notify parent so it can clear its context-screenshot state
+      // (those images shouldn't carry over to another package).
+      onAfterSave();
     } catch (err: any) {
       toast({
         title: '저장 실패',
@@ -375,59 +325,13 @@ export default function AIPackageDescGenerator({
     }
   };
 
-  return (
-    <div className="space-y-3">
-      {/* Context image picker — landing-page screenshots (text-heavy info cards) */}
-      <div className="rounded-md border border-dashed border-muted-foreground/30 p-3 space-y-2 bg-muted/30">
-        <div className="flex items-center gap-2">
-          <FileImage className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium">
-            추가 컨텍스트 (선택) — 외부 페이지 스크린샷
-          </span>
-          <span className="text-xs text-muted-foreground">
-            {contextImages.length}/{MAX_CONTEXT_IMAGES}
-          </span>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          작가의 카카오채널·블로그·스마트스토어 등에서 캡처한 <strong>패키지 정보 스크린샷</strong>을 추가하면
-          AI가 원본/보정 컷 수, 촬영 시간, 포함 사항 같은 구체적인 정보를 details에 반영합니다.
-          이 이미지들은 저장되지 않고 AI 생성에만 사용됩니다.
-        </p>
-        <input
-          ref={contextInputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={(e) => handleAddContextImages(e.target.files)}
-          disabled={contextImages.length >= MAX_CONTEXT_IMAGES || generating}
-          className="block text-xs file:mr-2 file:rounded file:border-0 file:bg-primary file:px-3 file:py-1 file:text-xs file:font-medium file:text-primary-foreground hover:file:bg-primary/90 disabled:opacity-50"
-        />
-        {contextImages.length > 0 && (
-          <div className="flex flex-wrap gap-2 pt-1">
-            {contextImages.map((img, i) => (
-              <div key={i} className="relative group">
-                <img
-                  src={img.previewUrl}
-                  alt={`context ${i + 1}`}
-                  className="h-16 w-16 object-cover rounded border"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeContextImage(i)}
-                  className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                  aria-label="제거"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+  const totalImages = imageUrls.length + contextImages.length;
 
+  return (
+    <>
       <Button
         onClick={generate}
-        disabled={(imageUrls.length === 0 && contextImages.length === 0) || generating}
+        disabled={totalImages === 0 || generating}
         size="sm"
         variant="default"
       >
@@ -439,7 +343,7 @@ export default function AIPackageDescGenerator({
         ) : (
           <>
             <Sparkles className="mr-2 h-4 w-4" />
-            AI로 description·details·Tips 생성 ({Math.min(imageUrls.length, MAX_IMAGES)}장 사용)
+            AI로 description·details·Tips 생성 (작품 {Math.min(imageUrls.length, MAX_IMAGES)}장 + 컨텍스트 {contextImages.length}장)
           </>
         )}
       </Button>
@@ -517,6 +421,6 @@ export default function AIPackageDescGenerator({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }

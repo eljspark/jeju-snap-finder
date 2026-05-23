@@ -26,16 +26,23 @@ import {
   Image as ImageIcon,
   Star,
   StarOff,
-  Crop
+  Crop,
+  FileImage,
 } from 'lucide-react';
 import { ImageCropper } from '@/components/ImageCropper';
-import AIPackageDescGenerator from '@/components/admin/AIPackageDescGenerator';
+import AIPackageDescGenerator, {
+  ContextImage,
+  MAX_CONTEXT_IMAGES,
+  MAX_CONTEXT_FILE_BYTES,
+  fileToBase64,
+} from '@/components/admin/AIPackageDescGenerator';
 
 interface Package {
   id: string;
   title: string;
   folder_path: string | null;
   thumbnail_url: string | null;
+  occasions: string[] | null;
 }
 
 interface StorageFile {
@@ -64,7 +71,69 @@ export default function AdminImages() {
   const [cropperOpen, setCropperOpen] = useState(false);
   const [selectedImageForCrop, setSelectedImageForCrop] = useState<StorageFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // Context screenshots for AI generation — held in browser memory only,
+  // never stored in Supabase, never shown on the live site.
+  const [contextImages, setContextImages] = useState<ContextImage[]>([]);
+  const contextInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const handleAddContextImages = async (fileList: FileList | null) => {
+    if (!fileList) return;
+    const remaining = MAX_CONTEXT_IMAGES - contextImages.length;
+    if (remaining <= 0) {
+      toast({ title: `최대 ${MAX_CONTEXT_IMAGES}장까지만 추가 가능`, variant: 'destructive' });
+      return;
+    }
+    const newImages: ContextImage[] = [];
+    for (const file of Array.from(fileList).slice(0, remaining)) {
+      if (!file.type.startsWith('image/')) {
+        toast({ title: `${file.name}: 이미지가 아님 (스킵)`, variant: 'destructive' });
+        continue;
+      }
+      if (file.size > MAX_CONTEXT_FILE_BYTES) {
+        toast({
+          title: `${file.name}: 4MB 초과 (스킵)`,
+          description: '모바일 스크린샷은 보통 1MB 이하입니다. JPEG로 다시 저장하거나 잘라보세요.',
+          variant: 'destructive',
+        });
+        continue;
+      }
+      try {
+        const base64 = await fileToBase64(file);
+        newImages.push({
+          file,
+          base64,
+          mediaType: file.type,
+          previewUrl: URL.createObjectURL(file),
+        });
+      } catch (e: any) {
+        toast({ title: `${file.name}: 읽기 실패`, description: String(e?.message ?? e), variant: 'destructive' });
+      }
+    }
+    setContextImages((prev) => [...prev, ...newImages]);
+    if (contextInputRef.current) contextInputRef.current.value = '';
+  };
+
+  const removeContextImage = (index: number) => {
+    setContextImages((prev) => {
+      const removed = prev[index];
+      if (removed) URL.revokeObjectURL(removed.previewUrl);
+      return prev.filter((_, i) => i !== index);
+    });
+  };
+
+  const clearContextImages = () => {
+    setContextImages((prev) => {
+      prev.forEach((img) => URL.revokeObjectURL(img.previewUrl));
+      return [];
+    });
+  };
+
+  // Clear context images when switching packages — they're per-package context.
+  useEffect(() => {
+    clearContextImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPackage?.id]);
 
   // Fetch packages
   useEffect(() => {
@@ -73,7 +142,7 @@ export default function AdminImages() {
       try {
         const { data, error } = await supabase
           .from('packages')
-          .select('id, title, folder_path, thumbnail_url')
+          .select('id, title, folder_path, thumbnail_url, occasions')
           .order('title');
         
         if (error) throw error;
@@ -627,21 +696,77 @@ export default function AdminImages() {
               </CardContent>
             </Card>
 
+            {/* Context Screenshots — separate top-level card, parallel to "Upload Images".
+                Holds landing-page screenshots in browser memory only (not stored). */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <FileImage className="h-5 w-5" />
+                  <span>외부 페이지 스크린샷 (AI 생성용, 선택)</span>
+                  <span className="text-sm text-muted-foreground font-normal">
+                    {contextImages.length}/{MAX_CONTEXT_IMAGES}
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  작가의 카카오채널·블로그·스마트스토어 등에서 캡처한 <strong>패키지 정보 스크린샷</strong>을
+                  추가하면 AI가 원본/보정 컷 수, 촬영 시간, 포함 사항 같은 구체적인 정보를 details에 반영합니다.
+                  이 이미지들은 <strong>Supabase에 저장되지 않고</strong> AI 생성에만 사용되며, 사이트의 샘플
+                  이미지나 썸네일에도 노출되지 않습니다.
+                </p>
+                <input
+                  ref={contextInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => handleAddContextImages(e.target.files)}
+                  disabled={contextImages.length >= MAX_CONTEXT_IMAGES}
+                  className="block text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90 disabled:opacity-50"
+                />
+                {contextImages.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {contextImages.map((img, i) => (
+                      <div key={i} className="relative group">
+                        <img
+                          src={img.previewUrl}
+                          alt={`context ${i + 1}`}
+                          className="h-24 w-24 object-cover rounded border"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeContextImage(i)}
+                          className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          aria-label="제거"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
             {/* AI Description Generator */}
-            {existingFiles.length > 0 && (
+            {(existingFiles.length > 0 || contextImages.length > 0) && (
               <Card>
                 <CardHeader>
                   <CardTitle>AI 자동 생성</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p className="text-sm text-muted-foreground">
-                    업로드된 이미지를 Claude에 보내 description·details·Tips·mood를 자동 작성합니다.
-                    생성 후 검토·수정한 다음 저장하면 패키지에 반영되고 자동 재배포까지 트리거됩니다.
+                    업로드된 작품 사진(필수)과 외부 페이지 스크린샷(선택)을 함께 Claude에 보내
+                    description·details·Tips·mood를 자동 작성합니다. 생성 후 검토·수정한 다음 저장하면
+                    패키지에 반영되고 자동 재배포까지 트리거됩니다.
                   </p>
                   <AIPackageDescGenerator
                     packageId={selectedPackage.id}
                     packageTitle={selectedPackage.title}
+                    occasions={selectedPackage.occasions}
                     imageUrls={existingFiles.map((f) => f.url)}
+                    contextImages={contextImages}
+                    onAfterSave={clearContextImages}
                   />
                 </CardContent>
               </Card>
