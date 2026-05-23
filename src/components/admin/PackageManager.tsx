@@ -7,8 +7,15 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, AlertCircle, Loader2, Rocket } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader2, Rocket, UserPlus } from 'lucide-react';
 
 const OCCASION_OPTIONS = ['커플', '가족', '우정', '프로필', '웨딩', '만삭', '개인', '아기'] as const;
 const MOOD_OPTIONS = [
@@ -17,6 +24,25 @@ const MOOD_OPTIONS = [
 ] as const;
 
 const DEPLOY_HOOK_STORAGE_KEY = 'vercel_deploy_hook_url';
+
+// prospects 테이블은 자동 생성된 Database 타입에 아직 없어서 로컬 인터페이스로 정의.
+// supabase gen types로 재생성 시 이 인터페이스는 제거 가능.
+interface Prospect {
+  id: string;
+  ig_username: string;
+  ig_display_name: string | null;
+  followers_count: number | null;
+  bio: string | null;
+  external_link: string | null;
+  shoot_styles: string[] | null;
+  contact_status: string;
+}
+
+// display_name "언트하우스 제주만삭스냅 | 제주도가족사진 | ..." → "언트하우스 제주만삭스냅"
+function cleanProspectTitle(displayName: string | null, igUsername: string): string {
+  const cleaned = (displayName || '').split(/[|｜]/)[0].trim();
+  return cleaned || igUsername;
+}
 
 interface FormState {
   title: string;
@@ -53,6 +79,9 @@ export default function PackageManager() {
   const [lastInsertedTitle, setLastInsertedTitle] = useState<string | null>(null);
   const [deployHookUrl, setDeployHookUrl] = useState('');
   const [deployHookSaved, setDeployHookSaved] = useState(false);
+  const [prospects, setProspects] = useState<Prospect[]>([]);
+  const [selectedProspectId, setSelectedProspectId] = useState<string>('');
+  const [loadingProspects, setLoadingProspects] = useState(false);
   const { toast } = useToast();
 
   // Load Deploy Hook URL from localStorage on mount
@@ -64,6 +93,62 @@ export default function PackageManager() {
       setDeployHookSaved(true);
     }
   }, []);
+
+  // Load prospects (excluding already onboarded/rejected/unfit)
+  const loadProspects = async () => {
+    setLoadingProspects(true);
+    try {
+      const { data, error } = await (supabase as any)
+        .from('prospects')
+        .select('id, ig_username, ig_display_name, followers_count, bio, external_link, shoot_styles, contact_status')
+        .not('contact_status', 'in', '(onboarded,rejected,unfit)')
+        .order('followers_count', { ascending: false, nullsFirst: false });
+      if (error) throw error;
+      setProspects((data as Prospect[]) || []);
+    } catch (err: any) {
+      toast({
+        title: 'Prospect 로드 실패',
+        description: String(err?.message || err),
+        variant: 'destructive',
+      });
+    } finally {
+      setLoadingProspects(false);
+    }
+  };
+
+  useEffect(() => {
+    loadProspects();
+  }, []);
+
+  const applyProspectToForm = (prospectId: string) => {
+    setSelectedProspectId(prospectId);
+    if (!prospectId) return;
+    const p = prospects.find((x) => x.id === prospectId);
+    if (!p) return;
+
+    const cleanTitle = cleanProspectTitle(p.ig_display_name, p.ig_username);
+    const bio = p.bio || '';
+    const firstBioLine = bio.split('\n').find((l) => l.trim())?.trim() || '';
+    // Only prefill occasions where the shoot_style matches our enum options
+    const validOccasions = (p.shoot_styles || []).filter((s) =>
+      (OCCASION_OPTIONS as readonly string[]).includes(s),
+    );
+
+    setForm((prev) => ({
+      ...prev,
+      title: cleanTitle,
+      reservation_url: p.external_link || prev.reservation_url,
+      occasions: validOccasions.length > 0 ? validOccasions : prev.occasions,
+      description: firstBioLine || prev.description,
+      details: bio || prev.details,
+      folder_path: p.ig_username,
+    }));
+
+    toast({
+      title: 'Prospect 데이터 적용됨',
+      description: `@${p.ig_username} → 폼에 자동 입력. 가격·썸네일 등 나머지 항목 채우세요.`,
+    });
+  };
 
   const saveDeployHook = () => {
     if (typeof window === 'undefined') return;
@@ -168,11 +253,32 @@ export default function PackageManager() {
       if (error) throw error;
 
       setLastInsertedTitle(data.title);
+
+      // If this package was created from a prospect, mark that prospect as onboarded
+      // and remove it from the local list so it disappears from the dropdown.
+      if (selectedProspectId) {
+        const { error: updateErr } = await (supabase as any)
+          .from('prospects')
+          .update({ contact_status: 'onboarded' })
+          .eq('id', selectedProspectId);
+        if (updateErr) {
+          // Non-fatal: package was created successfully even if prospect update failed
+          toast({
+            title: 'Prospect 상태 업데이트 실패 (패키지는 정상 추가됨)',
+            description: String(updateErr.message),
+            variant: 'destructive',
+          });
+        } else {
+          setProspects((prev) => prev.filter((p) => p.id !== selectedProspectId));
+        }
+      }
+
       toast({
         title: '패키지 추가 완료',
         description: `${data.title} 등록됨. 메인 페이지엔 즉시, 카테고리·상세 페이지엔 재배포 후 반영`,
       });
       setForm(initialFormState);
+      setSelectedProspectId('');
 
       // Auto-trigger redeploy if Deploy Hook URL is saved
       const url = window.localStorage.getItem(DEPLOY_HOOK_STORAGE_KEY);
@@ -240,6 +346,52 @@ export default function PackageManager() {
               </>
             )}
           </Button>
+        </CardContent>
+      </Card>
+
+      {/* Prospect Picker — pre-fill form from a prospect-finder candidate */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <UserPlus className="h-5 w-5" />
+            Prospect에서 시작 (선택)
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            인스타에서 발굴한 작가 후보를 선택하면 제목·카테고리·설명·예약URL·폴더경로가 자동 입력됩니다.
+            가격·썸네일·분위기 등 나머지는 직접 채워주세요. 패키지 추가 시 해당 prospect는 자동으로 'onboarded' 상태가 됩니다.
+          </p>
+          <div className="flex gap-2 items-end">
+            <div className="flex-1">
+              <Label>후보 선택 ({prospects.length}명 대기 중)</Label>
+              <Select value={selectedProspectId} onValueChange={applyProspectToForm}>
+                <SelectTrigger>
+                  <SelectValue placeholder={loadingProspects ? '로딩 중...' : '신규 패키지 (prospect 없이)'} />
+                </SelectTrigger>
+                <SelectContent>
+                  {prospects.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      @{p.ig_username}
+                      {p.ig_display_name ? ` · ${cleanProspectTitle(p.ig_display_name, p.ig_username)}` : ''}
+                      {p.followers_count ? ` · ${p.followers_count.toLocaleString()} 팔로워` : ''}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button onClick={loadProspects} variant="outline" size="sm" disabled={loadingProspects}>
+              {loadingProspects ? <Loader2 className="h-4 w-4 animate-spin" /> : '새로고침'}
+            </Button>
+          </div>
+          {selectedProspectId && (
+            <Alert>
+              <CheckCircle className="h-4 w-4" />
+              <AlertDescription>
+                선택된 prospect의 데이터가 아래 폼에 적용되었습니다. 다른 후보로 바꾸려면 위에서 다시 선택하세요.
+              </AlertDescription>
+            </Alert>
+          )}
         </CardContent>
       </Card>
 
