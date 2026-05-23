@@ -13,12 +13,15 @@ function formatThumbnailUrl(thumbnailUrl: string) {
     return thumbnailUrl;
   }
   
-  // If it's a relative path, convert to full URL
-  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
+  // If it's a relative path, convert to full URL.
+  // baseUrl ends at /public/ — the "packages/" prefix is added below.
+  // Previously baseUrl included /packages AND we prepended packages/ → double bug
+  // generated URLs like /public/packages/packages/<file>, returning HTTP 400.
+  const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public";
   let cleanPath = thumbnailUrl
     .replace(/^\/+/, '') // Remove leading slashes
     .replace(/\/+/g, '/'); // Remove duplicate slashes
-  
+
   if (!cleanPath.startsWith('packages/')) {
     cleanPath = `packages/${cleanPath}`;
   }

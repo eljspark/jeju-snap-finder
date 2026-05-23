@@ -26,17 +26,18 @@ export function formatThumbnailUrl(
   if (thumbnailUrl.startsWith("http://") || thumbnailUrl.startsWith("https://")) {
     fullUrl = thumbnailUrl;
   } else {
-    // If it's just a storage path, convert to full URL
-    // Use /render/image/ endpoint for transformations instead of /object/public/
-    const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages";
-    
-    // Clean up path to prevent double slashes
+    // If it's just a storage path, convert to full URL.
+    // baseUrl ends at /public/ — the bucket prefix "packages/" is added below.
+    // (Don't include /packages in baseUrl AND prepend packages/ — would produce
+    // /public/packages/packages/<file> which 400s.)
+    const baseUrl = "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public";
+
     let cleanPath = thumbnailUrl.replace(/^\/+/, '');
-    
+
     if (!cleanPath.startsWith('packages/')) {
       cleanPath = `packages/${cleanPath}`;
     }
-    
+
     fullUrl = `${baseUrl}/${cleanPath}`;
   }
   
