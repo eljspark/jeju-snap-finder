@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, AlertCircle, Loader2, Rocket, UserPlus } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader2, Rocket, UserPlus, Pencil, Plus } from 'lucide-react';
 
 const OCCASION_OPTIONS = ['커플', '가족', '우정', '프로필', '웨딩', '만삭', '개인', '아기'] as const;
 const MOOD_OPTIONS = [
@@ -72,6 +72,11 @@ const initialFormState: FormState = {
   folder_path: '',
 };
 
+interface PackageRow {
+  id: string;
+  title: string;
+}
+
 export default function PackageManager() {
   const [form, setForm] = useState<FormState>(initialFormState);
   const [submitting, setSubmitting] = useState(false);
@@ -82,7 +87,14 @@ export default function PackageManager() {
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [selectedProspectId, setSelectedProspectId] = useState<string>('');
   const [loadingProspects, setLoadingProspects] = useState(false);
+  // Edit-mode state
+  const [packages, setPackages] = useState<PackageRow[]>([]);
+  const [editingPackageId, setEditingPackageId] = useState<string | null>(null);
+  const [loadingPackages, setLoadingPackages] = useState(false);
+  const [loadingPackageDetail, setLoadingPackageDetail] = useState(false);
   const { toast } = useToast();
+
+  const mode: 'create' | 'edit' = editingPackageId ? 'edit' : 'create';
 
   // Load Deploy Hook URL from localStorage on mount
   useEffect(() => {
@@ -119,6 +131,78 @@ export default function PackageManager() {
   useEffect(() => {
     loadProspects();
   }, []);
+
+  const loadPackages = async () => {
+    setLoadingPackages(true);
+    try {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('id, title')
+        .order('title');
+      if (error) throw error;
+      setPackages((data as PackageRow[]) || []);
+    } catch (err: any) {
+      toast({
+        title: '패키지 목록 로드 실패',
+        description: String(err?.message || err),
+        variant: 'destructive',
+      });
+    } finally {
+      setLoadingPackages(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPackages();
+  }, []);
+
+  const loadPackageIntoForm = async (packageId: string) => {
+    if (!packageId) {
+      setEditingPackageId(null);
+      setForm(initialFormState);
+      return;
+    }
+    setLoadingPackageDetail(true);
+    try {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*')
+        .eq('id', packageId)
+        .single();
+      if (error) throw error;
+      setEditingPackageId(packageId);
+      setSelectedProspectId('');
+      setLastInsertedTitle(null);
+      setForm({
+        title: data.title ?? '',
+        price_krw: data.price_krw != null ? String(data.price_krw) : '',
+        reservation_url: data.reservation_url ?? '',
+        duration_minutes: data.duration_minutes != null ? String(data.duration_minutes) : '',
+        thumbnail_url: data.thumbnail_url ?? '',
+        occasions: Array.isArray(data.occasions) ? (data.occasions as string[]) : [],
+        mood: Array.isArray(data.mood) ? (data.mood as string[]) : [],
+        description: data.description ?? '',
+        details: data.details ?? '',
+        Tips: (data as any).Tips ?? '',
+        folder_path: data.folder_path ?? '',
+      });
+    } catch (err: any) {
+      toast({
+        title: '패키지 로드 실패',
+        description: String(err?.message || err),
+        variant: 'destructive',
+      });
+    } finally {
+      setLoadingPackageDetail(false);
+    }
+  };
+
+  const resetToCreateMode = () => {
+    setEditingPackageId(null);
+    setForm(initialFormState);
+    setSelectedProspectId('');
+    setLastInsertedTitle(null);
+  };
 
   const applyProspectToForm = (prospectId: string) => {
     setSelectedProspectId(prospectId);
@@ -230,6 +314,42 @@ export default function PackageManager() {
 
     setSubmitting(true);
     try {
+      if (mode === 'edit' && editingPackageId) {
+        // UPDATE: send all fields including nullable ones explicitly so cleared fields persist as null
+        const payload: Record<string, unknown> = {
+          title: form.title.trim(),
+          price_krw: priceNum,
+          reservation_url: form.reservation_url.trim(),
+          occasions: form.occasions,
+          duration_minutes: form.duration_minutes ? Number(form.duration_minutes) : null,
+          thumbnail_url: form.thumbnail_url.trim() || null,
+          mood: form.mood.length > 0 ? form.mood : null,
+          description: form.description.trim() || null,
+          details: form.details.trim() || null,
+          Tips: form.Tips.trim() || null,
+          folder_path: form.folder_path.trim() || null,
+        };
+        const { data, error } = await supabase
+          .from('packages')
+          .update(payload)
+          .eq('id', editingPackageId)
+          .select()
+          .single();
+        if (error) throw error;
+
+        toast({
+          title: '패키지 수정 완료',
+          description: `${data.title} 저장됨. 메인 페이지엔 즉시, 카테고리·상세 페이지엔 재배포 후 반영`,
+        });
+        // Refresh the package list so any title change shows up in the picker
+        await loadPackages();
+        // Stay in edit mode with the saved values still in the form
+        const url = window.localStorage.getItem(DEPLOY_HOOK_STORAGE_KEY);
+        if (url) await triggerRedeploy();
+        return;
+      }
+
+      // CREATE
       const payload: any = {
         title: form.title.trim(),
         price_krw: priceNum,
@@ -262,7 +382,6 @@ export default function PackageManager() {
           .update({ contact_status: 'onboarded' })
           .eq('id', selectedProspectId);
         if (updateErr) {
-          // Non-fatal: package was created successfully even if prospect update failed
           toast({
             title: 'Prospect 상태 업데이트 실패 (패키지는 정상 추가됨)',
             description: String(updateErr.message),
@@ -279,15 +398,15 @@ export default function PackageManager() {
       });
       setForm(initialFormState);
       setSelectedProspectId('');
+      await loadPackages();
 
-      // Auto-trigger redeploy if Deploy Hook URL is saved
       const url = window.localStorage.getItem(DEPLOY_HOOK_STORAGE_KEY);
       if (url) {
         await triggerRedeploy();
       }
     } catch (err: any) {
       toast({
-        title: '추가 실패',
+        title: mode === 'edit' ? '저장 실패' : '추가 실패',
         description: String(err?.message || err),
         variant: 'destructive',
       });
@@ -349,7 +468,66 @@ export default function PackageManager() {
         </CardContent>
       </Card>
 
-      {/* Prospect Picker — pre-fill form from a prospect-finder candidate */}
+      {/* Edit existing package — load any package's fields into the form */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Pencil className="h-5 w-5" />
+            기존 패키지 수정
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            수정할 패키지를 선택하면 아래 폼이 현재 값으로 채워집니다. 저장하면 해당 패키지가 UPDATE되고 자동 재배포까지 트리거됩니다.
+          </p>
+          <div className="flex gap-2 items-end">
+            <div className="flex-1">
+              <Label>패키지 선택 ({packages.length}개)</Label>
+              <Select
+                value={editingPackageId ?? ''}
+                onValueChange={(v) => loadPackageIntoForm(v)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={loadingPackages ? '로딩 중...' : '신규 패키지 추가 모드'} />
+                </SelectTrigger>
+                <SelectContent>
+                  {packages.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button onClick={loadPackages} variant="outline" size="sm" disabled={loadingPackages}>
+              {loadingPackages ? <Loader2 className="h-4 w-4 animate-spin" /> : '새로고침'}
+            </Button>
+            {editingPackageId && (
+              <Button onClick={resetToCreateMode} variant="outline" size="sm">
+                <Plus className="mr-1 h-4 w-4" />
+                신규로 전환
+              </Button>
+            )}
+          </div>
+          {loadingPackageDetail && (
+            <Alert>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <AlertDescription>패키지 데이터를 불러오는 중...</AlertDescription>
+            </Alert>
+          )}
+          {editingPackageId && !loadingPackageDetail && (
+            <Alert>
+              <Pencil className="h-4 w-4" />
+              <AlertDescription>
+                <strong>수정 모드</strong> — 아래 폼이 현재 DB 값으로 채워졌습니다. 변경 후 "변경사항 저장"을 누르세요.
+              </AlertDescription>
+            </Alert>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Prospect Picker — pre-fill form from a prospect-finder candidate (create mode only) */}
+      {mode === 'create' && (
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -394,11 +572,12 @@ export default function PackageManager() {
           )}
         </CardContent>
       </Card>
+      )}
 
       {/* Package Form */}
       <Card>
         <CardHeader>
-          <CardTitle>새 패키지 추가</CardTitle>
+          <CardTitle>{mode === 'edit' ? '패키지 수정' : '새 패키지 추가'}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Required fields */}
@@ -523,21 +702,21 @@ export default function PackageManager() {
 
           <div className="flex items-center justify-between pt-2">
             <p className="text-xs text-muted-foreground">
-              * 필수 입력. 추가 후 메인엔 즉시 반영, 카테고리·상세 페이지엔 재배포 후 반영.
+              * 필수 입력. 저장 후 메인엔 즉시 반영, 카테고리·상세 페이지엔 재배포 후 반영.
             </p>
             <Button onClick={handleSubmit} disabled={submitting} size="lg">
               {submitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  추가 중...
+                  {mode === 'edit' ? '저장 중...' : '추가 중...'}
                 </>
               ) : (
-                '패키지 추가'
+                mode === 'edit' ? '변경사항 저장' : '패키지 추가'
               )}
             </Button>
           </div>
 
-          {lastInsertedTitle && (
+          {lastInsertedTitle && mode === 'create' && (
             <Alert>
               <CheckCircle className="h-4 w-4" />
               <AlertDescription>
