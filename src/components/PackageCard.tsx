@@ -24,7 +24,7 @@ const PackageCard = ({
   featured = false,
 }: PackageCardProps) => {
   return (
-    <a href={`/packages/${id}`} className="block">
+    <a href={`/packages/${id}`} className="block no-underline text-inherit">
       <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
         featured ? 'ring-2 ring-primary/20 shadow-medium' : 'shadow-soft hover:shadow-medium'
       }`}>
