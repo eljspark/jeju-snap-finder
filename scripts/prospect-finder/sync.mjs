@@ -59,10 +59,14 @@ const supabase = DRY_RUN
 
 // ---------- 변환 ----------
 function buildNaverSearchUrls(username, displayName) {
-  const q = encodeURIComponent(displayName || username);
+  // Strip noise after the first pipe ('|' or fullwidth '｜'). For
+  // "언트하우스 제주만삭스냅 | 제주도가족사진 ..." we just want "언트하우스 제주만삭스냅".
+  const cleanName = (displayName || '').split(/[|｜]/)[0].trim() || username;
+  const buildUrl = (suffix) =>
+    `https://search.naver.com/search.naver?query=${encodeURIComponent(`${cleanName} ${suffix}`)}`;
   return {
-    booking: `https://search.naver.com/search.naver?query=${q}+예약`,
-    smartstore: `https://search.naver.com/search.naver?query=${q}+스마트스토어`,
+    booking: buildUrl('예약'),
+    smartstore: buildUrl('스마트스토어'),
   };
 }
 
