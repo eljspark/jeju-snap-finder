@@ -215,16 +215,67 @@ async function main() {
     .filter((f) => SUPPORTED_EXTS.has(path.extname(f).toLowerCase()))
     .sort();
 
-  if (files.length === 0) {
-    console.log(`⚠️  ${INPUTS_DIR}에 스크린샷이 없습니다.`);
+  // info.json 모드: scrape.mjs가 만든 inputs/<username>/info.json을 OCR 없이 직접 소비
+  const subdirs = (await fs.readdir(INPUTS_DIR, { withFileTypes: true }))
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+    .sort();
+
+  const infoJsonDirs = [];
+  for (const sub of subdirs) {
+    try {
+      await fs.access(path.join(INPUTS_DIR, sub, 'info.json'));
+      infoJsonDirs.push(sub);
+    } catch {}
+  }
+
+  if (files.length === 0 && infoJsonDirs.length === 0) {
+    console.log(`⚠️  ${INPUTS_DIR}에 스크린샷도 info.json도 없습니다.`);
     return;
   }
 
-  console.log(`📂 처리할 파일 ${files.length}개\n`);
+  console.log(`📂 스크린샷 ${files.length}개, info.json 폴더 ${infoJsonDirs.length}개\n`);
 
   const stats = { ok: 0, skip: 0, fail: 0 };
   let outFile = null;
 
+  // 1) info.json 직접 소비 (OCR 스킵 — Apify scrape 결과)
+  for (const sub of infoJsonDirs) {
+    const subPath = path.join(INPUTS_DIR, sub);
+    console.log(`▶ ${sub}/info.json`);
+    try {
+      const raw = await fs.readFile(path.join(subPath, 'info.json'), 'utf8');
+      const parsed = JSON.parse(raw);
+      const d = parsed.data;
+      if (!d?.ig_username) {
+        console.log(`  ⚠️  ig_username 없음, 스킵`);
+        stats.skip++;
+        continue;
+      }
+      const record = {
+        extracted_at: parsed.extracted_at || new Date().toISOString(),
+        screenshot_file: null, // OCR이 아니라 API 결과라 null
+        source: parsed.source || 'apify-profile-scraper',
+        hashtag_source: HASHTAG ?? parsed.hashtag_source ?? null,
+        data: d,
+      };
+      if (DRY_RUN) {
+        console.log(`  📝 [dry-run] @${d.ig_username} (팔로워 ${d.followers_count ?? '?'})`);
+      } else {
+        outFile = await appendJsonl(record);
+        console.log(`  ✅ @${d.ig_username} (팔로워 ${d.followers_count ?? '?'}) → ${path.basename(outFile)}`);
+        if (!KEEP) {
+          await fs.rename(subPath, path.join(PROCESSED_DIR, sub));
+        }
+      }
+      stats.ok++;
+    } catch (e) {
+      console.log(`  ❌ ${e.message}`);
+      stats.fail++;
+    }
+  }
+
+  // 2) 기존 스크린샷 OCR 경로 (Claude vision)
   for (const file of files) {
     const filePath = path.join(INPUTS_DIR, file);
     console.log(`▶ ${file}`);
