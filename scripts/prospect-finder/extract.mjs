@@ -12,8 +12,13 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import os from 'node:os';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import Anthropic from '@anthropic-ai/sdk';
+
+const execFileP = promisify(execFile);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,6 +35,45 @@ const EXT_TO_MEDIA_TYPE = {
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
 };
+
+// Anthropic limits base64-encoded payload to 5 MB. Base64 ≈ raw × 1.37 (with newlines).
+// Stay safely under by triggering recompression when raw exceeds ~3.6 MB.
+const MAX_RAW_BYTES_BEFORE_RECOMPRESS = 3.6 * 1024 * 1024;
+const MAX_RAW_BYTES_HARD = 4.8 * 1024 * 1024; // post-compression ceiling
+
+// Recompress oversized images to JPEG via macOS `sips`. Tries q=85, then q=70.
+// Returns the buffer + media type that should actually be sent.
+async function prepareImageForUpload(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  let mediaType = EXT_TO_MEDIA_TYPE[ext];
+  if (!mediaType) throw new Error(`지원하지 않는 확장자: ${ext}`);
+
+  let buf = await fs.readFile(filePath);
+  if (buf.length <= MAX_RAW_BYTES_BEFORE_RECOMPRESS) {
+    return { buffer: buf, mediaType, recompressed: false, quality: null };
+  }
+
+  // Recompress to a temp JPEG. Try q=85 first, fall back to q=70.
+  const tmpBase = path.join(os.tmpdir(), `prospect-${process.pid}-${Date.now()}`);
+  for (const quality of [85, 70]) {
+    const tmpOut = `${tmpBase}-q${quality}.jpg`;
+    try {
+      await execFileP('sips', ['-s', 'format', 'jpeg', '-s', 'formatOptions', String(quality), filePath, '--out', tmpOut]);
+      const compressed = await fs.readFile(tmpOut);
+      await fs.unlink(tmpOut).catch(() => {});
+      if (compressed.length <= MAX_RAW_BYTES_HARD) {
+        return { buffer: compressed, mediaType: 'image/jpeg', recompressed: true, quality };
+      }
+      buf = compressed; // remember last attempt for error message
+    } catch (e) {
+      await fs.unlink(tmpOut).catch(() => {});
+      throw new Error(`sips 압축 실패 (q=${quality}): ${e.message}`);
+    }
+  }
+  throw new Error(
+    `원본이 너무 커서 5MB 한도에 맞출 수 없음 (q=70 기준 ${(buf.length / 1024 / 1024).toFixed(1)}MB). 스크린샷 해상도를 줄여 다시 찍어보세요.`,
+  );
+}
 
 // ---------- CLI 파싱 ----------
 const args = process.argv.slice(2);
@@ -109,11 +153,10 @@ const USER_PROMPT = (hashtagHint) =>
 
 // ---------- 핵심 로직 ----------
 async function extractFromImage(filePath, hashtag) {
-  const ext = path.extname(filePath).toLowerCase();
-  const mediaType = EXT_TO_MEDIA_TYPE[ext];
-  if (!mediaType) throw new Error(`지원하지 않는 확장자: ${ext}`);
-
-  const buf = await fs.readFile(filePath);
+  const { buffer: buf, mediaType, recompressed, quality } = await prepareImageForUpload(filePath);
+  if (recompressed) {
+    console.log(`  🗜️  자동 압축 적용 (sips JPEG q=${quality}, ${(buf.length / 1024).toFixed(0)} KB)`);
+  }
   const base64 = buf.toString('base64');
 
   const resp = await anthropic.messages.create({
