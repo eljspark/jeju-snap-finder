@@ -1,0 +1,17 @@
+# discovered 2026-05-24 hashtag=#제주가족스냅
+# 12 candidates evaluated, 3 with visible pricing
+# ✅ = uncomment to scrape, ❌ = commented out (manually uncomment if you want)
+# Pipe to: npm run prospect:scrape -- --usernames-file=scripts/prospect-finder/outputs/discovered_제주가족스냅_2026-05-24.txt
+
+studio_orari_jeju  # ✅ 가족사진 파일형_보정1컷 촬영금액 150,000원 (3인), 제주스냅 기본 50,000원(2인까지) (external_link) (2,564 followers)
+sunwoostyle.hj  # ✅ 흑백사진 1장 6,000원, 증명/여권 사진 20,000원 (external_link) (728 followers)
+lumo_jeju  # ✅ 1개포토존(70,000원) / 3개포토존(120,000원), 5인 기준 금액 (external_link) (146 followers)
+# sohohouse_jeju  # ❌ link page empty (11,751 followers)
+# ililgraphy  # ❌ no pricing (7,688 followers)
+# photodami  # ❌ no pricing (6,331 followers)
+# snapjeje  # ❌ link page empty (2,350 followers)
+# hiddenmoon_jeju  # ❌ no pricing (2,122 followers)
+# wooridoori_snap  # ❌ no pricing (1,315 followers)
+# kims.jeju.snap.film  # ❌ link page empty (1,082 followers)
+# __chowol__  # ❌ link page empty (870 followers)
+# delphinium_graphy  # ❌ no pricing (227 followers)

@@ -9,6 +9,7 @@
     "build": "node scripts/fetch-data.mjs && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview --outDir dist/client --port 5173",
+    "prospect:discover": "node scripts/prospect-finder/discover.mjs",
     "prospect:scrape": "node scripts/prospect-finder/scrape.mjs",
     "prospect:extract": "node scripts/prospect-finder/extract.mjs",
     "prospect:sync": "node scripts/prospect-finder/sync.mjs"
