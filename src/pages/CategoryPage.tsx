@@ -6,6 +6,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
 import { Filter, Camera, MapPin, Clock, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 
 type OccasionKey = "커플" | "가족" | "우정" | "만삭" | "아기";
@@ -161,7 +163,26 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
 
   const copy = CATEGORY_COPY[occasion];
 
-  const normalized = (staticPackages || []).map((pkg: any) => ({
+  // Keep the prerendered snapshot for SEO and fast first paint, then refresh it
+  // so Supabase deletions are reflected without waiting for another deployment.
+  const { data: packages = [] } = useQuery({
+    queryKey: ["packages", "category", occasion],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("packages")
+        .select("*");
+
+      if (error) throw error;
+
+      return (data || []).filter(
+        (pkg) => Array.isArray(pkg.occasions) && pkg.occasions.includes(occasion),
+      );
+    },
+    initialData: staticPackages || [],
+    staleTime: 0,
+  });
+
+  const normalized = packages.map((pkg: any) => ({
     id: pkg.id,
     title: pkg.title,
     price: pkg.price_krw ?? pkg.price ?? 0,

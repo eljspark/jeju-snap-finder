@@ -62,6 +62,16 @@ export async function fetchPackages() {
   );
   console.log('✅ packages.json written successfully');
 
+  // Remove detail JSON for packages that were deleted from Supabase.
+  const packageDetailFiles = (await fs.readdir(outDir))
+    .filter(file => /^package-.+\.json$/.test(file) && file !== 'package-meta-overrides.json');
+  const currentPackageFiles = new Set(formattedData.map(pkg => `package-${pkg.id}.json`));
+  await Promise.all(
+    packageDetailFiles
+      .filter(file => !currentPackageFiles.has(file))
+      .map(file => fs.unlink(path.join(outDir, file)))
+  );
+
   // detail JSON per package
   for (const pkg of formattedData) {
     await fs.writeFile(

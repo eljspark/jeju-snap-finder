@@ -1,0 +1,27 @@
+{
+  "id": "ff6f79d0-667b-4d3b-812d-fe52bf4cec1c",
+  "title": "담포토그라피",
+  "price_krw": 270000,
+  "reservation_url": "http://pf.kakao.com/_gtwmb",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/damphotography_/1779636822754_21.jpg",
+  "details": "상품구성 (야외촬영A · 가족스냅)\n1. 촬영 장소: 제주 자연배경 1곳\n2. 촬영 시간: 1시간 (4인 가족 기준)\n3. 제공 컷: 원본 + 보정본 15장 제공 (필름 룩 포함)\n4. 가격: 27만원",
+  "sample_image_urls": null,
+  "occasions": [
+    "가족",
+    "만삭"
+  ],
+  "created_at": "2026-05-24T15:32:35.597976+00:00",
+  "updated_at": "2026-05-24T15:37:49.298069+00:00",
+  "duration_minutes": 60,
+  "folder_path": "damphotography_",
+  "description": "제주의 넓은 자연 속에서 담아내는 우리 가족만의 따뜻하고 빛나는 순간",
+  "Tips": "담포토그라피:제주가족스냅/제주만삭스냅/제주돌스냅은 제주의 드넓은 초원과 맑은 하늘을 배경으로, 가족이 함께 뛰고 웃고 안기는 자연스러운 순간들을 필름 감성의 청량하고 따뜻한 톤으로 담아내요. 과하지 않은 색감과 여백 있는 구도 덕분에 사진 한 장 한 장이 오래 간직하고 싶은 기억처럼 느껴져요!\n\n아이와 함께하는 가족, 혹은 만삭의 설렘을 자연 속에서 남기고 싶은 예비 부부에게 특히 잘 어울려요. 아이의 표정과 가족 간의 교감을 자연스럽게 이끌어내는 연출이 담포토그라피:제주가족스냅/제주만삭스냅/제주돌스냅의 큰 강점이에요.\n\n- 가족 의상은 화이트, 아이보리, 연그린 등 자연과 어우러지는 밝고 차분한 톤으로 맞춰오시면 훨씬 예쁘게 나와요.\n- 아이 컨디션이 가장 좋은 낮잠 후 시간대나 오전 맑은 시간으로 예약하시면 웃는 표정을 더 많이 담을 수 있어요.\n- 풍선이나 패브릭 소품을 챙겨오시면 가족 사진에 생동감 있는 컷을 추가로 남길 수 있어요.",
+  "mood": [
+    "자연스러운",
+    "따뜻한",
+    "청량한"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/damphotography_/1779636822754_21.jpg"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "45b9d634-5158-412b-aaf1-9e5687e03f1e",
+  "title": "레드스냅",
+  "price_krw": 150000,
+  "reservation_url": "http://pf.kakao.com/_LzVIxj",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/red__h1/1779632529027_kakaotalk_photo_2026-05-24-23-20-54_003.jpeg",
+  "details": "상품구성\n1. 장소: 1곳(1컨셉)\n2. 촬영 원본 전체 제공\n3. 정밀 보정본 5장 제공\n4. 촬영 시간: 1시간 (준비 시간 포함)\n5. 가격: 150,000원 (2인 기준)",
+  "sample_image_urls": null,
+  "occasions": [
+    "커플",
+    "우정"
+  ],
+  "created_at": "2026-05-24T14:15:15.563008+00:00",
+  "updated_at": "2026-05-24T14:24:41.582539+00:00",
+  "duration_minutes": 60,
+  "folder_path": "red__h1",
+  "description": "제주의 푸른 자연 속에서 담아내는 우리 둘만의 빛나는 순간",
+  "Tips": "레드스냅은 제주의 드넓은 초원, 수목원, 돌담길, 벚꽃 명소 등 자연이 만들어낸 배경 위에서 커플과 친구들의 따뜻한 감정을 생생하게 담아내요. 채도가 살아있으면서도 과하지 않은 선명한 색감이 특징이라, 사진 속에서도 그날의 설렘과 즐거움이 고스란히 느껴져요!\n\n두 사람 사이의 자연스러운 케미와 편안한 분위기를 끌어내는 데 강점이 있어서, 카메라 앞이 어색한 커플도 자연스럽게 웃음이 나오는 순간들로 가득 채워드려요. 계절마다 달라지는 제주의 풍경 덕분에 어느 시기에 와도 각자 다른 감성의 사진을 남길 수 있어요.",
+  "mood": [
+    "로맨틱",
+    "자연스러운",
+    "청량한"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/red__h1/1779632529027_kakaotalk_photo_2026-05-24-23-20-54_003.jpeg"
+  ]
+}

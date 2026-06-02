@@ -85,6 +85,60 @@
     ]
   },
   {
+    "id": "fff43354-0ea4-413c-be52-f0f59c71683c",
+    "title": "두유필름 스튜디오",
+    "price_krw": 300000,
+    "reservation_url": "https://pf.kakao.com/_GxkxlFxb?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTI0MDI0NTc0Mjg3NDE0AAGnDNz2IrkgipJlnvemZdBnjqtOLA_ss2FvbjSIUNf0Ljy16kXAiAFehKTWfes_aem_a8UqMKtNpre4dbFcUMrzOA",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/doyou.studio/1779535208147_kakaotalk_photo_2026-05-23-20-19-35_009.jpeg",
+    "details": "1. 촬영장소: 2~3곳\n2.  원본 파일 전체 제공\n3. 세부 보정본 10장 + 색감 보정본 30장 제공",
+    "sample_image_urls": null,
+    "occasions": [
+      "커플"
+    ],
+    "created_at": "2026-05-23T10:45:14.977319+00:00",
+    "updated_at": "2026-05-23T11:28:37.621771+00:00",
+    "duration_minutes": 120,
+    "folder_path": "doyou.studio",
+    "description": "비 오는 날도, 햇살 가득한 날도 우리 둘이라면 다 예뻐요",
+    "Tips": "두유필름 스튜디오는 초원, 숲, 들판 같은 제주의 자연을 배경으로 커플의 진짜 감정을 담아내요. 흐린 날의 서정적인 필름 감성부터 골든아워의 따뜻하고 빛나는 톤까지, 그날의 날씨와 빛을 자연스럽게 활용해서 두 사람만의 분위기를 만들어줘요.\n\n화보 같은 포즈보다 서로를 바라보고, 웃고, 장난치는 자연스러운 순간을 포착하는 걸 좋아하는 커플에게 특히 잘 어울려요. 투명 우산, 웨딩 베일 같은 소품도 감각적으로 활용해주셔서 다채로운 컷을 남길 수 있어요.\n- 투명 우산, 웨딩 베일, 꽃다발 같은 소품을 하나 준비해오시면 분위기 있는 컷을 추가로 남길 수 있어요.\n- 야외 2~3곳을 이동하는 촬영이라 편한 신발을 꼭 챙겨오시고, 바람이 강한 날을 대비해 헤어핀이나 머리끈도 준비해오시면 좋아요.\n- 촬영 중 억지로 포즈 잡으려 하지 않아도 돼요. 둘이 이야기 나누고 웃는 자연스러운 순간이 오히려 가장 예쁜 컷이 되는 경우가 많아요!",
+    "mood": [
+      "로맨틱",
+      "자연스러운",
+      "감성적인",
+      "차분한"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/doyou.studio/1779535208147_kakaotalk_photo_2026-05-23-20-19-35_009.jpeg"
+    ]
+  },
+  {
+    "id": "45b9d634-5158-412b-aaf1-9e5687e03f1e",
+    "title": "레드스냅",
+    "price_krw": 150000,
+    "reservation_url": "http://pf.kakao.com/_LzVIxj",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/red__h1/1779632529027_kakaotalk_photo_2026-05-24-23-20-54_003.jpeg",
+    "details": "상품구성\n1. 장소: 1곳(1컨셉)\n2. 촬영 원본 전체 제공\n3. 정밀 보정본 5장 제공\n4. 촬영 시간: 1시간 (준비 시간 포함)\n5. 가격: 150,000원 (2인 기준)",
+    "sample_image_urls": null,
+    "occasions": [
+      "커플",
+      "우정"
+    ],
+    "created_at": "2026-05-24T14:15:15.563008+00:00",
+    "updated_at": "2026-05-24T14:24:41.582539+00:00",
+    "duration_minutes": 60,
+    "folder_path": "red__h1",
+    "description": "제주의 푸른 자연 속에서 담아내는 우리 둘만의 빛나는 순간",
+    "Tips": "레드스냅은 제주의 드넓은 초원, 수목원, 돌담길, 벚꽃 명소 등 자연이 만들어낸 배경 위에서 커플과 친구들의 따뜻한 감정을 생생하게 담아내요. 채도가 살아있으면서도 과하지 않은 선명한 색감이 특징이라, 사진 속에서도 그날의 설렘과 즐거움이 고스란히 느껴져요!\n\n두 사람 사이의 자연스러운 케미와 편안한 분위기를 끌어내는 데 강점이 있어서, 카메라 앞이 어색한 커플도 자연스럽게 웃음이 나오는 순간들로 가득 채워드려요. 계절마다 달라지는 제주의 풍경 덕분에 어느 시기에 와도 각자 다른 감성의 사진을 남길 수 있어요.",
+    "mood": [
+      "로맨틱",
+      "자연스러운",
+      "청량한"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/red__h1/1779632529027_kakaotalk_photo_2026-05-24-23-20-54_003.jpeg"
+    ]
+  },
+  {
     "id": "c7262f20-dd6f-40a4-8305-4a210e17fbc7",
     "title": "오르다스냅",
     "price_krw": 120000,
@@ -140,6 +194,32 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/b1e74e06-25e4-4876-ac72-873c6dfbc32d/thumbnails/cropped_1756565776755_1756212171288_screenshot_2025-08-26_at_9.38.56_pm.png"
+    ]
+  },
+  {
+    "id": "b335245b-a114-49f1-9f80-cfd4b648134b",
+    "title": "플로피스냅",
+    "price_krw": 300000,
+    "reservation_url": "https://pf.kakao.com/_uTvIn?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTI0MDI0NTc0Mjg3NDE0AAGnidU9tbuT6NV6aZftS1gx7Ms5dPLF7jiq0HvQWR-dadOQm00HjxNYlOrPZLE_aem_4t5VnncUxiBaPrELvgICuQ",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/floppy_snap_/1779527620889_kakaotalk_photo_2026-05-23-18-12-42_012.jpeg",
+    "details": "[심플 스냅 기준]\n-  환복은 1회 가능\n- 원본 전체 JPG 제공\n- 색감+세부 보정 10장",
+    "sample_image_urls": null,
+    "occasions": [
+      "커플"
+    ],
+    "created_at": "2026-05-23T09:11:43.463986+00:00",
+    "updated_at": "2026-05-23T09:39:48.101582+00:00",
+    "duration_minutes": 120,
+    "folder_path": "floppy_snap_",
+    "description": "수줍지만 가끔 터지는 웃음, 그 순간을 FLOPPY스럽게 담아드려요",
+    "Tips": "플로피스냅은 제주의 벚꽃 길, 넓은 초원, 한적한 숲속 도로 등 자연스럽고 따뜻한 공간을 배경으로 커플의 진짜 모습을 담아내요. 과하게 꾸며진 사진보다는, 함께 웃고 뛰어놀다 찍힌 것 같은 편안하고 생동감 있는 컷들이 플로피스냅만의 색깔이에요. 너무 딱딱하게 포즈 잡는 게 어색한 커플, 그냥 편하게 하루를 즐기고 싶은 두 사람에게 특히 잘 어울려요. 촬영 내내 자연스러운 움직임과 리액션을 이끌어주는 작가 특유의 분위기 덕분에, 찍히는 줄도 모르고 나온 표정이 가장 예쁘게 담겨요.\n\n- 제주 벚꽃 시즌(3월 말~4월 초)에 촬영하면 작가 스타일과 특히 잘 어울리는 분홍빛 컷을 남길 수 있어요.\n- 너무 형식적인 정장보다는 편안한 일상복 스타일이 플로피스냅 무드에 딱 맞아요.\n- 반려동물과 함께 촬영하는 것도 가능하니, 함께하고 싶은 분들은 사전에 작가에게 미리 문의해보시면 좋아요.",
+    "mood": [
+      "자연스러운",
+      "편안한",
+      "활기찬"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/floppy_snap_/1779527620889_kakaotalk_photo_2026-05-23-18-12-42_012.jpeg"
     ]
   },
   {
@@ -228,6 +308,61 @@
     ]
   },
   {
+    "id": "24bba417-d4d5-4443-b657-05752c5250c1",
+    "title": "동완필름",
+    "price_krw": 200000,
+    "reservation_url": "http://www.dongwanfilm.com/",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/dongwanfilm/1779608314217_10.jpg",
+    "details": "1. 원본 사진 전체 제공 \n2. 동영상 쇼츠 촬영 포함\n3. 세부 보정본 5장 제공돼요.\n4. 추천 의상 1벌 안내 및 메인 장소 1곳으로 진행돼요.\n5. 5인 이상은 1인당 30,000원 추가돼요. (조부모 최대 2인까지만 추가 가능)",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족"
+    ],
+    "created_at": "2026-05-24T07:35:39.404326+00:00",
+    "updated_at": "2026-05-24T07:41:35.258998+00:00",
+    "duration_minutes": 60,
+    "folder_path": "dongwanfilm",
+    "description": "제주의 빛 아래, 우리 가족만의 진짜 순간들",
+    "Tips": "동완필름은 제주의 드넓은 초원, 억새밭, 푸른 하늘을 배경으로 가족의 따뜻하고 생생한 감정을 담아내요. 골든아워의 따스한 빛과 필름 감성의 색감이 어우러져, 연출된 것 같지 않은 자연스러운 가족 사진이 완성돼요.\n\n아이의 표정과 가족 간의 소소한 교감을 놓치지 않고 포착하는 것이 동완필름의 강점이에요. 비눗방울, 꽃 소품 같은 아이템을 활용해 아이가 자연스럽게 웃을 수 있도록 유도해주기 때문에, 아이와 함께하는 가족 촬영에 특히 잘 어울려요!\n\n- 아이 컨디션이 좋은 시간대(낮잠 이후 오후 늦게)에 예약하시면 자연스러운 표정을 담기 훨씬 수월해요.\n- 비눗방울, 작은 꽃 소품, 아이가 좋아하는 장난감 등을 챙겨오시면 아이의 진짜 웃음을 끌어내는 데 도움이 돼요.\n- 가족 의상은 톤을 맞추되 동일한 색보다는 유사 컬러로 자연스럽게 맞추시면 더 예쁘게 나올 수 있어요. (예: 크림·베이지·네이비 조합)\n- 야외 촬영이라 바람이 강할 수 있으니 아이 머리핀이나 헤어밴드를 챙겨오시면 좋아요.\n- 제주는 날씨 변화가 잦으니 촬영 당일 얇은 겉옷 하나씩 여분으로 챙겨오시면 여유 있게 촬영할 수 있어요.",
+    "mood": [
+      "따뜻한",
+      "감성적인",
+      "빈티지",
+      "차분한"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/dongwanfilm/1779608314217_10.jpg"
+    ]
+  },
+  {
+    "id": "1d39086c-d0a4-4ea2-824e-305943437b5f",
+    "title": "스냅구도",
+    "price_krw": 350000,
+    "reservation_url": "pf.kakao.com/_sbSyG/chat",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/snap_gudo/1779611446073_01.jpg",
+    "details": "[상품구성]\n1. 촬영 시간: 1시간 내외 (의상 환복 및 적응 시간 포함)\n2. 촬영 장소: 1곳\n3. 가격: 35만원\n4. 원본 약 500장 전체 제공\n5. 색감보정본 30장 + 인물보정본 3장 제공\n6. 추가 옵션: 장소 1곳 추가 시 15만원 (이동시간 포함) / 4인 초과 시 1인당 5만원 추가 / 빈티지 캠코더 영상(편집 후 1분 내외, 파일 원본 제공) 10만원",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족",
+      "만삭"
+    ],
+    "created_at": "2026-05-24T08:29:16.067017+00:00",
+    "updated_at": "2026-05-24T08:34:18.391524+00:00",
+    "duration_minutes": 60,
+    "folder_path": "snap_gudo",
+    "description": "초록빛 자연 속에서 담아내는 우리 가족만의 따뜻하고 서정적인 순간",
+    "Tips": "푸른 잔디와 버드나무, 넓은 하늘을 배경으로 가족의 진짜 표정과 감정을 자연스럽게 담아내는 스타일이에요. 과하지 않은 필름 감성의 색감으로 따뜻하면서도 차분한 무드가 특징이라, 꾸민 듯 꾸미지 않은 일상적인 아름다움이 사진에 그대로 녹아들어요.\n\n아이와 함께하는 가족, 만삭의 예비 부모에게 특히 잘 어울려요. 아이가 뛰어다니거나 꽃을 건네는 자연스러운 순간들을 놓치지 않고 담아내는 게 이 작가만의 큰 강점이에요. 빈티지 캠코더 영상도 함께 남길 수 있어서 사진과 함께 그날의 분위기를 더 생생하게 기억할 수 있어요!",
+    "mood": [
+      "자연스러운",
+      "따뜻한",
+      "감성적인",
+      "빈티지"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/snap_gudo/1779611446073_01.jpg"
+    ]
+  },
+  {
     "id": "91e7c774-64d3-4988-8455-40cba2b3167c",
     "title": "니우스튜디오",
     "price_krw": 150000,
@@ -256,31 +391,83 @@
     ]
   },
   {
-    "id": "a3f734b7-0fb7-4ca1-9491-8396d54d4e4e",
-    "title": "연결",
+    "id": "bb0d5098-b61c-46bc-9992-a983a2680ffc",
+    "title": "아워페이지 제주",
     "price_krw": 200000,
-    "reservation_url": "https://pf.kakao.com/_xjLtLG?fbclid=PAZXh0bgNhZW0CMTEAAadJir1he15bF9sQRpXVSiEdGx6jokW4KIRJ-GSdswIFZMVW6nxHKuy-SmZZ1w_aem_FtAuZnXUJyd10HmrqH5dLA",
-    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/a3f734b7-0fb7-4ca1-9491-8396d54d4e4e/cropped_1756565276571_1756211569818_screenshot_2025-08-26_at_9.30.22_pm.png",
-    "details": "1. 고화질 원본 500장\n2. 고객선정 보정본 10장 + 작가선정 보정본 10장 제공\n3. 초상권 동의시 15만원",
+    "reservation_url": "linktr.ee/ourpage_Official",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/ourpage_jeju/1779533377794_kakaotalk_photo_2026-05-23-19-48-45_014.jpeg",
+    "details": "[Simple Snap 패키지 기준]\n1. 촬영 장소: 1곳\n2. 원본 전체가 제공\n3. 색감 보정본 10장 + 정밀 보정본 5장을 받아보실 수 있어요. 원본은 촬영 후 1~2일 안에 전달되고, 셀렉본 보내주신 후 보정본은 약 30일 소요돼요. \n4. 시간 추가는 1시간당 10만 원이며, 이동 및 환복 시간도 촬영 시간에 포함돼 있어요.",
     "sample_image_urls": null,
     "occasions": [
       "커플"
     ],
-    "created_at": "2025-08-26T12:23:59.46546+00:00",
-    "updated_at": "2025-12-09T12:56:53.480475+00:00",
+    "created_at": "2026-05-23T10:40:35.642224+00:00",
+    "updated_at": "2026-05-23T10:54:45.388263+00:00",
     "duration_minutes": 60,
-    "folder_path": "packages/a3f734b7-0fb7-4ca1-9491-8396d54d4e4e",
-    "description": "마음과 마음을 연결하는 특별한 스냅. 1시간 동안 커플의 깊은 감정과 교감을 섬세하게 담아냅니다.",
-    "Tips": "촬영용도: 커플 촬영을 전문으로 하시는 작가님이에요. 특히 자연스럽고 감성적인 분위기 속에서 커플 간의 진솔한 감정과 친밀감을 담아내는 것이 이 작가님의 강점이에요. 편안하고 로맨틱한 무드를 좋아하시는 분들, 그리고 제주의 다양한 자연 풍경 속에서 두 사람만의 특별한 순간을 기록하고 싶으신 커플들께 안성맞춤이에요. 영화의 한 장면 같은 감성적인 스냅을 찾으시는 분들, 특히 일상적이면서도 로맨틱한 순간들을 자연스럽게 담고 싶으신 분들께 특히 잘 어울려요. 프리웨딩이나 커플 기념 촬영을 계획하시는 분들께 추천드리며, 과하게 연출된 포즈보다는 함께 걷고, 누워있고, 웃으며 대화하는 자연스러운 모습을 선호하시는 분들이라면 작가님의 스타일과 완벽하게 맞을 거예요. 특히 두 사람의 케미와 편안한 분위기를 중요하게 생각하시는 커플들, 그리고 제주 여행의 낭만적인 순간들을 영원히 간직하고 싶으신 분들께 적극 추천드립니다. 다양한 날씨와 분위기를 잘 활용하시기 때문에, 맑은 날뿐만 아니라 흐린 날이나 안개 낀 날의 특별한 무드도 아름답게 담아내세요.\n\n촬영배경: 제주의 다채로운 자연 풍경을 모두 활용하시는 작가님이에요. 푸른 바다가 펼쳐진 해안가와 방파제, 넓은 초록 잔디밭과 들판, 울창한 숲속 산책로, 제주 특유의 돌담길과 오래된 나무가 있는 풍경 등 제주의 자연이 주는 다양한 색감과 분위기를 모두 담아내세요. 특히 석양 무렵의 따뜻한 빛이나 역광을 활용한 드라마틱한 느낌, 흐린 날의 차분하고 감성적인 분위기를 잘 표현하시는 것이 특징이에요. 관광지보다는 제주의 일상적인 풍경 속에서 촬영하시는 것을 선호하시며, 커플이 자연스럽게 산책하고 대화를 나눌 수 있는 편안한 장소를 찾아가세요. 바다, 숲, 들판, 돌담길 등 한 번의 촬영에서도 다양한 배경을 활용해 여러 무드의 사진을 담아내시는 것이 작가님의 스타일이에요. 비 오는 날의 촉촉한 숲이나 안개 낀 오름의 신비로운 분위기도 멋스럽게 표현하시며, 날씨와 시간대에 따라 제주가 보여주는 다양한 표정을 모두 포착하세요. 제주의 자연스러운 풍경과 커플의 자연스러운 모습이 조화를 이루는 장소를 선호하시며, 특별한 순간보다는 일상의 소중한 순간들을 아름답게 담아내는 것이 작가님의 철학입니다.\n\n의상: 제주의 자연을 배경으로 하는 만큼 화이트, 블랙, 베이지, 네이비 같은 자연스러운 컬러와 함께 포인트가 되는 레드, 오렌지 같은 비비드한 컬러도 잘 어울려요. 특히 작가님의 감성적인 스타일은 화이트 셔츠와 블랙 팬츠, 베이지 원피스, 그린 니트 같은 베이직하면서도 세련된 아이템과 완벽하게 어울려요. 커플 촬영의 경우 한 분은 화이트나 베이지 계열, 다른 한 분은 블랙이나 네이비 계열로 대비를 주시면 자연스럽게 조화를 이루면서도 각자의 개성을 살릴 수 있어요. 예를 들어 한 분은 화이트 셔츠와 데님, 다른 한 분은 베이지 원피스나 블랙 상의로 매칭하시면 깔끔하고 세련된 느낌을 줄 수 있어요. 레드나 오렌지 같은 포인트 컬러를 한 아이템에만 활용하시면 사진에 생동감을 더할 수 있으며, 특히 초록빛 배경과 대비되어 인물이 더욱 돋보이는 효과가 있어요. 린넨이나 코튼 같은 자연스러운 소재를 선택하시면 제주의 바람과 잘 어울리며, 너무 격식 있는 옷보다는 편안하게 움직일 수 있는 캐주얼한 스타일이 작가님의 자연스러운 감성과 잘 맞아요. 계절에 따라 니트나 재킷 같은 아우터를 활용하시면 다양한 레이어드 룩도 연출하실 수 있어요.",
+    "folder_path": "ourpage_jeju",
+    "description": "우리 둘만의 솔직한 감정을 제주의 자연 속에 자연스럽게 담아내는 커플 스냅",
+    "Tips": "아워페이지 제주는 초원, 숲, 흐린 하늘, 맑은 여름 들판까지 제주의 다양한 자연을 배경으로 커플의 진짜 감정을 솔직하게 담아내요. 연출된 포즈보다는 둘이 함께 웃고, 뛰고, 장난치는 순간을 자연스럽게 포착하는 스타일이라 보정 없이도 영화 한 장면처럼 나오는 게 이 작가의 가장 큰 매력이에요.\n\n비가 와도, 맑아도, 흐려도 각각의 날씨를 분위기로 살려내는 능력이 있어서 날씨 걱정은 조금 내려놓아도 괜찮아요! 커플의 취향과 개성을 반영한 의상이나 소품을 적극 활용해 둘만의 이야기가 담긴 컷을 연출해주는 것도 아워페이지 제주만의 강점이에요\n\n- 제주 초원이나 숲을 배경으로 할 땐 초록과 잘 어우러지는 화이트, 블랙, 베이지, 블루 계열 의상이 특히 잘 어울려요.\n- 커플이 함께 좋아하는 취미나 추억이 담긴 소품(예: 필름 카메라, 좋아하는 팀 유니폼, 꽃다발 등)을 챙겨오시면 훨씬 스토리 있는 컷을 남길 수 있어요.\n- 흐린 날이나 비 오는 날도 무드 있는 사진이 나오니 날씨 때문에 너무 걱정하지 않아도 돼요!",
     "mood": [
-      "로맨틱한",
-      "감성적인",
-      "아날로그",
       "자연스러운",
-      "차분한"
+      "로맨틱",
+      "활기찬"
     ],
     "images": [
-      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/a3f734b7-0fb7-4ca1-9491-8396d54d4e4e/cropped_1756565276571_1756211569818_screenshot_2025-08-26_at_9.30.22_pm.png"
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/ourpage_jeju/1779533377794_kakaotalk_photo_2026-05-23-19-48-45_014.jpeg"
+    ]
+  },
+  {
+    "id": "d1ede0be-5562-4440-a224-cf167ba3ded0",
+    "title": "소희스냅",
+    "price_krw": 300000,
+    "reservation_url": "pf.kakao.com/_jixiNn",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/soheesnap_jeju/1779600813530_kakaotalk_photo_2026-05-24-14-32-51_002.jpeg",
+    "details": "[미니 2h 패키지 기준] \n1. 2장소(환복 1회 가능)\n2. JPG 원본 500장 이상 제공\n3. 세부 보정본 10장 제공\n4. 기본 인원은 2인 기준이며, 인원 또는 반려동물 1인(마리) 추가 시 3만원이 추가돼요. \n5. 보정본이 더 필요하신 경우 1장당 1만원에 추가 가능하고, 긴급 보정이 필요하면 10장 기준 5만원으로 1주 내에 받아보실 수 있어요.",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족",
+      "만삭"
+    ],
+    "created_at": "2026-05-24T05:30:39.232704+00:00",
+    "updated_at": "2026-05-24T05:36:51.646769+00:00",
+    "duration_minutes": 120,
+    "folder_path": "soheesnap_jeju",
+    "description": "웃음과 온기로 가득한, 제주에서 담아내는 우리 가족의 진짜 순간",
+    "Tips": "소희스냅은 제주 동쪽의 드넓은 들판, 유채꽃밭, 초원 등 자연을 배경으로 가족의 진짜 웃음과 따뜻한 교감을 자연스럽게 담아내요. 연출된 포즈보다 함께 뛰어놀고, 아이를 번쩍 들어 올리고, 서로를 바라보는 그 찰나의 감정들을 필름 감성 톤으로 예쁘게 남겨드려요.\n\n아이가 있는 가족, 3대가 함께하는 대가족, 만삭의 예비 부모에게 특히 잘 어울리는 스타일이에요. 아이 컨트롤은 직접 해주셔야 하지만, 그 덕분에 오히려 더 생생하고 자연스러운 순간이 담기는 게 소희스냅만의 매력이에요!\n\n- 아이가 가장 컨디션 좋은 오전 시간대로 예약하시면 밝고 생기 있는 표정을 담기 훨씬 수월해요.\n- 아이가 좋아하는 간식이나 장난감을 챙겨오시면 자연스러운 웃음 표정을 끌어내는 데 도움이 돼요.",
+    "mood": [
+      "자연스러운",
+      "따뜻한",
+      "밝은"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/soheesnap_jeju/1779600813530_kakaotalk_photo_2026-05-24-14-32-51_002.jpeg"
+    ]
+  },
+  {
+    "id": "aebe9709-bbf2-4e8c-8c88-ff4e2dbafec9",
+    "title": "제주 애월곳간",
+    "price_krw": 60000,
+    "reservation_url": "https://m.place.naver.com/place/1860458266/home?entry=pll",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/jeju_aewolgotgan/1779688046114_25.jpg",
+    "details": "상품구성\n1. 기본 가격: 1인 30,000원, 인원 추가 시 1인당 20,000원 (영아·반려동물 동일 적용)\n2. 소요 시간: 최대 50분 (촬영·셀렉·보정 모두 포함된 시간이에요)\n3. 5R 종이액자 총 2매 무료 제공 (최종 셀렉 사진 보정 및 최고화질 컬러 인쇄)\n4. 추가 인쇄: 1장당 5,000원\n5. 사진 보정 1컷 추가: 1~2인 10,000원, 3인 이상 20,000원\n6. 전체 원본 JPG 파일 구매: 60,000원 (애월곳간 SNS 업로드 동의 시 50% 할인 30,000원)",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족",
+      "커플"
+    ],
+    "created_at": "2026-05-25T05:45:23.828815+00:00",
+    "updated_at": "2026-05-25T05:50:30.474192+00:00",
+    "duration_minutes": 50,
+    "folder_path": "jeju_aewolgotgan",
+    "description": "제주 돌담 앞에서 담아내는 우리 가족만의 따뜻하고 자연스러운 순간",
+    "Tips": "애월곳간은 제주 특유의 현무암 돌담, 낡은 간판, 감귤나무 같은 로컬 감성 가득한 배경 속에서 가족과 커플의 진짜 표정을 자연스럽게 담아내요. 과하지 않은 밝고 맑은 색감 톤으로, 보정 후에도 사진이 생생하고 따뜻하게 살아있는 느낌이에요!\n\n재밌는 포즈 가이드 덕분에 아이도 금세 긴장을 풀고 웃음을 터뜨리는 경우가 많고, 커플도 어색하지 않게 자연스러운 케미 컷을 남길 수 있어요. 제주다운 장소에서 나만의 기념 사진을 원하는 가족이나 커플에게 딱 어울리는 곳이에요.",
+    "mood": [
+      "자연스러운",
+      "따뜻한",
+      "밝은"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/jeju_aewolgotgan/1779688046114_25.jpg"
     ]
   },
   {
@@ -372,31 +559,30 @@
     ]
   },
   {
-    "id": "c81aa7dd-515c-4bf2-9319-55f73542cf69",
-    "title": "에이드스냅",
-    "price_krw": 400000,
-    "reservation_url": "https://www.aidfilm.com/Product",
-    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c81aa7dd-515c-4bf2-9319-55f73542cf69/1756298319785_screenshot_2025-08-27_at_9.34.01_pm.png",
-    "details": "1. 원본 300장 이상\n2.색감보정 15장, 세부보정 10장",
+    "id": "66737b70-8dca-4235-bd99-42d693f88058",
+    "title": "러브그래퍼",
+    "price_krw": 150000,
+    "reservation_url": "linktr.ee/lovegrapher",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/lovegrapher/1779536620385_kakaotalk_photo_2026-05-23-20-42-32_010.jpeg",
+    "details": "심플 패키지는 15만원(초상권 미동의 경우 25만원, VAT 포함)\n\n1. 1시간 촬영에 원본 300장 내외 전체 무료 제공,\n2. 보정본 총 10장(고객 셀렉 5장 + 작가 셀렉 5장) 제공\n소요시간: 촬영 후 2주 이내\n\n기본 2인 기준이며 인원 추가 시 1인당 5만원(추가 인원당 고객 셀렉 보정본 2장 추가), 1시간 추가는 15만원이에요. 촬영 장소가 공항 기준 40km 이상인 경우 출장비 5만원이 발생할 수 있어요.",
     "sample_image_urls": null,
     "occasions": [
-      "가족"
+      "가족",
+      "만삭"
     ],
-    "created_at": "2025-08-27T12:31:45.093068+00:00",
-    "updated_at": "2025-12-09T13:35:42.80428+00:00",
+    "created_at": "2026-05-23T10:43:19.028335+00:00",
+    "updated_at": "2026-05-23T11:45:56.758096+00:00",
     "duration_minutes": 60,
-    "folder_path": "packages/c81aa7dd-515c-4bf2-9319-55f73542cf69",
-    "description": "프리미엄 가족 스냅, 에이드스냅. 1시간 동안 가족의 소중한 순간을 최고 퀄리티로 완성합니다.",
-    "Tips": "촬영용도: 가족 촬영을 전문으로 하시는 작가님이에요. 특히 아이들과 함께하는 가족 촬영에 특화되어 있으시며, 밝고 화사한 분위기 속에서 가족 간의 따뜻한 사랑과 행복한 순간들을 담아내는 것이 이 작가님의 강점이에요. 청량하고 상쾌한 무드를 좋아하시는 분들, 그리고 제주의 푸른 하늘과 아름다운 자연을 배경으로 가족의 특별한 추억을 기록하고 싶으신 분들께 안성맞춤이에요. 잡지 화보 같은 세련되고 감각적인 사진을 원하시는 분들, 특히 SNS에 올리기 좋은 트렌디하고 화사한 스타일을 찾으시는 분들께 특히 잘 어울려요. 돌잔치 기념 촬영, 가족 생일 촬영, 여름 휴가 기념 촬영 등 가족의 특별한 이벤트를 기록하시려는 분들께 추천드리며, 사진에 감성적인 문구나 날짜를 넣어 더욱 특별하게 만들어주시는 것도 작가님의 특징이에요. 아이들의 밝은 표정과 자연스러운 움직임을 잘 포착하시며, 대가족 촬영도 편안하게 소화하세요. 제주 여행의 행복한 순간들을 밝고 화사하게 남기고 싶으신 가족들, 그리고 아이들의 성장 과정을 아름다운 제주 풍경과 함께 기록하고 싶으신 부모님들께 적극 추천드립니다. 특히 작가님만의 감성적인 보정과 디자인 요소가 더해져 더욱 특별한 결과물을 받아보실 수 있어요.\n\n촬영배경: 제주의 청량하고 화사한 자연 풍경을 중심으로 촬영하시는 작가님이에요. 푸른 하늘과 초록 잔디밭이 어우러진 목장, 제주의 아름다운 해변과 에메랄드빛 바다, 꽃이 만개한 들판과 정원, 넓게 펼쳐진 보리밭이나 메밀밭 같은 계절감 있는 배경들을 선호하세요. 특히 맑은 날의 푸른 하늘이 가득 담긴 개방감 있는 장소를 좋아하시며, 화사하고 밝은 색감을 최대한 살리시는 것이 특징이에요. 수국 정원이나 데이지꽃밭 같은 꽃이 아름다운 장소도 자주 활용하시고, 해변의 파라솔이나 피크닉 세팅을 활용한 감각적인 연출도 잘하세요. 관광지로 유명한 명소들도 방문하시지만, 작가님만의 독특한 앵글과 구도로 더욱 특별하게 담아내시며, 제주의 자연스러운 풍경 속에서 가족이 편안하게 즐기는 모습을 포착하세요. 햇살이 좋은 낮 시간대의 밝고 생생한 색감을 선호하시며, 특히 푸른 하늘과 흰 구름이 있는 날의 청량한 분위기를 잘 담아내세요. 넓은 공간에서 아이들이 자유롭게 뛰어놀 수 있는 환경을 선택하시고, 가족 모두가 편안하게 앉아서 쉴 수 있는 장소도 함께 활용하세요. 제주의 사계절이 주는 다채로운 색감을 모두 살리시며, 특히 봄과 여름의 화사하고 생동감 넘치는 풍경을 배경으로 한 촬영에 강점이 있어요. 사진에 감성적인 문구나 타이포그래피를 더해 더욱 특별한 느낌을 주시는 것도 작가님의 시그니처 스타일입니다.\n\n의상: 연한 블루, 연한 핑크 같은 밝고 화사한 컬러의 의상을 추천해요. 특히 작가님의 청량하고 감각적인 스타일은 올 화이트 룩이나 파스텔 톤 의상과 완벽하게 어울려요. 가족 전체가 화이트로 통일하시면 깔끔하고 세련된 느낌을 주며, 제주의 푸른 하늘과 바다, 초록 잔디를 배경으로 했을 때 가장 화사하고 청량한 효과를 낼 수 있어요. 예를 들어 엄마는 화이트 원피스나 블라우스, 아빠는 화이트 셔츠와 베이지 팬츠, 아이들은 화이트 티셔츠나 원피스로 매칭하시면 통일감 있으면서도 각자의 개성을 살릴 수 있어요. 파스텔 블루나 라벤더, 연한 핑크 같은 포인트 컬러를 한두 명이 활용하시는 것도 좋으며, 이렇게 하면 전체적인 조화를 유지하면서도 생동감을 더할 수 있어요. 해변 촬영의 경우 화이트나 연한 블루 계열이 특히 잘 어울리며, 꽃밭 촬영의 경우 화이트나 아이보리가 꽃과 대비되어 인물이 더욱 돋보여요. 린넨이나 코튼 같은 가볍고 자연스러운 소재를 선택하시면 제주의 바람 속에서 편안하게 움직이실 수 있고, 바람에 날리는 부드러운 무드도 함께 담아낼 수 있어요. 너무 화려한 패턴이나 로고가 큰 옷보다는 무지나 심플한 디자인이 작가님의 깔끔하고 세련된 스타일과 잘 어울리며, 가족 모두가 비슷한 톤으로 통일하되 각자의 스타일을 살릴 수 있는 코디를 추천드려요. 모자나 선글라스 같은 소품을 활용하시면 더욱 감각적인 느낌을 연출하실 수 있어요.",
+    "folder_path": "lovegrapher",
+    "description": "제주의 자연 속에서 담아내는 가족만의 따뜻하고 생생한 순간들",
+    "Tips": "러브그래퍼는 제주의 초원, 꽃밭, 하늘 등 사계절 자연을 배경으로 가족 간의 진짜 감정을 밝고 따뜻한 톤으로 담아내요. 연출된 포즈보다는 아이의 웃음, 부모의 자연스러운 표정 같은 살아있는 순간을 포착하는 게 이 작가의 가장 큰 매력이에요!\n\n어린 아이가 있는 가족, 출산을 앞둔 만삭 예비 부부에게 특히 잘 어울려요. 넓은 들판에서 아이를 번쩍 들거나 함께 뛰노는 장면처럼, 지금 이 시기에만 담을 수 있는 장면들을 자연스럽게 끌어내주는 것이 러브그래퍼만의 강점이에요.\n\n- 만삭 촬영은 임신 32~36주 사이가 배가 가장 예쁘게 나오는 시기라 이 무렵에 예약하시길 추천드려요.\n- 아기 초음파 사진, 태명이 적힌 소품, 작은 아기 신발 등을 챙겨오시면 스토리 있는 컷을 남길 수 있어요.\n- 어린 아이와 함께하는 가족 촬영이라면 아이가 좋아하는 간식이나 장난감을 하나 챙겨오시면 자연스러운 웃음 컷을 담는 데 도움이 돼요.",
     "mood": [
-      "청량한",
-      "밝은",
-      "화사한",
-      "순수한",
-      "깨끗한"
+      "따뜻한",
+      "자연스러운",
+      "밝은"
     ],
     "images": [
-      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c81aa7dd-515c-4bf2-9319-55f73542cf69/1756298319785_screenshot_2025-08-27_at_9.34.01_pm.png"
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/lovegrapher/1779536620385_kakaotalk_photo_2026-05-23-20-42-32_010.jpeg"
     ]
   },
   {
@@ -483,6 +669,30 @@
     ]
   },
   {
+    "id": "c723288f-5da8-41f4-bf81-2c16d7b504a4",
+    "title": "온리그래퍼",
+    "price_krw": 350000,
+    "reservation_url": "http://onlygrapher.co.kr/",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/only.grapher/1779631140679_01.jpg",
+    "details": null,
+    "sample_image_urls": null,
+    "occasions": [
+      "커플"
+    ],
+    "created_at": "2026-05-24T13:56:50.006736+00:00",
+    "updated_at": "2026-05-24T13:59:01.90322+00:00",
+    "duration_minutes": 60,
+    "folder_path": "only.grapher",
+    "description": null,
+    "Tips": null,
+    "mood": [
+      "로맨틱"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/only.grapher/1779631140679_01.jpg"
+    ]
+  },
+  {
     "id": "4113ae6b-2e65-4436-9b8f-cd1fcb07de8f",
     "title": "택하다제주",
     "price_krw": 300000,
@@ -537,6 +747,140 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c76e37c3-5ac0-46f6-bae4-55b64e21ef86/1756213709884_screenshot_2025-08-26_at_10.07.02_pm.png"
+    ]
+  },
+  {
+    "id": "e2670e72-1b8e-438a-996f-fb12afdae129",
+    "title": "차노다스냅",
+    "price_krw": 150000,
+    "reservation_url": "https://linktr.ee/chanoda",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/chanoda_snap/1779611898565_27.jpg",
+    "details": "상품구성\n1. Daily Mini: 촬영 금액 150,000원 (VAT 포함), Daily Basic: 300,000원 (VAT 포함)\n2. 촬영 시간: 1시간 / 2시간 (이동 및 환복시간 포함)\n3. 촬영 장소: 1곳 / 2곳\n4. JPG 원본 파일 모두 제공\n5. 보정본: 20장(색감 15장+세부 5장) / 40장(색감 30장+세부 10장) 제공\n6. 2인 기준이며, 3인부터 1인당 50,000원 추가돼요 (반려견 추가금 없음). 시간 추가는 시간당 100,000원, 선보정 서비스(셀렉일 기준 1주내 전체 전달)는 150,000원 추가돼요.",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족",
+      "만삭"
+    ],
+    "created_at": "2026-05-24T08:36:44.443394+00:00",
+    "updated_at": "2026-05-24T08:40:44.406791+00:00",
+    "duration_minutes": 60,
+    "folder_path": "chanoda_snap",
+    "description": "제주의 자연 속에서 우리 가족만의 빛나는 순간을 담아요",
+    "Tips": "차노다스냅은 제주의 숲길, 유채꽃밭, 돌담, 바다 등 다양한 자연 배경 속에서 가족의 따뜻한 교감을 밝고 생동감 있는 톤으로 담아내요. 보정 색감은 과하지 않고 자연스러워서, 시간이 지나도 질리지 않는 사진을 남길 수 있어요!\n\n아이와 함께하는 가족 촬영에 잘 어울리며, 아이의 자연스러운 표정과 움직임을 편안하게 이끌어주는 것이 차노다스냅의 강점이에요. 아이 인형이나 소품을 활용한 스토리 있는 컷도 섬세하게 연출해드려요.",
+    "mood": [
+      "따뜻한",
+      "자연스러운",
+      "밝은"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/chanoda_snap/1779611898565_27.jpg"
+    ]
+  },
+  {
+    "id": "c659de6b-fff4-47ef-be11-68bff0f48352",
+    "title": "스튜디오 오라리",
+    "price_krw": 50000,
+    "reservation_url": "https://m.place.naver.com/place/1679526979/ticket",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/studio_orari_jeju/1779630670783_09.jpg",
+    "details": "상품구성\n1. 패키지명: 제주스냅 (2인 기본 50,000원 / 1인 추가 시 20,000원 추가)\n2. 촬영 장소: 실내 2곳·야외 6곳 중 2스팟 선택해서 진행돼요.\n3. 촬영 시간: 15분 이내 (셀렉·인화 포함 총 약 1시간 소요돼요)\n4. 포함 내용: 인원수별 N컷 보정 인화 + 종이액자 제공\n5. 추가 상품: 추가 인화 10,000원 / 고화질 원본 파일 30,000원",
+    "sample_image_urls": null,
+    "occasions": [
+      "커플",
+      "가족"
+    ],
+    "created_at": "2026-05-24T13:50:00.609999+00:00",
+    "updated_at": "2026-05-24T13:54:35.942464+00:00",
+    "duration_minutes": 15,
+    "folder_path": "studio_orari_jeju",
+    "description": "제주의 돌담과 귤빛 풍경 속에서 담아내는 우리 둘만의 따뜻한 기억",
+    "Tips": "- 서로 맞춰 입은 커플룩이나 유사한 색감의 편안한 캐주얼 의상이 제주 자연 배경과 잘 어울려요.\n- 귤, 모자, 작은 바구니 같은 소품을 직접 챙겨오시면 제주 감성이 한층 살아나는 컷을 남길 수 있어요.\n- 야외 촬영 특성상 바람이 강할 수 있으니 헤어핀이나 머리끈을 꼭 챙겨오시면 사진이 더 예쁘게 나올 수 있어요.\n- 오전 촬영 시 빛이 부드럽고 사람이 적어서 더 여유롭게 찍을 수 있어요.\n- 촬영 전 함께 포즈를 미리 몇 가지 생각해 오시면 15분을 알차게 쓸 수 있어요!",
+    "mood": [
+      "자연스러운",
+      "청량한",
+      "따뜻한"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/studio_orari_jeju/1779630670783_09.jpg"
+    ]
+  },
+  {
+    "id": "384e4e1b-54fb-4c33-80f5-8adf71284d94",
+    "title": "다미사진관",
+    "price_krw": 300000,
+    "reservation_url": "https://naver.me/FrAosYFo",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/photodami/1779633065022_22.jpg",
+    "details": "다미사진관은 제주의 감귤나무와 돌담, 푸른 정원을 배경으로 가족의 진짜 표정과 온기를 자연스럽게 담아내요. 화사한 자연광과 밝고 따뜻한 색감으로, 보는 것만으로도 그날의 웃음이 느껴지는 사진을 남길 수 있어요.\n\n돌잔치·칠순·생신 등 특별한 가족 기념일부터 여러 세대가 함께하는 대가족 촬영까지 폭넓게 잘 어울려요. 돌상·꽃 장식 소품을 활용한 기념 컷 연출이 섬세하고, 아이들의 자연스러운 표정을 능숙하게 이끌어내는 것이 다미사진관의 강점이에요!",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족"
+    ],
+    "created_at": "2026-05-24T14:29:04.11651+00:00",
+    "updated_at": "2026-05-24T14:32:43.222525+00:00",
+    "duration_minutes": 30,
+    "folder_path": "photodami",
+    "description": "제주 감귤밭 아래, 온 가족이 함께 만드는 따뜻한 한 장면",
+    "Tips": "- 아이가 있는 가족은 낮잠 직후나 오전 컨디션이 좋을 때 촬영 시간을 잡으시면 밝고 생기 넘치는 표정을 담을 수 있어요.\n- 온 가족이 화이트·아이보리·라이트 그레이 계열 상의에 청바지 조합으로 맞추면 배경과 자연스럽게 어우러져 훨씬 예쁘게 나올 수 있어요.\n- 돌·생신·칠순 등 기념일 촬영이라면 이름이 적힌 소품, 케이크, 한복 소품 등을 미리 준비해오시면 스토리 있는 컷을 남길 수 있어요.\n- 감귤이 주렁주렁 달리는 가을~초겨울 시즌에 방문하시면 제주 특유의 배경이 더 풍성하게 담겨요.\n- 어린 아이나 영아가 있을 경우 여벌 옷과 간식을 챙겨오시면 촬영 중 돌발 상황에 여유롭게 대처할 수 있어요.",
+    "mood": [
+      "따뜻한",
+      "자연스러운",
+      "밝은"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/photodami/1779633065022_22.jpg"
+    ]
+  },
+  {
+    "id": "ff6f79d0-667b-4d3b-812d-fe52bf4cec1c",
+    "title": "담포토그라피",
+    "price_krw": 270000,
+    "reservation_url": "http://pf.kakao.com/_gtwmb",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/damphotography_/1779636822754_21.jpg",
+    "details": "상품구성 (야외촬영A · 가족스냅)\n1. 촬영 장소: 제주 자연배경 1곳\n2. 촬영 시간: 1시간 (4인 가족 기준)\n3. 제공 컷: 원본 + 보정본 15장 제공 (필름 룩 포함)\n4. 가격: 27만원",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족",
+      "만삭"
+    ],
+    "created_at": "2026-05-24T15:32:35.597976+00:00",
+    "updated_at": "2026-05-24T15:37:49.298069+00:00",
+    "duration_minutes": 60,
+    "folder_path": "damphotography_",
+    "description": "제주의 넓은 자연 속에서 담아내는 우리 가족만의 따뜻하고 빛나는 순간",
+    "Tips": "담포토그라피:제주가족스냅/제주만삭스냅/제주돌스냅은 제주의 드넓은 초원과 맑은 하늘을 배경으로, 가족이 함께 뛰고 웃고 안기는 자연스러운 순간들을 필름 감성의 청량하고 따뜻한 톤으로 담아내요. 과하지 않은 색감과 여백 있는 구도 덕분에 사진 한 장 한 장이 오래 간직하고 싶은 기억처럼 느껴져요!\n\n아이와 함께하는 가족, 혹은 만삭의 설렘을 자연 속에서 남기고 싶은 예비 부부에게 특히 잘 어울려요. 아이의 표정과 가족 간의 교감을 자연스럽게 이끌어내는 연출이 담포토그라피:제주가족스냅/제주만삭스냅/제주돌스냅의 큰 강점이에요.\n\n- 가족 의상은 화이트, 아이보리, 연그린 등 자연과 어우러지는 밝고 차분한 톤으로 맞춰오시면 훨씬 예쁘게 나와요.\n- 아이 컨디션이 가장 좋은 낮잠 후 시간대나 오전 맑은 시간으로 예약하시면 웃는 표정을 더 많이 담을 수 있어요.\n- 풍선이나 패브릭 소품을 챙겨오시면 가족 사진에 생동감 있는 컷을 추가로 남길 수 있어요.",
+    "mood": [
+      "자연스러운",
+      "따뜻한",
+      "청량한"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/damphotography_/1779636822754_21.jpg"
+    ]
+  },
+  {
+    "id": "f5bd0ff1-c3db-48b3-8231-238956d52c9e",
+    "title": "사소한날",
+    "price_krw": 60000,
+    "reservation_url": "https://naver.me/GJrhMDZd",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/sasohan.nal/1779685380291_06.jpg",
+    "details": "상품구성\n1. 장소: 사소한 바다(김녕해수욕장) 또는 사소한 숲 중 선택\n2. 촬영부터 액자 출력까지 약 60~90분 소요돼요.\n3. 보정본 파일은 액자 사이즈에 맞춰 전송해드려요.\n4. 원본은 제공·판매하지 않아요.\n5. 인원이 많아도 추가 비용 없이 진행돼요.\n6. 액자 상품 구성: 종이액자 2개(4×6인치) 60,000원 / A 우드액자 2개(4×6인치) 80,000원 / B 우드액자 1개(5×7인치) 60,000원 / C 우드액자 1개(6×8인치) 70,000원 / D 우드액자 1개(8×10인치) 80,000원 / 11×14인치 우드액자 1개 130,000원(택배비 포함) / 16×20인치 우드액자 1개 180,000원(택배비 포함)",
+    "sample_image_urls": null,
+    "occasions": [
+      "가족",
+      "우정"
+    ],
+    "created_at": "2026-05-25T05:01:20.166835+00:00",
+    "updated_at": "2026-05-25T05:05:47.461675+00:00",
+    "duration_minutes": 60,
+    "folder_path": "sasohan.nal",
+    "description": "제주의 바다와 숲 속에서 담아내는 사소한 매일의 행복",
+    "Tips": "- 가족 모두 비슷한 계열의 색상으로 맞춰오시면 훨씬 통일감 있고 예쁘게 나와요. 흰색·베이지·라이트 그레이 계열이 제주 바다 배경과 특히 잘 어울려요.\n- 숲 배경에서는 블랙·네이비·다크 톤 의상도 잘 어울리니, 장소에 맞게 의상 톤을 미리 맞춰오시면 좋아요.\n- 어린 아이가 있다면 컨디션이 좋은 오전 시간대 예약을 추천드려요. 낮잠 시간대는 피하시면 훨씬 자연스러운 표정을 담을 수 있어요.",
+    "mood": [
+      "자연스러운",
+      "청량한",
+      "따뜻한"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/sasohan.nal/1779685380291_06.jpg"
     ]
   }
 ]

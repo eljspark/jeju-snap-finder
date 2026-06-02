@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-sitemap.mjs || true",
-    "build": "node scripts/fetch-data.mjs && vite build",
+    "build": "node scripts/fetch-data.mjs && node scripts/generate-sitemap.mjs && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview --outDir dist/client --port 5173",
     "prospect:discover": "node scripts/prospect-finder/discover.mjs",

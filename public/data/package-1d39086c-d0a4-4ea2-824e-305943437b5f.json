@@ -1,0 +1,28 @@
+{
+  "id": "1d39086c-d0a4-4ea2-824e-305943437b5f",
+  "title": "스냅구도",
+  "price_krw": 350000,
+  "reservation_url": "pf.kakao.com/_sbSyG/chat",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/snap_gudo/1779611446073_01.jpg",
+  "details": "[상품구성]\n1. 촬영 시간: 1시간 내외 (의상 환복 및 적응 시간 포함)\n2. 촬영 장소: 1곳\n3. 가격: 35만원\n4. 원본 약 500장 전체 제공\n5. 색감보정본 30장 + 인물보정본 3장 제공\n6. 추가 옵션: 장소 1곳 추가 시 15만원 (이동시간 포함) / 4인 초과 시 1인당 5만원 추가 / 빈티지 캠코더 영상(편집 후 1분 내외, 파일 원본 제공) 10만원",
+  "sample_image_urls": null,
+  "occasions": [
+    "가족",
+    "만삭"
+  ],
+  "created_at": "2026-05-24T08:29:16.067017+00:00",
+  "updated_at": "2026-05-24T08:34:18.391524+00:00",
+  "duration_minutes": 60,
+  "folder_path": "snap_gudo",
+  "description": "초록빛 자연 속에서 담아내는 우리 가족만의 따뜻하고 서정적인 순간",
+  "Tips": "푸른 잔디와 버드나무, 넓은 하늘을 배경으로 가족의 진짜 표정과 감정을 자연스럽게 담아내는 스타일이에요. 과하지 않은 필름 감성의 색감으로 따뜻하면서도 차분한 무드가 특징이라, 꾸민 듯 꾸미지 않은 일상적인 아름다움이 사진에 그대로 녹아들어요.\n\n아이와 함께하는 가족, 만삭의 예비 부모에게 특히 잘 어울려요. 아이가 뛰어다니거나 꽃을 건네는 자연스러운 순간들을 놓치지 않고 담아내는 게 이 작가만의 큰 강점이에요. 빈티지 캠코더 영상도 함께 남길 수 있어서 사진과 함께 그날의 분위기를 더 생생하게 기억할 수 있어요!",
+  "mood": [
+    "자연스러운",
+    "따뜻한",
+    "감성적인",
+    "빈티지"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/snap_gudo/1779611446073_01.jpg"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "b335245b-a114-49f1-9f80-cfd4b648134b",
+  "title": "플로피스냅",
+  "price_krw": 300000,
+  "reservation_url": "https://pf.kakao.com/_uTvIn?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTI0MDI0NTc0Mjg3NDE0AAGnidU9tbuT6NV6aZftS1gx7Ms5dPLF7jiq0HvQWR-dadOQm00HjxNYlOrPZLE_aem_4t5VnncUxiBaPrELvgICuQ",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/floppy_snap_/1779527620889_kakaotalk_photo_2026-05-23-18-12-42_012.jpeg",
+  "details": "[심플 스냅 기준]\n-  환복은 1회 가능\n- 원본 전체 JPG 제공\n- 색감+세부 보정 10장",
+  "sample_image_urls": null,
+  "occasions": [
+    "커플"
+  ],
+  "created_at": "2026-05-23T09:11:43.463986+00:00",
+  "updated_at": "2026-05-23T09:39:48.101582+00:00",
+  "duration_minutes": 120,
+  "folder_path": "floppy_snap_",
+  "description": "수줍지만 가끔 터지는 웃음, 그 순간을 FLOPPY스럽게 담아드려요",
+  "Tips": "플로피스냅은 제주의 벚꽃 길, 넓은 초원, 한적한 숲속 도로 등 자연스럽고 따뜻한 공간을 배경으로 커플의 진짜 모습을 담아내요. 과하게 꾸며진 사진보다는, 함께 웃고 뛰어놀다 찍힌 것 같은 편안하고 생동감 있는 컷들이 플로피스냅만의 색깔이에요. 너무 딱딱하게 포즈 잡는 게 어색한 커플, 그냥 편하게 하루를 즐기고 싶은 두 사람에게 특히 잘 어울려요. 촬영 내내 자연스러운 움직임과 리액션을 이끌어주는 작가 특유의 분위기 덕분에, 찍히는 줄도 모르고 나온 표정이 가장 예쁘게 담겨요.\n\n- 제주 벚꽃 시즌(3월 말~4월 초)에 촬영하면 작가 스타일과 특히 잘 어울리는 분홍빛 컷을 남길 수 있어요.\n- 너무 형식적인 정장보다는 편안한 일상복 스타일이 플로피스냅 무드에 딱 맞아요.\n- 반려동물과 함께 촬영하는 것도 가능하니, 함께하고 싶은 분들은 사전에 작가에게 미리 문의해보시면 좋아요.",
+  "mood": [
+    "자연스러운",
+    "편안한",
+    "활기찬"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/floppy_snap_/1779527620889_kakaotalk_photo_2026-05-23-18-12-42_012.jpeg"
+  ]
+}
