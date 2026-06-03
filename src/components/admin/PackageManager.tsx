@@ -8,6 +8,17 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -15,7 +26,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, AlertCircle, Loader2, Rocket, UserPlus, Pencil, Plus } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader2, Rocket, UserPlus, Pencil, Plus, Trash2 } from 'lucide-react';
 
 const OCCASION_OPTIONS = ['커플', '가족', '우정', '프로필', '웨딩', '만삭', '개인', '아기'] as const;
 const MOOD_OPTIONS = [
@@ -92,9 +103,11 @@ export default function PackageManager() {
   const [editingPackageId, setEditingPackageId] = useState<string | null>(null);
   const [loadingPackages, setLoadingPackages] = useState(false);
   const [loadingPackageDetail, setLoadingPackageDetail] = useState(false);
+  const [deletingPackage, setDeletingPackage] = useState(false);
   const { toast } = useToast();
 
   const mode: 'create' | 'edit' = editingPackageId ? 'edit' : 'create';
+  const editingPackageTitle = packages.find((p) => p.id === editingPackageId)?.title || form.title;
 
   // Load Deploy Hook URL from localStorage on mount
   useEffect(() => {
@@ -202,6 +215,37 @@ export default function PackageManager() {
     setForm(initialFormState);
     setSelectedProspectId('');
     setLastInsertedTitle(null);
+  };
+
+  const handleDeletePackage = async () => {
+    if (!editingPackageId) return;
+    setDeletingPackage(true);
+    try {
+      const deletedTitle = editingPackageTitle || form.title || '선택한 패키지';
+      const { error } = await supabase
+        .from('packages')
+        .delete()
+        .eq('id', editingPackageId);
+      if (error) throw error;
+
+      toast({
+        title: '패키지 삭제 완료',
+        description: `${deletedTitle} 삭제됨. 메인 페이지엔 즉시, 카테고리·상세 페이지엔 재배포 후 반영`,
+      });
+      resetToCreateMode();
+      await loadPackages();
+
+      const url = window.localStorage.getItem(DEPLOY_HOOK_STORAGE_KEY);
+      if (url) await triggerRedeploy();
+    } catch (err: any) {
+      toast({
+        title: '삭제 실패',
+        description: String(err?.message || err),
+        variant: 'destructive',
+      });
+    } finally {
+      setDeletingPackage(false);
+    }
   };
 
   const applyProspectToForm = (prospectId: string) => {
@@ -507,6 +551,36 @@ export default function PackageManager() {
                 <Plus className="mr-1 h-4 w-4" />
                 신규로 전환
               </Button>
+            )}
+            {editingPackageId && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size="sm" disabled={deletingPackage || submitting}>
+                    {deletingPackage ? (
+                      <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="mr-1 h-4 w-4" />
+                    )}
+                    삭제
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>패키지를 삭제할까요?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      <strong>{editingPackageTitle}</strong> 패키지가 packages 테이블에서 삭제됩니다.
+                      이 작업은 되돌릴 수 없고, 카테고리·상세 페이지 반영에는 재배포가 필요합니다.
+                      Storage 이미지 파일은 삭제하지 않습니다.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel disabled={deletingPackage}>취소</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeletePackage} disabled={deletingPackage}>
+                      삭제하기
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
           </div>
           {loadingPackageDetail && (
