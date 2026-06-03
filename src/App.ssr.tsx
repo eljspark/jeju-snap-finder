@@ -37,7 +37,7 @@ const App = ({ pageProps, packages, packageData, occasionFilter }: AppProps) => 
         <Toaster />
         <Sonner />
         {content}
-        <FeedbackButton />
+        {!actualPackageData && <FeedbackButton />}
       </TooltipProvider>
     </QueryClientProvider>
   );
