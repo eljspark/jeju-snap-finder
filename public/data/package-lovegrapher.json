@@ -1,0 +1,28 @@
+{
+  "id": "66737b70-8dca-4235-bd99-42d693f88058",
+  "title": "러브그래퍼",
+  "price_krw": 150000,
+  "reservation_url": "linktr.ee/lovegrapher",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/lovegrapher/1779536620385_kakaotalk_photo_2026-05-23-20-42-32_010.jpeg",
+  "details": "심플 패키지는 15만원(초상권 미동의 경우 25만원, VAT 포함)\n\n1. 1시간 촬영에 원본 300장 내외 전체 무료 제공,\n2. 보정본 총 10장(고객 셀렉 5장 + 작가 셀렉 5장) 제공\n소요시간: 촬영 후 2주 이내\n\n기본 2인 기준이며 인원 추가 시 1인당 5만원(추가 인원당 고객 셀렉 보정본 2장 추가), 1시간 추가는 15만원이에요. 촬영 장소가 공항 기준 40km 이상인 경우 출장비 5만원이 발생할 수 있어요.",
+  "sample_image_urls": null,
+  "occasions": [
+    "가족",
+    "만삭"
+  ],
+  "created_at": "2026-05-23T10:43:19.028335+00:00",
+  "updated_at": "2026-05-23T11:45:56.758096+00:00",
+  "duration_minutes": 60,
+  "folder_path": "lovegrapher",
+  "description": "제주의 자연 속에서 담아내는 가족만의 따뜻하고 생생한 순간들",
+  "Tips": "러브그래퍼는 제주의 초원, 꽃밭, 하늘 등 사계절 자연을 배경으로 가족 간의 진짜 감정을 밝고 따뜻한 톤으로 담아내요. 연출된 포즈보다는 아이의 웃음, 부모의 자연스러운 표정 같은 살아있는 순간을 포착하는 게 이 작가의 가장 큰 매력이에요!\n\n어린 아이가 있는 가족, 출산을 앞둔 만삭 예비 부부에게 특히 잘 어울려요. 넓은 들판에서 아이를 번쩍 들거나 함께 뛰노는 장면처럼, 지금 이 시기에만 담을 수 있는 장면들을 자연스럽게 끌어내주는 것이 러브그래퍼만의 강점이에요.\n\n- 만삭 촬영은 임신 32~36주 사이가 배가 가장 예쁘게 나오는 시기라 이 무렵에 예약하시길 추천드려요.\n- 아기 초음파 사진, 태명이 적힌 소품, 작은 아기 신발 등을 챙겨오시면 스토리 있는 컷을 남길 수 있어요.\n- 어린 아이와 함께하는 가족 촬영이라면 아이가 좋아하는 간식이나 장난감을 하나 챙겨오시면 자연스러운 웃음 컷을 담는 데 도움이 돼요.",
+  "mood": [
+    "따뜻한",
+    "자연스러운",
+    "밝은"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/lovegrapher/1779536620385_kakaotalk_photo_2026-05-23-20-42-32_010.jpeg"
+  ],
+  "package_slug": "lovegrapher"
+}

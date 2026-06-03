@@ -1,0 +1,25 @@
+{
+  "id": "c723288f-5da8-41f4-bf81-2c16d7b504a4",
+  "title": "온리그래퍼",
+  "price_krw": 350000,
+  "reservation_url": "http://onlygrapher.co.kr/",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/only.grapher/1779631140679_01.jpg",
+  "details": null,
+  "sample_image_urls": null,
+  "occasions": [
+    "커플"
+  ],
+  "created_at": "2026-05-24T13:56:50.006736+00:00",
+  "updated_at": "2026-05-24T13:59:01.90322+00:00",
+  "duration_minutes": 60,
+  "folder_path": "only.grapher",
+  "description": null,
+  "Tips": null,
+  "mood": [
+    "로맨틱"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/only.grapher/1779631140679_01.jpg"
+  ],
+  "package_slug": "onlygrapher"
+}

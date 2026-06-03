@@ -2,6 +2,7 @@ import ReactDOMServer from 'react-dom/server';
 import React from 'react';
 import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr/server';
 import type { PageContextServer } from 'vite-plugin-ssr/types';
+import { getPackageSlug } from '../src/lib/packageSlug.js';
 import '../src/index.css';
 
 export { render };
@@ -226,7 +227,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
       ogDescription = override.ogDescription || '';
       twitterDescription = override.twitterDescription || '';
       ogImage = override.ogImage || pkg.thumbnail_url || ogImage;
-      canonicalUrl = `${BASE_URL}/packages/${pkg.id}`;
+      canonicalUrl = `${BASE_URL}/packages/${getPackageSlug(pkg)}`;
       ogType = "product";
       structuredData = override.structuredData || null;
       
@@ -265,7 +266,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
     const priceInMan = price >= 10000 ? `${Math.floor(price / 10000)}만원` : `${price.toLocaleString()}원`;
     
     // Canonical URL
-    canonicalUrl = `${BASE_URL}/packages/${pkg.id}`;
+    canonicalUrl = `${BASE_URL}/packages/${getPackageSlug(pkg)}`;
     ogType = "product";
     
     // Build title: "{title} - 제주 {occasions} 스냅 {duration} {price} | 제주스냅파인더"

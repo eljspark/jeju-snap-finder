@@ -7,6 +7,7 @@ import { PackageImageGallery } from "@/components/PackageImageGallery";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
+import { findPackageBySlugOrId } from "@/lib/packageSlug.js";
 import { trackReservationClick } from "@/hooks/useReservationTracking";
 import {
   MapPin,
@@ -49,32 +50,33 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
         .from("packages")
         .select(
           "id, title, price_krw, duration_minutes, occasions, thumbnail_url, details, description, mood, folder_path, reservation_url, Tips",
-        )
-        .eq("id", extractedPackageId)
-        .single();
+        );
 
       if (error) throw error;
+      const pkg = findPackageBySlugOrId(data || [], extractedPackageId);
+      if (!pkg) throw new Error("Package not found");
 
       console.log("Query Result from Supabase:", {
-        id: data.id,
-        title: data.title,
-        Tips: data.Tips,
-        hasTips: !!data.Tips,
+        id: pkg.id,
+        title: pkg.title,
+        Tips: pkg.Tips,
+        hasTips: !!pkg.Tips,
       });
 
       return {
-        id: data.id,
-        title: data.title,
-        price: data.price_krw,
-        duration: data.duration_minutes ? formatDuration(data.duration_minutes) : "촬영 시간 미정",
-        occasions: data.occasions || [],
-        folderPath: data.folder_path || data.id,
-        thumbnailUrl: data.thumbnail_url, // Keep raw URL, transform at render time
-        details: data.details || "",
-        description: data.description || "",
-        mood: data.mood || "",
-        reservationUrl: data.reservation_url,
-        tips: data.Tips || "",
+        id: pkg.id,
+        title: pkg.title,
+        package_slug: pkg.package_slug,
+        price: pkg.price_krw,
+        duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "촬영 시간 미정",
+        occasions: pkg.occasions || [],
+        folderPath: pkg.folder_path || pkg.id,
+        thumbnailUrl: pkg.thumbnail_url, // Keep raw URL, transform at render time
+        details: pkg.details || "",
+        description: pkg.description || "",
+        mood: pkg.mood || "",
+        reservationUrl: pkg.reservation_url,
+        tips: pkg.Tips || "",
         // Mock data for fields not in database yet
         photographer: {
           name: "Kim Min-jun",
@@ -109,8 +111,9 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
     },
     enabled: !!extractedPackageId,
     initialData: staticPackageData
-      ? {
+        ? {
           ...staticPackageData,
+          package_slug: staticPackageData.package_slug,
           folderPath: staticPackageData.folder_path || staticPackageData.id,
           thumbnailUrl: formatThumbnailUrl(staticPackageData.thumbnail_url),
           details: staticPackageData.details || "",

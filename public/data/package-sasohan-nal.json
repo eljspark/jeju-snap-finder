@@ -1,0 +1,28 @@
+{
+  "id": "f5bd0ff1-c3db-48b3-8231-238956d52c9e",
+  "title": "사소한날",
+  "price_krw": 60000,
+  "reservation_url": "https://naver.me/GJrhMDZd",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/sasohan.nal/1779685380291_06.jpg",
+  "details": "상품구성\n1. 장소: 사소한 바다(김녕해수욕장) 또는 사소한 숲 중 선택\n2. 촬영부터 액자 출력까지 약 60~90분 소요돼요.\n3. 보정본 파일은 액자 사이즈에 맞춰 전송해드려요.\n4. 원본은 제공·판매하지 않아요.\n5. 인원이 많아도 추가 비용 없이 진행돼요.\n6. 액자 상품 구성: 종이액자 2개(4×6인치) 60,000원 / A 우드액자 2개(4×6인치) 80,000원 / B 우드액자 1개(5×7인치) 60,000원 / C 우드액자 1개(6×8인치) 70,000원 / D 우드액자 1개(8×10인치) 80,000원 / 11×14인치 우드액자 1개 130,000원(택배비 포함) / 16×20인치 우드액자 1개 180,000원(택배비 포함)",
+  "sample_image_urls": null,
+  "occasions": [
+    "가족",
+    "우정"
+  ],
+  "created_at": "2026-05-25T05:01:20.166835+00:00",
+  "updated_at": "2026-05-25T05:05:47.461675+00:00",
+  "duration_minutes": 60,
+  "folder_path": "sasohan.nal",
+  "description": "제주의 바다와 숲 속에서 담아내는 사소한 매일의 행복",
+  "Tips": "- 가족 모두 비슷한 계열의 색상으로 맞춰오시면 훨씬 통일감 있고 예쁘게 나와요. 흰색·베이지·라이트 그레이 계열이 제주 바다 배경과 특히 잘 어울려요.\n- 숲 배경에서는 블랙·네이비·다크 톤 의상도 잘 어울리니, 장소에 맞게 의상 톤을 미리 맞춰오시면 좋아요.\n- 어린 아이가 있다면 컨디션이 좋은 오전 시간대 예약을 추천드려요. 낮잠 시간대는 피하시면 훨씬 자연스러운 표정을 담을 수 있어요.",
+  "mood": [
+    "자연스러운",
+    "청량한",
+    "따뜻한"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/sasohan.nal/1779685380291_06.jpg"
+  ],
+  "package_slug": "sasohan-nal"
+}

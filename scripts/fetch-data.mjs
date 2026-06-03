@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createClient } from '@supabase/supabase-js';
+import { buildPackageSlugs } from '../src/lib/packageSlug.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +48,7 @@ export async function fetchPackages() {
   await fs.mkdir(outDir, { recursive: true });
 
   // Format thumbnail URLs for all packages
-  const formattedData = (data || []).map(pkg => ({
+  const formattedData = buildPackageSlugs(data || []).map(pkg => ({
     ...pkg,
     thumbnail_url: formatThumbnailUrl(pkg.thumbnail_url),
     images: pkg.images?.map(img => formatThumbnailUrl(img)) || [formatThumbnailUrl(pkg.thumbnail_url)]
@@ -65,7 +66,7 @@ export async function fetchPackages() {
   // Remove detail JSON for packages that were deleted from Supabase.
   const packageDetailFiles = (await fs.readdir(outDir))
     .filter(file => /^package-.+\.json$/.test(file) && file !== 'package-meta-overrides.json');
-  const currentPackageFiles = new Set(formattedData.map(pkg => `package-${pkg.id}.json`));
+  const currentPackageFiles = new Set(formattedData.map(pkg => `package-${pkg.package_slug}.json`));
   await Promise.all(
     packageDetailFiles
       .filter(file => !currentPackageFiles.has(file))
@@ -75,7 +76,7 @@ export async function fetchPackages() {
   // detail JSON per package
   for (const pkg of formattedData) {
     await fs.writeFile(
-      path.join(outDir, `package-${pkg.id}.json`),
+      path.join(outDir, `package-${pkg.package_slug}.json`),
       JSON.stringify(pkg, null, 2),
       'utf8'
     );
@@ -93,7 +94,7 @@ export async function fetchPackages() {
     "/about",
     "/contact",
     ...categoryRoutes,
-    ...formattedData.map(pkg => `/packages/${pkg.id}`)
+    ...formattedData.map(pkg => `/packages/${pkg.package_slug}`)
   ];
   
   await fs.writeFile(

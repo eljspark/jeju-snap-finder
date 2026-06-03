@@ -1,3 +1,5 @@
+import { buildPackageSlugs } from '../src/lib/packageSlug.js';
+
 export async function prerender() {
   return [{ url: '/' }];
 }
@@ -61,9 +63,10 @@ export async function onBeforeRender() {
     }
     
     // Transform the data to match what the components expect
-    const packages = (packagesData || []).map((pkg: any) => ({
+    const packages = buildPackageSlugs(packagesData || []).map((pkg: any) => ({
       id: pkg.id,
       title: pkg.title,
+      package_slug: pkg.package_slug,
       price: pkg.price_krw,
       duration: pkg.duration_minutes ? `${pkg.duration_minutes}분` : "촬영 시간 미정",
       occasions: pkg.occasions || [],

@@ -1,0 +1,28 @@
+{
+  "id": "d1ede0be-5562-4440-a224-cf167ba3ded0",
+  "title": "소희스냅",
+  "price_krw": 300000,
+  "reservation_url": "pf.kakao.com/_jixiNn",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/soheesnap_jeju/1779600813530_kakaotalk_photo_2026-05-24-14-32-51_002.jpeg",
+  "details": "[미니 2h 패키지 기준] \n1. 2장소(환복 1회 가능)\n2. JPG 원본 500장 이상 제공\n3. 세부 보정본 10장 제공\n4. 기본 인원은 2인 기준이며, 인원 또는 반려동물 1인(마리) 추가 시 3만원이 추가돼요. \n5. 보정본이 더 필요하신 경우 1장당 1만원에 추가 가능하고, 긴급 보정이 필요하면 10장 기준 5만원으로 1주 내에 받아보실 수 있어요.",
+  "sample_image_urls": null,
+  "occasions": [
+    "가족",
+    "만삭"
+  ],
+  "created_at": "2026-05-24T05:30:39.232704+00:00",
+  "updated_at": "2026-05-24T05:36:51.646769+00:00",
+  "duration_minutes": 120,
+  "folder_path": "soheesnap_jeju",
+  "description": "웃음과 온기로 가득한, 제주에서 담아내는 우리 가족의 진짜 순간",
+  "Tips": "소희스냅은 제주 동쪽의 드넓은 들판, 유채꽃밭, 초원 등 자연을 배경으로 가족의 진짜 웃음과 따뜻한 교감을 자연스럽게 담아내요. 연출된 포즈보다 함께 뛰어놀고, 아이를 번쩍 들어 올리고, 서로를 바라보는 그 찰나의 감정들을 필름 감성 톤으로 예쁘게 남겨드려요.\n\n아이가 있는 가족, 3대가 함께하는 대가족, 만삭의 예비 부모에게 특히 잘 어울리는 스타일이에요. 아이 컨트롤은 직접 해주셔야 하지만, 그 덕분에 오히려 더 생생하고 자연스러운 순간이 담기는 게 소희스냅만의 매력이에요!\n\n- 아이가 가장 컨디션 좋은 오전 시간대로 예약하시면 밝고 생기 있는 표정을 담기 훨씬 수월해요.\n- 아이가 좋아하는 간식이나 장난감을 챙겨오시면 자연스러운 웃음 표정을 끌어내는 데 도움이 돼요.",
+  "mood": [
+    "자연스러운",
+    "따뜻한",
+    "밝은"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/soheesnap_jeju/1779600813530_kakaotalk_photo_2026-05-24-14-32-51_002.jpeg"
+  ],
+  "package_slug": "soheesnap"
+}

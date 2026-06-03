@@ -1,0 +1,30 @@
+{
+  "id": "4113ae6b-2e65-4436-9b8f-cd1fcb07de8f",
+  "title": "택하다제주",
+  "price_krw": 300000,
+  "reservation_url": "https://www.instagram.com/baristag_photo?igshid=NTc4MTIwNjQ2YQ%3D%3D",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/4113ae6b-2e65-4436-9b8f-cd1fcb07de8f/taekhada.png",
+  "details": "촬영시간은 총 1시간이고, 원본사진 800장~1,000장은 모두 받을 수 있어요. 기본으로 제공되는 세부보정본은 10장이에요.\n",
+  "sample_image_urls": null,
+  "occasions": [
+    "커플",
+    "만삭"
+  ],
+  "created_at": "2025-08-20T13:48:56.518382+00:00",
+  "updated_at": "2025-11-30T13:02:51.779151+00:00",
+  "duration_minutes": 60,
+  "folder_path": "packages/packages/4113ae6b-2e65-4436-9b8f-cd1fcb07de8f",
+  "description": "택하다제주와 함께하는 특별한 순간. 1시간 동안 800-1000장의 원본과 정밀 보정 10장으로 소중한 커플과 만삭 순간을 영원히 간직하세요.",
+  "Tips": "의상:\n제주의 푸른 자연과 벌판을 배경으로 촬영하는만큼. 화이트 셔츠와 데님 소재 옷이 가장 잘 어울립니다. 특히 커플 촬영이라면 화이트와 블루 계열로 톤을 맞추시거나, 한 분은 화이트, 다른 한 분은 연한 블루나 그레이 톤으로 매칭하시면 부드러우면서도 자연스러운 분위기를 연출할 수 있어요. 만삭 촬영의 경우 화이트 원피스나 플로랄한 느낌의 드레스가 느낌을 살려줄 수 있어요.\n\n촬영용도:\n커플 촬영, 만삭 촬영, 가족 촬영 등 다양한 촬영을 진행하시는 작가님이에요. 제주의 여유로운 분위기를 그대로 사진에 담고 싶으신 분들, 화려하거나 과장된 연출보다는 소박하고 따뜻한 느낌을 원하시는 분들께 추천드려요. 특히 만삭 촬영이나 가족 촬영을 고민하시는 분들께 적합한 편안하고 친근한 촬영 스타일을 가지고 계십니다.\n\n촬영배경:\n밝고 맑은 색감을 잘 살리는 작가님이신 만큼, 제주의 넓은 잔디밭, 푸른 목장, 탁 트인 들판, 그리고 청량한 해변을 추천해요. 특히 말이 노니는 목장이나 화이트 펜스가 있는 목가적인 풍경, 넓게 펼쳐진 녹색 잔디밭이 작가님의 편안하고 자연스러운 촬영 스타일과 완벽하게 어울려요. 제주의 오름, 해안도로, 한적한 해변 등 자연 그대로의 아름다움이 살아있는 공간에서 촬영하시면 일상 속의 특별한 순간을 담아낼 수 있어요. 화려한 인공 배경보다는 자연의 소박한 아름다움이 돋보이는 장소를 선택하시는 것을 추천드립니다.",
+  "mood": [
+    "편안한",
+    "자연스러운",
+    "담백한",
+    "친근한",
+    "로맨틱한"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/4113ae6b-2e65-4436-9b8f-cd1fcb07de8f/taekhada.png"
+  ],
+  "package_slug": "taekhada-jeju"
+}

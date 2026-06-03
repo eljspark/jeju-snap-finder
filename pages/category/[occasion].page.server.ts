@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { buildPackageSlugs } from '../../src/lib/packageSlug.js';
 
 // English slug → Korean occasion (DB enum value)
 const OCCASION_EN_TO_KO: Record<string, string> = {
@@ -63,7 +64,7 @@ export async function onBeforeRender(pageContext: any) {
   }
 
   // Filter packages whose `occasions` array contains the requested occasion
-  const filtered = data
+  const filtered = buildPackageSlugs(data)
     .filter((pkg: any) => Array.isArray(pkg.occasions) && pkg.occasions.includes(occasionKo))
     .map((pkg: any) => ({
       ...pkg,

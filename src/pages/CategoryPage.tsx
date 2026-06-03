@@ -9,6 +9,7 @@ import { Filter, Camera, MapPin, Clock, Heart, Users, HeartHandshake, Baby, Smil
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
+import { buildPackageSlugs } from "@/lib/packageSlug.js";
 
 type OccasionKey = "커플" | "가족" | "우정" | "만삭" | "아기";
 
@@ -174,7 +175,7 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
 
       if (error) throw error;
 
-      return (data || []).filter(
+      return buildPackageSlugs(data || []).filter(
         (pkg) => Array.isArray(pkg.occasions) && pkg.occasions.includes(occasion),
       );
     },
@@ -185,6 +186,7 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
   const normalized = packages.map((pkg: any) => ({
     id: pkg.id,
     title: pkg.title,
+    package_slug: pkg.package_slug,
     price: pkg.price_krw ?? pkg.price ?? 0,
     duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : (pkg.duration || "촬영 시간 미정"),
     occasions: pkg.occasions || [],

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.ssr'
+import { findPackageBySlugOrId } from './lib/packageSlug.js'
 
 // This file is only used for development preview
 // SSG production uses vite-plugin-ssr rendering
@@ -27,10 +28,15 @@ if (typeof window !== 'undefined') {
             const packageId = packageMatch[1];
             try {
               const packageResponse = await fetch(`/data/package-${packageId}.json`);
-              const packageDetailData = await packageResponse.json();
-              setPackageData(packageDetailData);
+              if (packageResponse.ok) {
+                const packageDetailData = await packageResponse.json();
+                setPackageData(packageDetailData);
+              } else {
+                setPackageData(findPackageBySlugOrId(packagesData, packageId));
+              }
             } catch (error) {
               console.error('Failed to load package data:', error);
+              setPackageData(findPackageBySlugOrId(packagesData, packageId));
             }
           }
         } catch (error) {

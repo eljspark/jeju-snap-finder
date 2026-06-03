@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { getPackageSlug } from '../src/lib/packageSlug.js';
 
 const SITE = process.env.SITE_ORIGIN || 'https://jejusnapfinder.com';
 
@@ -60,7 +61,7 @@ async function main() {
 
   for (const p of packages) {
     urls.push({
-      loc: `${SITE}/packages/${encodeURIComponent(p.id)}`,
+      loc: `${SITE}/packages/${encodeURIComponent(getPackageSlug(p))}`,
       changefreq: 'weekly',
       priority: '0.7'
     });

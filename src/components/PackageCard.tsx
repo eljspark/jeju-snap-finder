@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, Camera, Users } from "lucide-react";
 import { formatThumbnailUrl } from "@/lib/utils";
+import { getPackageSlug } from "@/lib/packageSlug.js";
 
 interface PackageCardProps {
   id: string;
@@ -12,6 +13,8 @@ interface PackageCardProps {
   occasions: string[];
   images: string[];
   featured?: boolean;
+  package_slug?: string;
+  slug?: string;
 }
 
 const PackageCard = ({
@@ -22,9 +25,11 @@ const PackageCard = ({
   occasions,
   images,
   featured = false,
+  package_slug,
+  slug,
 }: PackageCardProps) => {
   return (
-    <a href={`/packages/${id}`} className="block no-underline text-inherit">
+    <a href={`/packages/${getPackageSlug({ id, title, package_slug, slug })}`} className="block no-underline text-inherit">
       <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-medium ${
         featured ? 'ring-2 ring-primary/20 shadow-medium' : 'shadow-soft hover:shadow-medium'
       }`}>

@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { buildPackageSlugs, findPackageBySlugOrId } from '../../src/lib/packageSlug.js';
 
 // Helper to get Supabase client for server-side data fetching
 function getSupabaseClient() {
@@ -9,9 +10,9 @@ function getSupabaseClient() {
 }
 
 export async function prerender() {
-  // Fetch all package IDs from Supabase directly during prerender
+  // Fetch all packages from Supabase directly during prerender
   const supabase = getSupabaseClient();
-  const { data, error } = await supabase.from('packages').select('id');
+  const { data, error } = await supabase.from('packages').select('*');
   
   if (error || !data) {
     console.error('Failed to fetch packages for prerender:', error);
@@ -19,32 +20,29 @@ export async function prerender() {
   }
   
   console.log(`Prerendering ${data.length} package pages...`);
-  return data.map(pkg => ({ url: `/packages/${pkg.id}` }));
+  return buildPackageSlugs(data).map(pkg => ({ url: `/packages/${pkg.package_slug}` }));
 }
 
 export async function onBeforeRender(pageContext) {
-  const { id } = pageContext.routeParams;
+  const slugOrId = pageContext.routeParams.id;
   
-  // Fetch package data directly from Supabase during SSG
+  // Fetch package data directly from Supabase during SSG. Readable slugs are
+  // derived from package titles, while UUID URLs remain supported as fallbacks.
   const supabase = getSupabaseClient();
-  const { data: packageData, error: pkgError } = await supabase
-    .from('packages')
-    .select('*')
-    .eq('id', id)
-    .single();
-  
   const { data: packages, error: allError } = await supabase
     .from('packages')
     .select('*');
+  const packagesWithSlugs = buildPackageSlugs(packages || []);
+  const packageData = findPackageBySlugOrId(packagesWithSlugs, slugOrId);
   
-  if (pkgError || !packageData) {
-    console.error('Package data not found for', id, pkgError);
+  if (allError || !packageData) {
+    console.error('Package data not found for', slugOrId, allError);
     return {
       pageContext: {
         pageProps: {
           packageData: null,
-          packages: packages || [],
-          packageId: id
+          packages: packagesWithSlugs,
+          packageId: slugOrId
         }
       }
     };
@@ -65,7 +63,7 @@ export async function onBeforeRender(pageContext) {
     thumbnail_url: formatThumbnailUrl(packageData.thumbnail_url)
   };
 
-  const formattedPackages = (packages || []).map(pkg => ({
+  const formattedPackages = packagesWithSlugs.map(pkg => ({
     ...pkg,
     thumbnail_url: formatThumbnailUrl(pkg.thumbnail_url)
   }));
@@ -75,7 +73,7 @@ export async function onBeforeRender(pageContext) {
       pageProps: {
         packageData: formattedPackageData,
         packages: formattedPackages,
-        packageId: id
+        packageId: packageData.id
       }
     }
   };

@@ -9,6 +9,7 @@ import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter, Camera, MapP
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
+import { buildPackageSlugs } from "@/lib/packageSlug.js";
 
 const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
@@ -41,9 +42,10 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       
       if (error) throw error;
       
-      return data.map(pkg => ({
+      return buildPackageSlugs(data || []).map(pkg => ({
         id: pkg.id,
         title: pkg.title,
+        package_slug: pkg.package_slug,
         price: pkg.price_krw,
         duration: pkg.duration_minutes ? formatDuration(pkg.duration_minutes) : "촬영 시간 미정",
         occasions: pkg.occasions || ["Photography"],

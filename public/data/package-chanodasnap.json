@@ -1,0 +1,28 @@
+{
+  "id": "e2670e72-1b8e-438a-996f-fb12afdae129",
+  "title": "차노다스냅",
+  "price_krw": 150000,
+  "reservation_url": "https://linktr.ee/chanoda",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/chanoda_snap/1779611898565_27.jpg",
+  "details": "상품구성\n1. Daily Mini: 촬영 금액 150,000원 (VAT 포함), Daily Basic: 300,000원 (VAT 포함)\n2. 촬영 시간: 1시간 / 2시간 (이동 및 환복시간 포함)\n3. 촬영 장소: 1곳 / 2곳\n4. JPG 원본 파일 모두 제공\n5. 보정본: 20장(색감 15장+세부 5장) / 40장(색감 30장+세부 10장) 제공\n6. 2인 기준이며, 3인부터 1인당 50,000원 추가돼요 (반려견 추가금 없음). 시간 추가는 시간당 100,000원, 선보정 서비스(셀렉일 기준 1주내 전체 전달)는 150,000원 추가돼요.",
+  "sample_image_urls": null,
+  "occasions": [
+    "가족",
+    "만삭"
+  ],
+  "created_at": "2026-05-24T08:36:44.443394+00:00",
+  "updated_at": "2026-05-24T08:40:44.406791+00:00",
+  "duration_minutes": 60,
+  "folder_path": "chanoda_snap",
+  "description": "제주의 자연 속에서 우리 가족만의 빛나는 순간을 담아요",
+  "Tips": "차노다스냅은 제주의 숲길, 유채꽃밭, 돌담, 바다 등 다양한 자연 배경 속에서 가족의 따뜻한 교감을 밝고 생동감 있는 톤으로 담아내요. 보정 색감은 과하지 않고 자연스러워서, 시간이 지나도 질리지 않는 사진을 남길 수 있어요!\n\n아이와 함께하는 가족 촬영에 잘 어울리며, 아이의 자연스러운 표정과 움직임을 편안하게 이끌어주는 것이 차노다스냅의 강점이에요. 아이 인형이나 소품을 활용한 스토리 있는 컷도 섬세하게 연출해드려요.",
+  "mood": [
+    "따뜻한",
+    "자연스러운",
+    "밝은"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/chanoda_snap/1779611898565_27.jpg"
+  ],
+  "package_slug": "chanodasnap"
+}

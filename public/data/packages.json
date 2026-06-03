@@ -25,7 +25,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c57c6561-cab2-4e34-b16c-edb93d5ad47e/thumbnails/cropped_1756566064177_1756040667758_img_8524.jpeg"
-    ]
+    ],
+    "package_slug": "ohwoorisnap"
   },
   {
     "id": "4b3444b3-f8e6-4e59-8169-9963dafffbcc",
@@ -54,7 +55,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/4b3444b3-f8e6-4e59-8169-9963dafffbcc/Screenshot%202025-08-23%20at%207.16.52%20PM.png"
-    ]
+    ],
+    "package_slug": "brightday"
   },
   {
     "id": "eae4fb0a-9c54-4ee6-9b48-e53889593392",
@@ -82,7 +84,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/eae4fb0a-9c54-4ee6-9b48-e53889593392/Screenshot%202025-08-23%20at%207.40.49%20PM.png"
-    ]
+    ],
+    "package_slug": "jejusnap-uimi"
   },
   {
     "id": "fff43354-0ea4-413c-be52-f0f59c71683c",
@@ -109,7 +112,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/doyou.studio/1779535208147_kakaotalk_photo_2026-05-23-20-19-35_009.jpeg"
-    ]
+    ],
+    "package_slug": "doyoufilm-studio"
   },
   {
     "id": "45b9d634-5158-412b-aaf1-9e5687e03f1e",
@@ -136,7 +140,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/red__h1/1779632529027_kakaotalk_photo_2026-05-24-23-20-54_003.jpeg"
-    ]
+    ],
+    "package_slug": "redsnap"
   },
   {
     "id": "c7262f20-dd6f-40a4-8305-4a210e17fbc7",
@@ -165,7 +170,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/c7262f20-dd6f-40a4-8305-4a210e17fbc7/Screenshot 2025-08-23 at 7.04.00 PM.png"
-    ]
+    ],
+    "package_slug": "oreudasnap"
   },
   {
     "id": "b1e74e06-25e4-4876-ac72-873c6dfbc32d",
@@ -194,7 +200,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/b1e74e06-25e4-4876-ac72-873c6dfbc32d/thumbnails/cropped_1756565776755_1756212171288_screenshot_2025-08-26_at_9.38.56_pm.png"
-    ]
+    ],
+    "package_slug": "dazzlesnap"
   },
   {
     "id": "b335245b-a114-49f1-9f80-cfd4b648134b",
@@ -220,7 +227,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/floppy_snap_/1779527620889_kakaotalk_photo_2026-05-23-18-12-42_012.jpeg"
-    ]
+    ],
+    "package_slug": "floppysnap"
   },
   {
     "id": "027149c5-8118-4d38-bb2a-f0b2dfe056f4",
@@ -249,7 +257,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/027149c5-8118-4d38-bb2a-f0b2dfe056f4/1756297949660_screenshot_2025-08-27_at_9.23.01_pm.png"
-    ]
+    ],
+    "package_slug": "zentilesstudio"
   },
   {
     "id": "054e7d21-36df-4ef3-a2c3-bac81908a895",
@@ -277,7 +286,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/054e7d21-36df-4ef3-a2c3-bac81908a895/1756214408644_screenshot_2025-08-26_at_10.19.42_pm.png"
-    ]
+    ],
+    "package_slug": "sowoojoosnap"
   },
   {
     "id": "93712528-260e-4b3e-bd18-9bc6e46b2fa0",
@@ -305,7 +315,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/93712528-260e-4b3e-bd18-9bc6e46b2fa0/IMG_0489.jpg"
-    ]
+    ],
+    "package_slug": "jejulog"
   },
   {
     "id": "24bba417-d4d5-4443-b657-05752c5250c1",
@@ -332,7 +343,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/dongwanfilm/1779608314217_10.jpg"
-    ]
+    ],
+    "package_slug": "dongwanfilm"
   },
   {
     "id": "1d39086c-d0a4-4ea2-824e-305943437b5f",
@@ -360,7 +372,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/snap_gudo/1779611446073_01.jpg"
-    ]
+    ],
+    "package_slug": "snapgudo"
   },
   {
     "id": "91e7c774-64d3-4988-8455-40cba2b3167c",
@@ -388,7 +401,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/91e7c774-64d3-4988-8455-40cba2b3167c/1756212931499_screenshot_2025-08-26_at_9.46.59_pm.png"
-    ]
+    ],
+    "package_slug": "niustudio"
   },
   {
     "id": "bb0d5098-b61c-46bc-9992-a983a2680ffc",
@@ -414,7 +428,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/ourpage_jeju/1779533377794_kakaotalk_photo_2026-05-23-19-48-45_014.jpeg"
-    ]
+    ],
+    "package_slug": "ourpage-jeju"
   },
   {
     "id": "d1ede0be-5562-4440-a224-cf167ba3ded0",
@@ -441,7 +456,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/soheesnap_jeju/1779600813530_kakaotalk_photo_2026-05-24-14-32-51_002.jpeg"
-    ]
+    ],
+    "package_slug": "soheesnap"
   },
   {
     "id": "aebe9709-bbf2-4e8c-8c88-ff4e2dbafec9",
@@ -468,7 +484,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/jeju_aewolgotgan/1779688046114_25.jpg"
-    ]
+    ],
+    "package_slug": "jeju-aewolgotgan"
   },
   {
     "id": "4b3b397a-abcf-4219-b616-4af43f996df8",
@@ -496,7 +513,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/4b3b397a-abcf-4219-b616-4af43f996df8/Screen%20Shot%202025-10-29%20at%201.12.40%20AM.png"
-    ]
+    ],
+    "package_slug": "ollegamsa-jejusnap"
   },
   {
     "id": "b410b167-4f29-479b-a8c5-0e62dce836ee",
@@ -525,7 +543,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/b410b167-4f29-479b-a8c5-0e62dce836ee//cropped_1756564997738_jaylim5.jpeg"
-    ]
+    ],
+    "package_slug": "jaylimsnap"
   },
   {
     "id": "fa050e4d-4d97-4873-9264-9fd23a9c26d5",
@@ -556,7 +575,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/fa050e4d-4d97-4873-9264-9fd23a9c26d5/Screenshot%202025-08-24%20at%209.59.10%20PM.png"
-    ]
+    ],
+    "package_slug": "chowolsnap"
   },
   {
     "id": "66737b70-8dca-4235-bd99-42d693f88058",
@@ -583,7 +603,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/lovegrapher/1779536620385_kakaotalk_photo_2026-05-23-20-42-32_010.jpeg"
-    ]
+    ],
+    "package_slug": "lovegrapher"
   },
   {
     "id": "96eb7381-5437-4b0e-b336-00b31c06e7ed",
@@ -610,7 +631,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/96eb7381-5437-4b0e-b336-00b31c06e7ed/songrim4.png"
-    ]
+    ],
+    "package_slug": "songgeurim-ilgisnap"
   },
   {
     "id": "acbb526d-5dd8-478b-9a69-6fb6f6ef3a34",
@@ -638,7 +660,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/acbb526d-5dd8-478b-9a69-6fb6f6ef3a34/Screenshot%202025-08-27%20at%209.48.23%20PM.png"
-    ]
+    ],
+    "package_slug": "yeorisnap"
   },
   {
     "id": "e209705b-5e34-420a-b062-1d49fcee0351",
@@ -666,7 +689,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/e209705b-5e34-420a-b062-1d49fcee0351/1756214716678_screenshot_2025-08-26_at_10.23.45_pm.png"
-    ]
+    ],
+    "package_slug": "orangepop-studio"
   },
   {
     "id": "c723288f-5da8-41f4-bf81-2c16d7b504a4",
@@ -690,7 +714,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/only.grapher/1779631140679_01.jpg"
-    ]
+    ],
+    "package_slug": "onlygrapher"
   },
   {
     "id": "4113ae6b-2e65-4436-9b8f-cd1fcb07de8f",
@@ -719,7 +744,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/packages/4113ae6b-2e65-4436-9b8f-cd1fcb07de8f/taekhada.png"
-    ]
+    ],
+    "package_slug": "taekhada-jeju"
   },
   {
     "id": "c76e37c3-5ac0-46f6-bae4-55b64e21ef86",
@@ -747,7 +773,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/c76e37c3-5ac0-46f6-bae4-55b64e21ef86/1756213709884_screenshot_2025-08-26_at_10.07.02_pm.png"
-    ]
+    ],
+    "package_slug": "nuvostudio"
   },
   {
     "id": "e2670e72-1b8e-438a-996f-fb12afdae129",
@@ -774,7 +801,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/chanoda_snap/1779611898565_27.jpg"
-    ]
+    ],
+    "package_slug": "chanodasnap"
   },
   {
     "id": "c659de6b-fff4-47ef-be11-68bff0f48352",
@@ -801,7 +829,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/studio_orari_jeju/1779630670783_09.jpg"
-    ]
+    ],
+    "package_slug": "studio-orari"
   },
   {
     "id": "384e4e1b-54fb-4c33-80f5-8adf71284d94",
@@ -827,7 +856,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/photodami/1779633065022_22.jpg"
-    ]
+    ],
+    "package_slug": "photodami"
   },
   {
     "id": "ff6f79d0-667b-4d3b-812d-fe52bf4cec1c",
@@ -854,7 +884,8 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/damphotography_/1779636822754_21.jpg"
-    ]
+    ],
+    "package_slug": "damphotography"
   },
   {
     "id": "f5bd0ff1-c3db-48b3-8231-238956d52c9e",
@@ -881,6 +912,7 @@
     ],
     "images": [
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/sasohan.nal/1779685380291_06.jpg"
-    ]
+    ],
+    "package_slug": "sasohan-nal"
   }
 ]
