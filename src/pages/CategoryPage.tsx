@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Slider } from "@/components/ui/slider";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Filter, Camera, MapPin, Clock, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
+import { Camera, MapPin, Clock, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
@@ -138,21 +137,19 @@ const CATEGORY_COPY: Record<OccasionKey, CategoryCopy> = {
   }
 };
 
-const OCCASION_CATEGORIES: { key: OccasionKey; label: string; icon: typeof Heart; slug: string }[] = [
-  { key: "커플", label: "커플", icon: Heart, slug: "couple" },
-  { key: "가족", label: "가족", icon: Users, slug: "family" },
-  { key: "우정", label: "우정", icon: HeartHandshake, slug: "friends" },
-  { key: "만삭", label: "만삭", icon: Smile, slug: "maternity" },
-  { key: "아기", label: "아기", icon: Baby, slug: "baby" },
+const OCCASION_CATEGORIES: { key: OccasionKey; label: string; icon: typeof Heart; slug: string; imageClass: string }[] = [
+  { key: "커플", label: "커플", icon: Heart, slug: "couple", imageClass: "from-rose-100 to-pink-200 text-rose-500" },
+  { key: "가족", label: "가족", icon: Users, slug: "family", imageClass: "from-sky-100 to-blue-200 text-blue-500" },
+  { key: "우정", label: "우정", icon: HeartHandshake, slug: "friends", imageClass: "from-amber-100 to-orange-200 text-orange-500" },
+  { key: "만삭", label: "만삭", icon: Smile, slug: "maternity", imageClass: "from-violet-100 to-purple-200 text-purple-500" },
+  { key: "아기", label: "아기", icon: Baby, slug: "baby", imageClass: "from-emerald-100 to-teal-200 text-teal-500" },
 ];
 
-const PRICE_FILTERS = [
-  { key: "all", label: "모든 가격" },
-  { key: "under-100", label: "10만원 미만" },
-  { key: "100-150", label: "10만원 ~ 15만원" },
-  { key: "160-200", label: "16만원 ~ 20만원" },
-  { key: "over-200", label: "20만원 이상" },
-];
+const PRICE_MIN_FALLBACK = 50000;
+const PRICE_MAX_FALLBACK = 500000;
+const PRICE_STEP = 10000;
+
+const formatPriceLabel = (value: number) => `₩${value.toLocaleString()}`;
 
 interface CategoryPageProps {
   occasion: OccasionKey;
@@ -160,7 +157,9 @@ interface CategoryPageProps {
 }
 
 const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps) => {
-  const [priceFilter, setPriceFilter] = useState("all");
+  const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN_FALLBACK, PRICE_MAX_FALLBACK]);
+  const [isPriceFilterActive, setIsPriceFilterActive] = useState(false);
+  const packagesSectionRef = useRef<HTMLElement | null>(null);
 
   const copy = CATEGORY_COPY[occasion];
 
@@ -194,16 +193,38 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
     featured: pkg.featured || false,
   }));
 
+  const packagePrices = normalized.map((pkg) => Number(pkg.price) || 0).filter((price) => price > 0);
+  const minPackagePrice = packagePrices.length ? Math.min(...packagePrices) : PRICE_MIN_FALLBACK;
+  const maxPackagePrice = normalized.reduce((max, pkg) => Math.max(max, Number(pkg.price) || 0), 0);
+  const priceMin = Math.max(0, Math.floor(minPackagePrice / PRICE_STEP) * PRICE_STEP);
+  const priceMax = Math.max(PRICE_MAX_FALLBACK, Math.ceil(maxPackagePrice / 50000) * 50000);
+  const activePriceRange: [number, number] = isPriceFilterActive ? priceRange : [priceMin, priceMax];
+  const hasCustomPriceRange = isPriceFilterActive && (activePriceRange[0] !== priceMin || activePriceRange[1] !== priceMax);
+  const priceSummary = hasCustomPriceRange
+    ? `${formatPriceLabel(activePriceRange[0])} - ${formatPriceLabel(activePriceRange[1])}`
+    : "전체 가격";
+
   const filtered = normalized.filter((pkg) => {
-    if (priceFilter === "under-100") return pkg.price < 100000;
-    if (priceFilter === "100-150") return pkg.price >= 100000 && pkg.price <= 150000;
-    if (priceFilter === "160-200") return pkg.price >= 160000 && pkg.price <= 200000;
-    if (priceFilter === "over-200") return pkg.price > 200000;
-    return true;
+    return pkg.price >= activePriceRange[0] && pkg.price <= activePriceRange[1];
   });
 
+  const clearPriceFilter = () => {
+    setPriceRange([priceMin, priceMax]);
+    setIsPriceFilterActive(false);
+  };
+
+  const handlePriceRangeChange = (value: number[]) => {
+    const nextRange: [number, number] = [value[0] ?? priceMin, value[1] ?? priceMax];
+    setPriceRange(nextRange);
+    setIsPriceFilterActive(true);
+  };
+
+  const scrollToPackages = () => {
+    packagesSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-28 md:pb-0">
       {/* Hero */}
       <section className="pt-12 pb-12 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -217,7 +238,7 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
       {/* Category Filter — persists on category pages; active one is highlighted and clears filter on re-click */}
       <section className="pt-8 pb-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-1">
+          <div className="mb-5">
             <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
               {OCCASION_CATEGORIES.map((category) => {
@@ -228,16 +249,16 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
                   <a
                     key={category.key}
                     href={href}
-                    className={`flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 transition-all min-w-[80px] ${
+                    className={`flex-shrink-0 flex items-center gap-2 rounded-2xl border px-3 py-2 shadow-soft transition-all hover:border-primary/50 hover:shadow-medium ${
                       isActive
                         ? "border-primary bg-primary/5"
-                        : "border bg-background hover:border-primary/50"
+                        : "border-border bg-background"
                     }`}
                   >
-                    <div className={`p-2 rounded-full mb-1 ${isActive ? "bg-primary/10" : "bg-muted"}`}>
-                      <Icon className={`h-4 w-4 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
+                    <div className={`grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br ${category.imageClass}`}>
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <span className={`text-xs font-medium ${isActive ? "text-primary" : ""}`}>
+                    <span className={`text-sm font-semibold ${isActive ? "text-primary" : ""}`}>
                       {category.label}
                     </span>
                   </a>
@@ -251,40 +272,72 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
       {/* Price Filter */}
       <section className="pt-2 pb-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-end">
-            <DropdownMenu>
-              <div className="flex items-center gap-2">
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2 p-2">
-                    <Filter className="h-4 w-4 text-foreground" />
-                    <span className="text-sm font-medium">가격대</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                {priceFilter !== "all" && (
-                  <Badge variant="secondary" className="text-xs">
-                    {PRICE_FILTERS.find((f) => f.key === priceFilter)?.label}
-                  </Badge>
-                )}
+          <div className="rounded-3xl border border-primary/10 bg-background p-5 shadow-soft">
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="grid h-9 w-9 place-items-center rounded-2xl bg-primary/10 text-primary">
+                    ₩
+                  </span>
+                  <div>
+                    <h2 className="text-lg font-semibold">가격필터</h2>
+                    <p className="text-sm text-muted-foreground">원하는 예산 범위를 선택하세요</p>
+                  </div>
+                </div>
               </div>
-              <DropdownMenuContent align="end" className="w-48">
-                {PRICE_FILTERS.map((f) => (
-                  <DropdownMenuItem
-                    key={f.key}
-                    onClick={() => setPriceFilter(f.key)}
-                    className={priceFilter === f.key ? "bg-primary/10 text-primary" : ""}
-                  >
-                    {f.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+              <div className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
+                {priceSummary}
+              </div>
+            </div>
+
+            <div className="px-1">
+              <Slider
+                min={priceMin}
+                max={priceMax}
+                step={PRICE_STEP}
+                value={activePriceRange}
+                onValueChange={handlePriceRangeChange}
+                minStepsBetweenThumbs={1}
+                aria-label="가격 범위"
+              />
+              <div className="mt-3 flex items-center justify-between text-xs font-medium text-muted-foreground">
+                <span>{formatPriceLabel(priceMin)}</span>
+                <span>{formatPriceLabel(priceMax)}</span>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-muted/50 px-4 py-3">
+              <div>
+                <p className="text-sm font-medium text-foreground">{filtered.length}개 패키지</p>
+                <p className="text-xs text-muted-foreground">
+                  {hasCustomPriceRange ? "가격필터 적용됨" : "전체 가격대 표시 중"}
+                </p>
+              </div>
+              {hasCustomPriceRange && (
+                <Button variant="ghost" size="sm" onClick={clearPriceFilter}>
+                  초기화
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Packages Grid */}
-      <section className="py-8">
+      <section ref={packagesSectionRef} className="py-8 scroll-mt-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-muted-foreground">{occasion} 조건에 맞는 패키지</p>
+              <h2 className="text-2xl font-bold">{filtered.length}개 패키지</h2>
+            </div>
+            {hasCustomPriceRange && (
+              <Button variant="outline" size="sm" onClick={clearPriceFilter}>
+                필터 초기화
+              </Button>
+            )}
+          </div>
+
           {filtered.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((pkg) => (
@@ -298,6 +351,20 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
           )}
         </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-primary/10 bg-background/95 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-3 shadow-[0_-10px_30px_rgba(15,23,42,0.12)] backdrop-blur md:hidden">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-2 flex items-center justify-between text-xs">
+            <span className="font-medium text-foreground">
+              {hasCustomPriceRange ? "가격필터 적용됨" : "전체 가격대"}
+            </span>
+            <span className="text-muted-foreground">{priceSummary}</span>
+          </div>
+          <Button className="h-12 w-full rounded-2xl text-base font-semibold" onClick={scrollToPackages}>
+            {filtered.length}개 패키지 보기
+          </Button>
+        </div>
+      </div>
 
       {/* Guide */}
       <section className="py-12 bg-background">
