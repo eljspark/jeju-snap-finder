@@ -294,69 +294,67 @@ const PackageDetail = ({ packageData: staticPackageData, packageId }: PackageDet
 
       {/* Floating Reservation Button */}
       <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-[calc(env(safe-area-inset-bottom)+12px)]">
-        <div className="mx-auto max-w-md rounded-[22px] border border-border/70 bg-background/95 p-3 shadow-[0_10px_35px_rgba(15,23,42,0.18)] backdrop-blur supports-[backdrop-filter]:bg-background/90">
-          <Button
-            className="h-14 w-full rounded-2xl text-lg font-semibold shadow-sm transition-all duration-200 hover:shadow-md"
-            onClick={async (e) => {
-              e.preventDefault();
-              e.stopPropagation();
+        <Button
+          className="mx-auto flex h-16 w-full max-w-md rounded-[22px] text-lg font-semibold shadow-[0_10px_35px_rgba(37,99,235,0.28)] transition-all duration-200 hover:shadow-[0_12px_38px_rgba(37,99,235,0.34)]"
+          onClick={async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
-              // Track the click before opening the URL
-              if (packageData?.id && packageData?.title) {
-                trackReservationClick({
-                  packageId: packageData.id,
-                  packageTitle: packageData.title,
-                  priceKrw: packageData.price,
-                });
+            // Track the click before opening the URL
+            if (packageData?.id && packageData?.title) {
+              trackReservationClick({
+                packageId: packageData.id,
+                packageTitle: packageData.title,
+                priceKrw: packageData.price,
+              });
+            }
+
+            let url = packageData?.reservationUrl;
+
+            if (!url) {
+              alert("예약 URL이 설정되지 않았습니다.");
+              return;
+            }
+
+            // Handle different URL formats
+            if (url.startsWith("카카오톡:")) {
+              // For KakaoTalk links, show alert with instructions
+              alert(`카카오톡 ID: ${url.replace("카카오톡:", "")}`);
+              return;
+            }
+
+            // Ensure URL has proper protocol
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+              url = `https://${url}`;
+            }
+
+            // Try multiple methods to open the link
+            try {
+              // Method 1: Direct window.open with specific parameters
+              const newWindow = window.open(url, "_blank", "noopener=yes,noreferrer=yes,width=800,height=600");
+
+              // If window.open fails, try alternative method
+              if (!newWindow || newWindow.closed || typeof newWindow.closed == "undefined") {
+                // Method 2: Create a temporary link and click it
+                const link = document.createElement("a");
+                link.href = url;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
               }
-
-              let url = packageData?.reservationUrl;
-
-              if (!url) {
-                alert("예약 URL이 설정되지 않았습니다.");
-                return;
-              }
-
-              // Handle different URL formats
-              if (url.startsWith("카카오톡:")) {
-                // For KakaoTalk links, show alert with instructions
-                alert(`카카오톡 ID: ${url.replace("카카오톡:", "")}`);
-                return;
-              }
-
-              // Ensure URL has proper protocol
-              if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                url = `https://${url}`;
-              }
-
-              // Try multiple methods to open the link
-              try {
-                // Method 1: Direct window.open with specific parameters
-                const newWindow = window.open(url, "_blank", "noopener=yes,noreferrer=yes,width=800,height=600");
-
-                // If window.open fails, try alternative method
-                if (!newWindow || newWindow.closed || typeof newWindow.closed == "undefined") {
-                  // Method 2: Create a temporary link and click it
-                  const link = document.createElement("a");
-                  link.href = url;
-                  link.target = "_blank";
-                  link.rel = "noopener noreferrer";
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                }
-              } catch (error) {
-                console.error("Failed to open reservation link:", error);
-                // Fallback: Copy URL to clipboard
-                navigator.clipboard.writeText(url).then(() => {
-                  alert(`링크가 복사되었습니다: ${url}`);
-                });
-              }
-            }}
-          >
-            예약하기
-          </Button>
-        </div>
+            } catch (error) {
+              console.error("Failed to open reservation link:", error);
+              // Fallback: Copy URL to clipboard
+              navigator.clipboard.writeText(url).then(() => {
+                alert(`링크가 복사되었습니다: ${url}`);
+              });
+            }
+          }}
+        >
+          예약하기
+        </Button>
       </div>
 
       {/* Package Details */}
