@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -159,7 +159,6 @@ interface CategoryPageProps {
 const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps) => {
   const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN_FALLBACK, PRICE_MAX_FALLBACK]);
   const [isPriceFilterActive, setIsPriceFilterActive] = useState(false);
-  const packagesSectionRef = useRef<HTMLElement | null>(null);
 
   const copy = CATEGORY_COPY[occasion];
 
@@ -219,12 +218,8 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
     setIsPriceFilterActive(true);
   };
 
-  const scrollToPackages = () => {
-    packagesSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
-    <div className="min-h-screen bg-background pb-28 md:pb-0">
+    <div className="min-h-screen bg-background">
       {/* Hero */}
       <section className="pt-12 pb-12 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -324,7 +319,7 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
       </section>
 
       {/* Packages Grid */}
-      <section ref={packagesSectionRef} className="py-8 scroll-mt-6">
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6 flex items-center justify-between gap-4">
             <div>
@@ -351,20 +346,6 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
           )}
         </div>
       </section>
-
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-primary/10 bg-background/95 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-3 shadow-[0_-10px_30px_rgba(15,23,42,0.12)] backdrop-blur md:hidden">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-2 flex items-center justify-between text-xs">
-            <span className="font-medium text-foreground">
-              {hasCustomPriceRange ? "가격필터 적용됨" : "전체 가격대"}
-            </span>
-            <span className="text-muted-foreground">{priceSummary}</span>
-          </div>
-          <Button className="h-12 w-full rounded-2xl text-base font-semibold" onClick={scrollToPackages}>
-            {filtered.length}개 패키지 보기
-          </Button>
-        </div>
-      </div>
 
       {/* Guide */}
       <section className="py-12 bg-background">
