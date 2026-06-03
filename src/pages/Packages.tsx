@@ -1,27 +1,34 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Slider } from "@/components/ui/slider";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Search, Heart, Users, HeartHandshake, Baby, Smile, Filter, Camera, MapPin, Star } from "lucide-react";
+import { Heart, Users, HeartHandshake, Baby, Smile, Camera, MapPin, Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 import { buildPackageSlugs } from "@/lib/packageSlug.js";
 
+const PRICE_MIN_FALLBACK = 50000;
+const PRICE_MAX_FALLBACK = 500000;
+const PRICE_STEP = 10000;
+
+const formatPriceLabel = (value: number) => `₩${value.toLocaleString()}`;
+
 const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
   const [selectedOccasion, setSelectedOccasion] = useState<string>("");
-  const [priceFilter, setPriceFilter] = useState("all");
+  const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN_FALLBACK, PRICE_MAX_FALLBACK]);
+  const [isPriceFilterActive, setIsPriceFilterActive] = useState(false);
+  const packagesSectionRef = useRef<HTMLElement | null>(null);
 
   // Define occasion categories with icons based on actual database values
   const occasionCategories = [
-    { key: "커플", label: "커플", icon: Heart, slug: "couple" },
-    { key: "가족", label: "가족", icon: Users, slug: "family" },
-    { key: "우정", label: "우정", icon: HeartHandshake, slug: "friends" },
-    { key: "만삭", label: "만삭", icon: Smile, slug: "maternity" },
-    { key: "아기", label: "아기", icon: Baby, slug: "baby" },
+    { key: "커플", label: "커플", icon: Heart, slug: "couple", imageClass: "from-rose-100 to-pink-200 text-rose-500" },
+    { key: "가족", label: "가족", icon: Users, slug: "family", imageClass: "from-sky-100 to-blue-200 text-blue-500" },
+    { key: "우정", label: "우정", icon: HeartHandshake, slug: "friends", imageClass: "from-amber-100 to-orange-200 text-orange-500" },
+    { key: "만삭", label: "만삭", icon: Smile, slug: "maternity", imageClass: "from-violet-100 to-purple-200 text-purple-500" },
+    { key: "아기", label: "아기", icon: Baby, slug: "baby", imageClass: "from-emerald-100 to-teal-200 text-teal-500" },
   ];
 
   const selectOccasion = (slug: string) => {
@@ -58,16 +65,21 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
   });
 
   const allPackages = queryPackages?.length > 0 ? queryPackages : (staticPackages || []);
+  const packagePrices = allPackages.map((pkg) => Number(pkg.price) || 0).filter((price) => price > 0);
+  const minPackagePrice = packagePrices.length ? Math.min(...packagePrices) : PRICE_MIN_FALLBACK;
+  const maxPackagePrice = allPackages.reduce((max, pkg) => Math.max(max, Number(pkg.price) || 0), 0);
+  const priceMin = Math.max(0, Math.floor(minPackagePrice / PRICE_STEP) * PRICE_STEP);
+  const priceMax = Math.max(PRICE_MAX_FALLBACK, Math.ceil(maxPackagePrice / 50000) * 50000);
+  const activePriceRange: [number, number] = isPriceFilterActive ? priceRange : [priceMin, priceMax];
+  const hasCustomPriceRange = isPriceFilterActive && (activePriceRange[0] !== priceMin || activePriceRange[1] !== priceMax);
+  const priceSummary = hasCustomPriceRange
+    ? `${formatPriceLabel(activePriceRange[0])} - ${formatPriceLabel(activePriceRange[1])}`
+    : "전체 가격";
 
   const filteredPackages = allPackages
     .filter((pkg) => {
       const matchesOccasion = selectedOccasion === "" || (pkg.occasions as string[]).includes(selectedOccasion);
-      
-      let matchesPrice = true;
-      if (priceFilter === "under-100") matchesPrice = pkg.price < 100000;
-      else if (priceFilter === "100-150") matchesPrice = pkg.price >= 100000 && pkg.price <= 150000;
-      else if (priceFilter === "160-200") matchesPrice = pkg.price >= 160000 && pkg.price <= 200000;
-      else if (priceFilter === "over-200") matchesPrice = pkg.price > 200000;
+      const matchesPrice = pkg.price >= activePriceRange[0] && pkg.price <= activePriceRange[1];
 
       return matchesOccasion && matchesPrice;
     })
@@ -80,11 +92,22 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
 
   const clearFilters = () => {
     setSelectedOccasion("");
-    setPriceFilter("all");
+    setPriceRange([priceMin, priceMax]);
+    setIsPriceFilterActive(false);
+  };
+
+  const handlePriceRangeChange = (value: number[]) => {
+    const nextRange: [number, number] = [value[0] ?? priceMin, value[1] ?? priceMax];
+    setPriceRange(nextRange);
+    setIsPriceFilterActive(true);
+  };
+
+  const scrollToPackages = () => {
+    packagesSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-28 md:pb-0">
       {/* Hero Section */}
       <section className="pt-12 pb-12 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -98,7 +121,7 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
       {/* Filters Section */}
       <section className="pt-8 pb-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-1">
+          <div className="mb-5">
             <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
               {occasionCategories.map((category) => {
@@ -111,96 +134,82 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
                       e.preventDefault();
                       selectOccasion(category.slug);
                     }}
-                    className="flex-shrink-0 flex flex-col items-center p-2 rounded-xl border-2 border bg-background hover:border-primary/50 transition-all min-w-[80px]"
+                    className="flex-shrink-0 flex items-center gap-2 rounded-2xl border border-border bg-background px-3 py-2 shadow-soft transition-all hover:border-primary/50 hover:shadow-medium"
                   >
-                    <div className="p-2 rounded-full mb-1 bg-muted">
-                      <Icon className="h-4 w-4 text-muted-foreground" />
+                    <div className={`grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br ${category.imageClass}`}>
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <span className="text-xs font-medium">{category.label}</span>
+                    <span className="text-sm font-semibold">{category.label}</span>
                   </a>
                 );
               })}
             </div>
           </div>
 
-          {(selectedOccasion !== "" || priceFilter !== "all") && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-sm text-muted-foreground">적용된 필터:</span>
-              {selectedOccasion && (
-                <Badge variant="secondary">
-                  {selectedOccasion}
-                </Badge>
-              )}
-              {priceFilter !== "all" && (
-                <Badge variant="secondary">
-                  {priceFilter === "under-100" && "10만원 미만"}
-                  {priceFilter === "100-150" && "10만원 ~ 15만원"}
-                  {priceFilter === "160-200" && "16만원 ~ 20만원"}
-                  {priceFilter === "over-200" && "20만원 이상"}
-                </Badge>
-              )}
-              <Button variant="ghost" size="sm" onClick={clearFilters}>
-                모두 지우기
-              </Button>
+          <div className="rounded-3xl border border-primary/10 bg-background p-5 shadow-soft">
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="grid h-9 w-9 place-items-center rounded-2xl bg-primary/10 text-primary">
+                    ₩
+                  </span>
+                  <div>
+                    <h2 className="text-lg font-semibold">가격필터</h2>
+                    <p className="text-sm text-muted-foreground">원하는 예산 범위를 선택하세요</p>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
+                {priceSummary}
+              </div>
             </div>
-          )}
+
+            <div className="px-1">
+              <Slider
+                min={priceMin}
+                max={priceMax}
+                step={PRICE_STEP}
+                value={activePriceRange}
+                onValueChange={handlePriceRangeChange}
+                minStepsBetweenThumbs={1}
+                aria-label="가격 범위"
+              />
+              <div className="mt-3 flex items-center justify-between text-xs font-medium text-muted-foreground">
+                <span>{formatPriceLabel(priceMin)}</span>
+                <span>{formatPriceLabel(priceMax)}</span>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-muted/50 px-4 py-3">
+              <div>
+                <p className="text-sm font-medium text-foreground">{filteredPackages.length}개 패키지</p>
+                <p className="text-xs text-muted-foreground">
+                  {hasCustomPriceRange ? "가격필터 적용됨" : "전체 가격대 표시 중"}
+                </p>
+              </div>
+              {hasCustomPriceRange && (
+                <Button variant="ghost" size="sm" onClick={clearFilters}>
+                  초기화
+                </Button>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Packages Grid */}
-      <section className="py-8">
+      <section ref={packagesSectionRef} className="py-8 scroll-mt-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex justify-end">
-            <DropdownMenu>
-              <div className="flex items-center gap-2">
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2 p-2">
-                    <Filter className="h-4 w-4 text-foreground" />
-                    <span className="text-sm font-medium">가격대</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                {priceFilter !== "all" && (
-                  <Badge variant="secondary" className="text-xs">
-                    {priceFilter === "under-100" && "10만원 미만"}
-                    {priceFilter === "100-150" && "10만원 ~ 15만원"}
-                    {priceFilter === "160-200" && "16만원 ~ 20만원"}
-                    {priceFilter === "over-200" && "20만원 이상"}
-                  </Badge>
-                )}
-              </div>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem 
-                  onClick={() => setPriceFilter("all")}
-                  className={priceFilter === "all" ? "bg-primary/10 text-primary" : ""}
-                >
-                  모든 가격
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => setPriceFilter("under-100")}
-                  className={priceFilter === "under-100" ? "bg-primary/10 text-primary" : ""}
-                >
-                  10만원 미만
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => setPriceFilter("100-150")}
-                  className={priceFilter === "100-150" ? "bg-primary/10 text-primary" : ""}
-                >
-                  10만원 ~ 15만원
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => setPriceFilter("160-200")}
-                  className={priceFilter === "160-200" ? "bg-primary/10 text-primary" : ""}
-                >
-                  16만원 ~ 20만원
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => setPriceFilter("over-200")}
-                  className={priceFilter === "over-200" ? "bg-primary/10 text-primary" : ""}
-                >
-                  20만원 이상
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-muted-foreground">조건에 맞는 패키지</p>
+              <h2 className="text-2xl font-bold">{filteredPackages.length}개 패키지</h2>
+            </div>
+            {hasCustomPriceRange && (
+              <Button variant="outline" size="sm" onClick={clearFilters}>
+                필터 초기화
+              </Button>
+            )}
           </div>
 
           {filteredPackages.length > 0 ? (
@@ -218,6 +227,20 @@ const Packages = ({ packages: staticPackages }: { packages?: any[] }) => {
           )}
         </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-primary/10 bg-background/95 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-3 shadow-[0_-10px_30px_rgba(15,23,42,0.12)] backdrop-blur md:hidden">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-2 flex items-center justify-between text-xs">
+            <span className="font-medium text-foreground">
+              {hasCustomPriceRange ? "가격필터 적용됨" : "전체 가격대"}
+            </span>
+            <span className="text-muted-foreground">{priceSummary}</span>
+          </div>
+          <Button className="h-12 w-full rounded-2xl text-base font-semibold" onClick={scrollToPackages}>
+            {filteredPackages.length}개 패키지 보기
+          </Button>
+        </div>
+      </div>
 
       {/* Informative Content Section */}
       <section className="py-12 bg-background">
