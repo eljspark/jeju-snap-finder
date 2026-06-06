@@ -777,6 +777,33 @@
     "package_slug": "nuvostudio"
   },
   {
+    "id": "d9d00a1d-f84d-4526-8285-29f4e00ba98e",
+    "title": "제주의 오후",
+    "price_krw": 800000,
+    "reservation_url": "https://linktr.ee/ohu_jeju",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/ohu_jeju/1780725517463_01.jpg",
+    "details": "초원, 숲, 바다, 들판을 배경으로 웨딩의 설렘과 두 사람의 진짜 감정을 자연스럽게 담아내요. 연출된 포즈보다는 실제 두 사람의 교감과 순간적인 표정을 포착하는 스타일이라, 사진 한 장 한 장에서 그날의 온도가 느껴져요.\n\n웨딩 촬영 전 세밀한 드레스 연출이나 활동적인 야외 무드 둘 다 자연스럽게 소화하는 스타일이라, 정적인 컷부터 뛰고 웃는 생동감 있는 컷까지 다채롭게 남길 수 있어요. 골든아워와 계절 빛을 적극 활용해서 색감이 정말 예뻐요!\n\n상품구성\n1. 촬영 시간: 4시간 30분~5시간 (일몰 시간 기준)\n2. 촬영 장소: 숲·들판·바닷가 포함 총 4곳 (원하는 장소 조율 가능)\n3. 원본 JPG 최고 화질 전체 제공 (최소 1,800장 이상)\n4. 정밀 보정본 30장 제공\n5. 가격: 초상권 동의 시 80만 원, 미동의 시 90만 원 (부가세 포함)\n6. 작가 지정 가능 (추가 비용 10만 원), 기본은 팀장 작가 배정",
+    "sample_image_urls": null,
+    "occasions": [
+      "웨딩"
+    ],
+    "created_at": "2026-06-06T05:52:54.692677+00:00",
+    "updated_at": "2026-06-06T06:00:50.607568+00:00",
+    "duration_minutes": 270,
+    "folder_path": "ohu_jeju",
+    "description": "제주의 드넓은 자연 속에서 담아내는 우리 둘만의 따뜻한 하루",
+    "Tips": "- 웨딩 드레스는 볼륨감 있는 실루엣이 초원·들판 배경에서 특히 잘 어울려요. 튤 소재나 플레어 스커트 스타일을 추천드려요.\n- 야외 4~5시간 촬영인 만큼 편하게 걸을 수 있는 신발을 여분으로 챙겨오시면 훨씬 편하게 진행할 수 있어요.\n- 제주 바람이 강한 날도 많으니 헤어핀이나 헤어 고정 스프레이를 꼭 챙겨오시면 좋아요.\n- 일몰 시간에 맞춰 촬영이 진행되니, 당일 날씨와 일몰 시간을 미리 확인해두시면 기대 포인트가 더 생겨요.\n- 웨딩 드레스 외에 캐주얼한 커플 의상을 한 벌 더 준비해오시면 분위기 다른 컷도 남길 수 있어요.",
+    "mood": [
+      "로맨틱",
+      "자연스러운",
+      "따뜻한"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/ohu_jeju/1780725517463_01.jpg"
+    ],
+    "package_slug": "ohu-jeju"
+  },
+  {
     "id": "e2670e72-1b8e-438a-996f-fb12afdae129",
     "title": "차노다스냅",
     "price_krw": 150000,
@@ -860,6 +887,33 @@
     "package_slug": "photodami"
   },
   {
+    "id": "b77ec281-fafe-46b2-a91f-2464eb9a8037",
+    "title": "IfWeLove 제주스냅",
+    "price_krw": 500000,
+    "reservation_url": "http://pf.kakao.com/_zxlZRn",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/ifwelove_/1780727090036_24.jpg",
+    "details": "상품구성\n1. 촬영 시간: 오후 4시간 (오후~일몰)\n2. 촬영 장소: 3곳\n3. 원본 JPG 1,200장 이상 전체 무료 제공\n4. 보정본: 총 40장 (고객님 셀렉 30장 + 작가 셀렉 10장), 모든 보정본에 색감+정밀 보정 진행돼요\n5. 무료 4K 드론 영상 원본 제공\n6. 가격: 500,000원 (SNS 업로드 비동의 시 추가금 10만 원 발생해요)",
+    "sample_image_urls": null,
+    "occasions": [
+      "웨딩"
+    ],
+    "created_at": "2026-06-06T06:19:55.623538+00:00",
+    "updated_at": "2026-06-06T06:29:41.133155+00:00",
+    "duration_minutes": 240,
+    "folder_path": "ifwelove_",
+    "description": "제주의 자연 속에서 담아내는 우리 둘만의 특별한 웨딩 순간",
+    "Tips": "IfWeLove 제주스냅은 드넓은 초원, 호숫가, 맑은 하늘 등 제주의 자연을 배경으로 웨딩 커플의 설렘과 사랑을 담아내요. 흑백의 클래식한 무드부터 싱그러운 초록과 청량한 블루 톤까지, 다양한 분위기를 자연스럽고 감성적으로 표현하는 것이 이 작가의 강점이에요!\n\n연출된 포즈보다 두 사람의 진짜 감정과 순간을 포착하는 스타일이라, 자연스럽고 영화 같은 웨딩 스냅을 원하는 예비 부부에게 특히 잘 어울려요. 베일이나 꽃다발 등 소품을 활용한 감성 연출도 섬세하게 해드리는 것이 IfWeLove만의 매력이에요.",
+    "mood": [
+      "로맨틱",
+      "감성적인",
+      "자연스러운"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/ifwelove_/1780727090036_24.jpg"
+    ],
+    "package_slug": "ifwelove"
+  },
+  {
     "id": "ff6f79d0-667b-4d3b-812d-fe52bf4cec1c",
     "title": "담포토그라피",
     "price_krw": 270000,
@@ -914,5 +968,32 @@
       "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/sasohan.nal/1779685380291_06.jpg"
     ],
     "package_slug": "sasohan-nal"
+  },
+  {
+    "id": "35ea2d02-67ed-46f5-b5f8-906290ca924c",
+    "title": "더아워스냅",
+    "price_krw": 1570000,
+    "reservation_url": "https://blog.naver.com/theour_jeju/222817164471",
+    "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/theour_jeju/1780726145102_05.jpg",
+    "details": "상품구성\n1. 촬영 시간: 4시간 (이동 시간, 환복 시간 포함)\n2. 장소: 3곳 (노을 시간대 포함)\n3. 의상: 신부님 드레스 2벌, 신랑님 수트 2벌 포함 / 최대 3벌 가능, 환복 2회 가능\n4. 원본 고화질 JPG 3,000장 이상 무료 제공\n5. 고객 셀렉 색감+정밀 보정본 20장 + 작가 셀렉 프리뷰 7장 서비스 제공\n6. 신랑·신부님 헤어/메이크업, 신부님 기본 액세서리·베일, 동행 헬퍼 4시간, 생화 부케&부토니에 포함 / 드론 영상 클립 및 하이라이트 영상(15~30초 내외) 서비스 제공",
+    "sample_image_urls": null,
+    "occasions": [
+      "웨딩"
+    ],
+    "created_at": "2026-06-06T06:05:17.036044+00:00",
+    "updated_at": "2026-06-06T06:12:41.122993+00:00",
+    "duration_minutes": 240,
+    "folder_path": "theour_jeju",
+    "description": "제주의 자연 속에서 담아내는 우리 둘만의 빛나는 웨딩 순간",
+    "Tips": "더아워는 제주의 숲길, 초원, 바다, 일몰 노을까지 다양한 자연 배경을 활용해 신랑·신부의 감정을 조용하고 서정적인 톤으로 담아내요. 과하지 않은 색감과 자연광 중심의 촬영 스타일 덕분에 사진 전체에 차분하고 로맨틱한 무드가 자연스럽게 흘러요!\n\n스튜디오 느낌보다 야외에서의 자연스러운 감정 표현을 원하는 예비 부부에게 특히 잘 어울리고, 노을 시간대를 적극 활용해서 분위기 있는 실루엣 컷도 멋지게 담아줘요. 드론 영상 클립도 서비스로 제공되니 특별한 기념 영상까지 함께 챙길 수 있어요.",
+    "mood": [
+      "로맨틱",
+      "감성적인",
+      "자연스러운"
+    ],
+    "images": [
+      "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/theour_jeju/1780726145102_05.jpg"
+    ],
+    "package_slug": "theour-jeju"
   }
 ]

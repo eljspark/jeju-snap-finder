@@ -1,16 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { buildPackageSlugs } from '../../src/lib/packageSlug.js';
-
-// English slug → Korean occasion (DB enum value)
-const OCCASION_EN_TO_KO: Record<string, string> = {
-  couple: '커플',
-  family: '가족',
-  friends: '우정',
-  maternity: '만삭',
-  baby: '아기',
-};
-
-const ALL_OCCASIONS = Object.keys(OCCASION_EN_TO_KO);
+import { OCCASION_EN_TO_KO, getVisibleOccasionSlugs, isOccasionVisible } from '../../src/lib/occasionCategories.js';
 
 function getSupabaseClient() {
   return createClient(
@@ -29,7 +19,15 @@ function formatThumbnailUrl(url: string | null | undefined) {
 }
 
 export async function prerender() {
-  return ALL_OCCASIONS.map((slug) => ({ url: `/category/${slug}` }));
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase.from('packages').select('*');
+
+  if (error || !data) {
+    console.error('Failed to fetch packages for category prerender:', error);
+    return getVisibleOccasionSlugs([]).map((slug) => ({ url: `/category/${slug}` }));
+  }
+
+  return getVisibleOccasionSlugs(buildPackageSlugs(data)).map((slug) => ({ url: `/category/${slug}` }));
 }
 
 export async function onBeforeRender(pageContext: any) {
@@ -64,7 +62,19 @@ export async function onBeforeRender(pageContext: any) {
   }
 
   // Filter packages whose `occasions` array contains the requested occasion
-  const filtered = buildPackageSlugs(data)
+  const packagesWithSlugs = buildPackageSlugs(data);
+  if (!isOccasionVisible(packagesWithSlugs, occasionKo)) {
+    return {
+      pageContext: {
+        pageProps: {
+          packages: [],
+          occasionFilter: null,
+        },
+      },
+    };
+  }
+
+  const filtered = packagesWithSlugs
     .filter((pkg: any) => Array.isArray(pkg.occasions) && pkg.occasions.includes(occasionKo))
     .map((pkg: any) => ({
       ...pkg,

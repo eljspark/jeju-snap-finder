@@ -57,6 +57,11 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://jejusnapfinder.com/category/wedding</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://jejusnapfinder.com/packages/ohwoorisnap</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -192,6 +197,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://jejusnapfinder.com/packages/ohu-jeju</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://jejusnapfinder.com/packages/chanodasnap</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -207,12 +217,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://jejusnapfinder.com/packages/ifwelove</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://jejusnapfinder.com/packages/damphotography</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jejusnapfinder.com/packages/sasohan-nal</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://jejusnapfinder.com/packages/theour-jeju</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
