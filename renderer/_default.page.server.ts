@@ -109,8 +109,8 @@ function generateMetaTags(urlPathname: string, staticData: any) {
   const BASE_URL = "https://jejusnapfinder.com";
   
   // Default meta
-  let title = "제주 스냅 촬영 비교 - 커플, 가족, 만삭 스냅 패키지 총정리 | 제주스냅파인더";
-  let description = "제주도 커플스냅, 가족스냅, 만삭스냅 작가님들을 가격별, 유형별로 쉽게 비교하고 찾을 수 있어요.";
+  let title = "제주 스냅 촬영 비교 - 웨딩, 가족, 커플, 만삭, 돌스냅 패키지 총정리 | 제주스냅파인더";
+  let description = "제주도 웨딩스냅, 가족스냅, 커플스냅, 만삭스냅, 돌스냅 작가님들을 가격별, 유형별로 쉽게 비교하고 찾을 수 있어요";
   let ogImage = `${BASE_URL}/og-jejusnapfinder.jpg`;
   let ogTitle = "";
   let ogDescription = "";
