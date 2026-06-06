@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Packages from "./pages/Packages";
 import PackageDetail from "./pages/PackageDetail";
 import CategoryPage, { OccasionKey } from "./pages/CategoryPage";
-import { FeedbackButton } from "./components/FeedbackButton";
 
 const queryClient = new QueryClient();
 
@@ -37,7 +36,6 @@ const App = ({ pageProps, packages, packageData, occasionFilter }: AppProps) => 
         <Toaster />
         <Sonner />
         {content}
-        {!actualPackageData && <FeedbackButton />}
       </TooltipProvider>
     </QueryClientProvider>
   );
