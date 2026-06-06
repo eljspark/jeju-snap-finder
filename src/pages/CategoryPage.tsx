@@ -4,13 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { Camera, MapPin, Clock, Heart, Users, HeartHandshake, Baby, Smile } from "lucide-react";
+import { Camera, MapPin, Clock, Heart, Users, HeartHandshake, Baby, Smile, Gem } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatThumbnailUrl, formatDuration } from "@/lib/utils";
 import { buildPackageSlugs } from "@/lib/packageSlug.js";
+import { getVisibleOccasionCategories } from "@/lib/occasionCategories.js";
 
-type OccasionKey = "커플" | "가족" | "우정" | "만삭" | "아기";
+export type OccasionKey = "커플" | "가족" | "우정" | "웨딩" | "만삭" | "아기";
 
 interface CategoryCopy {
   h1: string;
@@ -89,6 +90,29 @@ const CATEGORY_COPY: Record<OccasionKey, CategoryCopy> = {
       }
     ]
   },
+  "웨딩": {
+    h1: "제주 웨딩스냅 추천 - 가격·작가·스타일 비교",
+    subhead: "제주에서 웨딩스냅을 남길 작가들을 한 곳에서 비교하세요. 드레스·정장 컨셉, 야외 로케이션, 촬영 시간과 보정컷 구성을 함께 확인할 수 있어요.",
+    guideTitle: "제주 웨딩스냅 선택 가이드",
+    guideItems: [
+      {
+        title: "1. 원하는 무드 정하기",
+        body: "화보형, 자연스러운 데이트형, 필름 감성 등 웨딩스냅도 작가별 톤이 크게 다릅니다. 포트폴리오에서 드레스·정장 컷과 두 사람의 표정이 자연스럽게 담긴 컷을 함께 확인하세요."
+      },
+      {
+        title: "2. 촬영 동선",
+        body: "제주는 바다, 오름, 숲처럼 배경 이동 욕심이 생기기 쉬운 지역입니다. 1시간 패키지는 한 장소 집중, 2시간 이상은 두 장소 이동처럼 현실적인 동선을 먼저 정하는 게 좋아요."
+      },
+      {
+        title: "3. 의상과 준비물",
+        body: "드레스·정장 대여 포함 여부, 헬퍼 동행 여부, 부케나 베일 같은 소품 제공 여부를 확인하세요. 바람이 강한 날이 많아 헤어 고정과 편한 이동 신발도 중요합니다."
+      },
+      {
+        title: "4. 가격대",
+        body: "촬영 시간, 원본 제공 여부, 보정컷 수, 의상·헬퍼 포함 여부에 따라 가격 차이가 큽니다. 단순 최저가보다 포함 항목을 기준으로 비교하는 것이 안전합니다."
+      }
+    ]
+  },
   "만삭": {
     h1: "제주 만삭스냅 추천 - 가격·작가·스타일 비교",
     subhead: "제주에서 임신 기념 만삭스냅을 남길 작가들을 한 곳에서 비교하세요. 자연 배경과 스튜디오 컨셉을 모두 다루는 작가들을 큐레이션했습니다.",
@@ -137,19 +161,12 @@ const CATEGORY_COPY: Record<OccasionKey, CategoryCopy> = {
   }
 };
 
-const OCCASION_CATEGORIES: { key: OccasionKey; label: string; icon: typeof Heart; slug: string; imageClass: string }[] = [
-  { key: "커플", label: "커플", icon: Heart, slug: "couple", imageClass: "from-rose-100 to-pink-200 text-rose-500" },
-  { key: "가족", label: "가족", icon: Users, slug: "family", imageClass: "from-sky-100 to-blue-200 text-blue-500" },
-  { key: "우정", label: "우정", icon: HeartHandshake, slug: "friends", imageClass: "from-amber-100 to-orange-200 text-orange-500" },
-  { key: "만삭", label: "만삭", icon: Smile, slug: "maternity", imageClass: "from-violet-100 to-purple-200 text-purple-500" },
-  { key: "아기", label: "아기", icon: Baby, slug: "baby", imageClass: "from-emerald-100 to-teal-200 text-teal-500" },
-];
-
 const PRICE_MIN_FALLBACK = 50000;
 const PRICE_MAX_FALLBACK = 500000;
 const PRICE_STEP = 10000;
 
 const formatPriceLabel = (value: number) => `₩${value.toLocaleString()}`;
+const OCCASION_ICONS = { Heart, Users, HeartHandshake, Baby, Smile, Gem };
 
 interface CategoryPageProps {
   occasion: OccasionKey;
@@ -191,6 +208,7 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
     images: [formatThumbnailUrl(pkg.thumbnail_url || pkg.images?.[0])],
     featured: pkg.featured || false,
   }));
+  const occasionCategories = getVisibleOccasionCategories(normalized);
 
   const packagePrices = normalized.map((pkg) => Number(pkg.price) || 0).filter((price) => price > 0);
   const minPackagePrice = packagePrices.length ? Math.min(...packagePrices) : PRICE_MIN_FALLBACK;
@@ -236,8 +254,8 @@ const CategoryPage = ({ occasion, packages: staticPackages }: CategoryPageProps)
           <div className="mb-5">
             <h2 className="text-lg font-medium mb-4">촬영 목적 선택</h2>
             <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-              {OCCASION_CATEGORIES.map((category) => {
-                const Icon = category.icon;
+              {occasionCategories.map((category) => {
+                const Icon = OCCASION_ICONS[category.icon] || Camera;
                 const isActive = category.key === occasion;
                 const href = isActive ? "/" : `/category/${category.slug}`;
                 return (
@@ -431,6 +449,7 @@ const OCCASION_KO_TO_EN: Record<OccasionKey, string> = {
   "커플": "couple",
   "가족": "family",
   "우정": "friends",
+  "웨딩": "wedding",
   "만삭": "maternity",
   "아기": "baby",
 };

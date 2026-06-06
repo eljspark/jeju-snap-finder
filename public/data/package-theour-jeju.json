@@ -1,0 +1,27 @@
+{
+  "id": "35ea2d02-67ed-46f5-b5f8-906290ca924c",
+  "title": "더아워스냅",
+  "price_krw": 1570000,
+  "reservation_url": "https://blog.naver.com/theour_jeju/222817164471",
+  "thumbnail_url": "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/theour_jeju/1780726145102_05.jpg",
+  "details": "상품구성\n1. 촬영 시간: 4시간 (이동 시간, 환복 시간 포함)\n2. 장소: 3곳 (노을 시간대 포함)\n3. 의상: 신부님 드레스 2벌, 신랑님 수트 2벌 포함 / 최대 3벌 가능, 환복 2회 가능\n4. 원본 고화질 JPG 3,000장 이상 무료 제공\n5. 고객 셀렉 색감+정밀 보정본 20장 + 작가 셀렉 프리뷰 7장 서비스 제공\n6. 신랑·신부님 헤어/메이크업, 신부님 기본 액세서리·베일, 동행 헬퍼 4시간, 생화 부케&부토니에 포함 / 드론 영상 클립 및 하이라이트 영상(15~30초 내외) 서비스 제공",
+  "sample_image_urls": null,
+  "occasions": [
+    "웨딩"
+  ],
+  "created_at": "2026-06-06T06:05:17.036044+00:00",
+  "updated_at": "2026-06-06T06:12:41.122993+00:00",
+  "duration_minutes": 240,
+  "folder_path": "theour_jeju",
+  "description": "제주의 자연 속에서 담아내는 우리 둘만의 빛나는 웨딩 순간",
+  "Tips": "더아워는 제주의 숲길, 초원, 바다, 일몰 노을까지 다양한 자연 배경을 활용해 신랑·신부의 감정을 조용하고 서정적인 톤으로 담아내요. 과하지 않은 색감과 자연광 중심의 촬영 스타일 덕분에 사진 전체에 차분하고 로맨틱한 무드가 자연스럽게 흘러요!\n\n스튜디오 느낌보다 야외에서의 자연스러운 감정 표현을 원하는 예비 부부에게 특히 잘 어울리고, 노을 시간대를 적극 활용해서 분위기 있는 실루엣 컷도 멋지게 담아줘요. 드론 영상 클립도 서비스로 제공되니 특별한 기념 영상까지 함께 챙길 수 있어요.",
+  "mood": [
+    "로맨틱",
+    "감성적인",
+    "자연스러운"
+  ],
+  "images": [
+    "https://cvuirhzznizztbtclieu.supabase.co/storage/v1/object/public/packages/theour_jeju/1780726145102_05.jpg"
+  ],
+  "package_slug": "theour-jeju"
+}

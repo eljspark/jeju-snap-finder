@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createClient } from '@supabase/supabase-js';
 import { buildPackageSlugs } from '../src/lib/packageSlug.js';
+import { getVisibleOccasionSlugs } from '../src/lib/occasionCategories.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,10 +49,11 @@ export async function fetchPackages() {
   await fs.mkdir(outDir, { recursive: true });
 
   // Format thumbnail URLs for all packages
-  const formattedData = buildPackageSlugs(data || []).map(pkg => ({
+  const formattedData = buildPackageSlugs(data || []).map(({ package_slug, ...pkg }) => ({
     ...pkg,
     thumbnail_url: formatThumbnailUrl(pkg.thumbnail_url),
-    images: pkg.images?.map(img => formatThumbnailUrl(img)) || [formatThumbnailUrl(pkg.thumbnail_url)]
+    images: pkg.images?.map(img => formatThumbnailUrl(img)) || [formatThumbnailUrl(pkg.thumbnail_url)],
+    package_slug,
   }));
 
   // index
@@ -83,7 +85,7 @@ export async function fetchPackages() {
   }
 
   // Generate routes.json with all package routes
-  const categoryRoutes = ['couple', 'family', 'friends', 'maternity', 'baby']
+  const categoryRoutes = getVisibleOccasionSlugs(formattedData)
     .map(slug => `/category/${slug}`);
 
   const routes = [

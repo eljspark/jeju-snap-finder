@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { getPackageSlug } from '../src/lib/packageSlug.js';
+import { getVisibleOccasionSlugs } from '../src/lib/occasionCategories.js';
 
 const SITE = process.env.SITE_ORIGIN || 'https://jejusnapfinder.com';
 
@@ -50,7 +51,7 @@ async function main() {
   ];
 
   // Category index pages (high priority for SEO)
-  const categorySlugs = ['couple', 'family', 'friends', 'maternity', 'baby'];
+  const categorySlugs = getVisibleOccasionSlugs(packages);
   for (const slug of categorySlugs) {
     urls.push({
       loc: `${SITE}/category/${slug}`,
