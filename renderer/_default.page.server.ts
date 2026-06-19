@@ -138,7 +138,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
 
     const categoryTitleMap: Record<string, string> = {
       '커플': '제주 커플스냅 추천 - 가격·작가·스타일 비교 | 제주스냅파인더',
-      '가족': '제주 가족스냅 추천 - 가격·작가·스타일 비교 | 제주스냅파인더',
+      '가족': '제주 가족 스냅 비교하기 | 30개 이상의 스냅 패키지를 가격별로 찾을 수 있어요',
       '우정': '제주 우정스냅 추천 - 친구와 함께하는 제주 여행 스냅 | 제주스냅파인더',
       '만삭': '제주 만삭스냅 추천 - 가격·작가·스타일 비교 | 제주스냅파인더',
       '아기': '제주 아기스냅·돌스냅 추천 - 가격·작가 비교 | 제주스냅파인더',
@@ -150,9 +150,13 @@ function generateMetaTags(urlPathname: string, staticData: any) {
       '만삭': `제주 만삭스냅 작가 ${pkgCount}곳의 가격·스타일·촬영 시간을 한 곳에서 비교. 자연 배경·드레스 컨셉의 만삭 기념 촬영 패키지.`,
       '아기': `제주 아기스냅·돌스냅 작가 ${pkgCount}곳의 가격·스타일을 한 곳에서 비교. 아기 컨디션과 동선을 고려한 추억 패키지 모음.`,
     };
+    const categoryOgImageMap: Record<string, string> = {
+      '가족': `${BASE_URL}/og/family-snap.png`,
+    };
 
     title = categoryTitleMap[occasion] || title;
     description = categoryDescMap[occasion] || description;
+    ogImage = categoryOgImageMap[occasion] || ogImage;
     ogTitle = title.replace(' | 제주스냅파인더', '');
     ogDescription = description;
     twitterDescription = description.length > 100 ? description.substring(0, 97) + '...' : description;
