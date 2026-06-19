@@ -153,6 +153,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
     const categoryOgImageMap: Record<string, string> = {
       '가족': `${BASE_URL}/og/family-snap.png`,
       '만삭': `${BASE_URL}/og/maternity-snap.png`,
+      '아기': `${BASE_URL}/og/baby-snap.png`,
     };
 
     title = categoryTitleMap[occasion] || title;
