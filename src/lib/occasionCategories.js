@@ -6,12 +6,18 @@ export const PUBLIC_OCCASION_CATEGORIES = [
   { key: "아기", label: "아기", slug: "baby", icon: "Baby", imageClass: "from-emerald-100 to-teal-200 text-teal-500" },
 ];
 
+const ROUTABLE_OCCASION_CATEGORIES = [
+  ...PUBLIC_OCCASION_CATEGORIES,
+  { key: "우정", label: "우정", slug: "friends", icon: "HeartHandshake", imageClass: "from-amber-100 to-orange-200 text-orange-500" },
+];
+
 export const MIN_VISIBLE_PACKAGES_BY_OCCASION = {
   "웨딩": 3,
+  "우정": 1,
 };
 
 export const OCCASION_EN_TO_KO = Object.fromEntries(
-  PUBLIC_OCCASION_CATEGORIES.map((category) => [category.slug, category.key]),
+  ROUTABLE_OCCASION_CATEGORIES.map((category) => [category.slug, category.key]),
 );
 
 export function countPackagesForOccasion(packages = [], occasionKey) {
@@ -28,5 +34,7 @@ export function getVisibleOccasionCategories(packages = []) {
 }
 
 export function getVisibleOccasionSlugs(packages = []) {
-  return getVisibleOccasionCategories(packages).map((category) => category.slug);
+  return ROUTABLE_OCCASION_CATEGORIES
+    .filter((category) => isOccasionVisible(packages, category.key))
+    .map((category) => category.slug);
 }
