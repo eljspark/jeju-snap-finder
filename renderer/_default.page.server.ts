@@ -97,6 +97,17 @@ async function render(pageContext: PageContextServer) {
         <script>
           window.__STATIC_DATA__ = ${dangerouslySkipEscape(JSON.stringify({ packageData, packages: pageProps?.packages || [] }))};
         </script>
+        <!-- Naver Analytics -->
+        ${dangerouslySkipEscape(`
+          <script type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+          <script type="text/javascript">
+            if(!wcs_add) var wcs_add = {};
+            wcs_add["wa"] = "19d32ad4382a480";
+            if(window.wcs) {
+              wcs_do();
+            }
+          </script>
+        `)}
       </body>
     </html>`;
 
