@@ -295,58 +295,50 @@ function generateMetaTags(urlPathname: string, staticData: any) {
     // Extract details from package
     const details = pkg.details || '';
     
-    // Parse details for key info (원본, 보정, etc.)
+    // Parse details into a compact search-snippet benefit line.
     const extractDetailsInfo = (detailsText: string) => {
-      const lines = detailsText.split('\n').filter((l: string) => l.trim());
-      const keyInfo: string[] = [];
-      
-      for (const line of lines) {
-        // Look for patterns like "원본 600장", "보정 15장", etc.
-        if (line.includes('원본') || line.includes('보정') || line.includes('제공')) {
-          keyInfo.push(line.replace(/^\d+\.\s*/, '').trim());
-        }
+      const normalized = detailsText.replace(/\s+/g, ' ').trim();
+      const benefits: string[] = [];
+
+      const originalCountMatch = normalized.match(/원본[^0-9]{0,12}([0-9,]+)\s*장(\s*내외)?/);
+      if (originalCountMatch) {
+        benefits.push(`원본 ${originalCountMatch[1]}장${originalCountMatch[2] ? ' 내외' : ''}`);
+      } else if (/원본[^.。]*?(전체|모두)[^.。]*?제공/.test(normalized)) {
+        benefits.push('원본 전체 제공');
       }
-      
-      return keyInfo.slice(0, 2).join(', ');
+
+      const retouchCountMatch =
+        normalized.match(/총\s*보정(?:본|사진)?\s*([0-9,]+)\s*(?:장|개|컷)/) ||
+        normalized.match(/보정(?:본|사진)?\s*총\s*([0-9,]+)\s*(?:장|개|컷)/) ||
+        normalized.match(/보정(?:본|사진)?\s*([0-9,]+)\s*(?:장|개|컷)/);
+      if (retouchCountMatch) {
+        benefits.push(`보정 ${retouchCountMatch[1]}장`);
+      }
+
+      return benefits.slice(0, 2).join('·');
     };
     
     const detailsInfo = extractDetailsInfo(details);
     
-    // Build description: "{title} 제주 {occasions} 스냅 촬영. {duration} 촬영, {details excerpt}. 예약 및 포트폴리오 확인."
-    const descriptionParts = [
-      `${pkg.title} 제주 ${occasionsCategory} 스냅 촬영.`
-    ];
+    const priceDuration = [price > 0 ? priceInMan : '', durationDisplay].filter(Boolean).join('/');
+    const valueLine = [priceDuration, detailsInfo].filter(Boolean).join(', ');
     
-    if (durationDisplay) {
-      descriptionParts.push(`${durationDisplay} 촬영`);
-    }
-    
-    if (detailsInfo) {
-      descriptionParts.push(detailsInfo);
-    }
-    
-    // Add location info from Tips if available
-    if (pkg.Tips) {
-      const locationMatch = pkg.Tips.match(/([가-힣]+해수욕장|[가-힣]+해변|[가-힣]+오름|[가-힣]+숲|[가-힣]+공원)/);
-      if (locationMatch) {
-        descriptionParts.push(`${locationMatch[1]} 등 제주 자연 배경`);
-      }
-    }
-    
-    descriptionParts.push('예약 및 포트폴리오 확인.');
-    
-    description = descriptionParts.join(' ').substring(0, 160);
+    description = [
+      `${pkg.title} 제주 ${occasionsDisplay} 스냅.`,
+      valueLine ? `${valueLine}.` : '',
+      '포트폴리오와 예약 정보를 확인하세요.'
+    ].filter(Boolean).join(' ').substring(0, 160);
     
     // Build OG description (shorter, with mood)
     const moods = (pkg.mood || []).slice(0, 2);
     const moodText = moods.length > 0 ? `${moods.join(' ')} 감성 스냅.` : '';
-    ogDescription = `${durationDisplay} 촬영${detailsInfo ? ', ' + detailsInfo : ''}. ${moodText}`.trim();
+    ogDescription = `${valueLine}${moodText ? '. ' + moodText : ''}`.trim();
     if (ogDescription.length > 100) {
       ogDescription = ogDescription.substring(0, 97) + '...';
     }
     
     // Twitter description (even shorter)
-    twitterDescription = `${durationDisplay} 촬영${detailsInfo ? ', ' + detailsInfo : ''}`;
+    twitterDescription = valueLine || description;
     
     // Use package thumbnail
     ogImage = pkg.thumbnail_url || ogImage;
