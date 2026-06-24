@@ -10,6 +10,25 @@ export { passToClient };
 
 const passToClient = ['pageProps', 'urlPathname', 'packageData', 'occasionFilter'];
 
+function formatMetaDuration(minutes: number | null | undefined): string {
+  if (!minutes || minutes <= 0) {
+    return '';
+  }
+
+  if (minutes < 60) {
+    return `${minutes}분`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  if (remainingMinutes === 0) {
+    return `${hours}시간`;
+  }
+
+  return `${hours}시간 ${remainingMinutes}분`;
+}
+
 async function render(pageContext: PageContextServer) {
   const { Page, pageProps } = pageContext;
   
@@ -273,7 +292,7 @@ function generateMetaTags(urlPathname: string, staticData: any) {
     // Format duration
     let durationDisplay = '';
     if (pkg.duration_minutes) {
-      durationDisplay = `${pkg.duration_minutes}분`;
+      durationDisplay = formatMetaDuration(pkg.duration_minutes);
     } else if (pkg.duration) {
       durationDisplay = pkg.duration;
     }
